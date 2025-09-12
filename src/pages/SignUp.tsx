@@ -40,12 +40,12 @@ const SignUp = () => {
       alt: "Industrial depot operations",
     },
     {
-      src: "https://images.unsplash.com/photo-1578662996442-48f60103fc27?w=800&q=80",
+      src: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80",
       alt: "Safety and compliance",
     },
     {
-      src: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80",
-      alt: "Team collaboration",
+      src: "https://images.unsplash.com/photo-1553413077-190dd305871c?w=800&q=80",
+      alt: "Warehouse logistics and team collaboration",
     },
   ];
 
