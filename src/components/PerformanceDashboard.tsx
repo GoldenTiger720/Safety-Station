@@ -48,7 +48,7 @@ const PerformanceDashboard = () => {
               {/* Spotlight Reporting */}
               <div className="space-y-3">
                 <div className="bg-gray-200 rounded-lg p-3 text-center">
-                  <h3 className="text-sm font-semibold text-gray-700">
+                  <h3 className="text-lg font-bold text-gray-700">
                     Spotlight Reporting
                   </h3>
                 </div>
@@ -67,7 +67,7 @@ const PerformanceDashboard = () => {
               {/* Safety Tours */}
               <div className="space-y-3">
                 <div className="bg-gray-200 rounded-lg p-3 text-center">
-                  <h3 className="text-sm font-semibold text-gray-700">
+                  <h3 className="text-lg font-bold text-gray-700">
                     Safety Tours
                   </h3>
                 </div>
@@ -86,7 +86,7 @@ const PerformanceDashboard = () => {
               {/* Possession Utilisation */}
               <div className="space-y-3">
                 <div className="bg-gray-200 rounded-lg p-3 text-center">
-                  <h3 className="text-sm font-semibold text-gray-700">
+                  <h3 className="text-lg font-bold text-gray-700">
                     Possession Utilisation
                   </h3>
                 </div>
