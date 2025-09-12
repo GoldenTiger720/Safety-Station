@@ -8,10 +8,10 @@ const DepotHeader: React.FC<DepotHeaderProps> = ({
   title = "Safety & Performance Station" 
 }) => {
   return (
-    <div className="relative bg-gradient-to-r from-depot-header to-depot-header/80 p-8 rounded-t-xl">
+    <div className="relative bg-gradient-to-r from-depot-header to-depot-header/80 p-4 sm:p-6 md:p-8 rounded-t-xl">
       {/* Accent gradient bar */}
       <div 
-        className="absolute top-0 right-0 w-32 h-full rounded-tr-xl"
+        className="absolute top-0 right-0 w-20 sm:w-24 md:w-32 h-full rounded-tr-xl"
         style={{
           background: 'var(--gradient-accent)',
           clipPath: 'polygon(40% 0%, 100% 0%, 100% 100%, 0% 100%)'
@@ -19,7 +19,7 @@ const DepotHeader: React.FC<DepotHeaderProps> = ({
       />
       
       <div className="relative z-10">
-        <h1 className="text-3xl md:text-4xl font-bold text-foreground tracking-wide">
+        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-foreground tracking-wide">
           {title}
         </h1>
       </div>

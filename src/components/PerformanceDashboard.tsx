@@ -33,11 +33,11 @@ const PerformanceDashboard = () => {
   ];
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mt-8">
-      {/* Top Row */}
-      <div className="lg:col-span-4 grid grid-cols-1 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 gap-4 sm:gap-6 mt-4 sm:mt-6 md:mt-8 px-2 sm:px-0">
+      {/* Top Row - Mobile: Stack, Desktop: Side by side */}
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6">
         {/* Left: News and RSRG Video */}
-        <div className="lg:col-span-1 flex flex-col gap-4">
+        <div className="lg:col-span-1 flex flex-col gap-3 sm:gap-4">
           <div className="flex-1">
             <NewsCard />
           </div>
@@ -63,7 +63,7 @@ const PerformanceDashboard = () => {
           </CardHeader>
           <CardContent className="space-y-2 p-3 relative z-10">
             {/* Top Section with Headers and Data */}
-            <div className="grid grid-cols-3 gap-4 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
               {/* Spotlight Reporting */}
               <div className="space-y-3">
                 <div className="bg-white bg-opacity-70 rounded-lg p-3 text-center">
@@ -71,14 +71,14 @@ const PerformanceDashboard = () => {
                     Spotlight Reporting
                   </h3>
                 </div>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-1 sm:gap-2">
                   <div className="bg-white bg-opacity-85 border border-gray-200 p-3 rounded text-center">
-                    <div className="text-4xl font-bold text-gray-800">81</div>
-                    <div className="text-xs text-gray-600">Spotlights YTD</div>
+                    <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800">81</div>
+                    <div className="text-[10px] sm:text-xs text-gray-600">Spotlights YTD</div>
                   </div>
                   <div className="bg-white bg-opacity-85 border border-gray-200 p-3 rounded text-center">
-                    <div className="text-4xl font-bold text-gray-800">2</div>
-                    <div className="text-xs text-gray-600">Spotlights MTD</div>
+                    <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800">2</div>
+                    <div className="text-[10px] sm:text-xs text-gray-600">Spotlights MTD</div>
                   </div>
                 </div>
               </div>
@@ -88,14 +88,14 @@ const PerformanceDashboard = () => {
                 <div className="bg-white bg-opacity-70 rounded-lg p-3 text-center">
                   <h3 className="text-lg font-bold text-black">Safety Tours</h3>
                 </div>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-1 sm:gap-2">
                   <div className="bg-white bg-opacity-85 border border-gray-200 p-3 rounded text-center">
-                    <div className="text-4xl font-bold text-gray-800">7.59</div>
-                    <div className="text-xs text-gray-600">Safety Tour YTD</div>
+                    <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800">7.59</div>
+                    <div className="text-[10px] sm:text-xs text-gray-600">Safety Tour YTD</div>
                   </div>
                   <div className="bg-white bg-opacity-85 border border-gray-200 p-3 rounded text-center">
-                    <div className="text-4xl font-bold text-gray-800">7.33</div>
-                    <div className="text-xs text-gray-600">Safety Tour MTD</div>
+                    <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800">7.33</div>
+                    <div className="text-[10px] sm:text-xs text-gray-600">Safety Tour MTD</div>
                   </div>
                 </div>
               </div>
@@ -107,29 +107,29 @@ const PerformanceDashboard = () => {
                     Possession Utilisation
                   </h3>
                 </div>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-1 sm:gap-2">
                   <div className="bg-white bg-opacity-85 border border-gray-200 p-3 rounded text-center">
-                    <div className="text-4xl font-bold text-gray-800">63</div>
-                    <div className="text-xs text-gray-600">Average</div>
+                    <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800">63</div>
+                    <div className="text-[10px] sm:text-xs text-gray-600">Average</div>
                   </div>
                   <div className="bg-white bg-opacity-85 border border-gray-200 p-3 rounded text-center">
-                    <div className="text-4xl font-bold text-gray-800">
+                    <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800">
                       218.42
                     </div>
-                    <div className="text-xs text-gray-600">Ave Work p/h</div>
+                    <div className="text-[10px] sm:text-xs text-gray-600">Ave Work p/h</div>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Pie Charts Section */}
-            <div className="grid grid-cols-3 gap-4 mt-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mt-4 sm:mt-6">
               {/* In Process Chart */}
               <div className="bg-white bg-opacity-60 rounded-lg p-4">
                 <h4 className="text-sm font-semibold text-black text-center mb-3">
                   In Process Status
                 </h4>
-                <ResponsiveContainer width="100%" height={300}>
+                <ResponsiveContainer width="100%" height={200}>
                   <PieChart>
                     <Pie
                       data={inProcessData}
@@ -166,7 +166,7 @@ const PerformanceDashboard = () => {
                 <h4 className="text-sm font-semibold text-black text-center mb-3">
                   Possession Status
                 </h4>
-                <ResponsiveContainer width="100%" height={300}>
+                <ResponsiveContainer width="100%" height={200}>
                   <PieChart>
                     <Pie
                       data={possessionData}
@@ -203,7 +203,7 @@ const PerformanceDashboard = () => {
                 <h4 className="text-sm font-semibold text-black text-center mb-3">
                   Preparation Status
                 </h4>
-                <ResponsiveContainer width="100%" height={300}>
+                <ResponsiveContainer width="100%" height={200}>
                   <PieChart>
                     <Pie
                       data={preparationData}
@@ -240,8 +240,8 @@ const PerformanceDashboard = () => {
         </div>
       </div>
       
-      {/* Bottom Row */}
-      <div className="lg:col-span-4 grid grid-cols-1 lg:grid-cols-4 gap-6">
+      {/* Bottom Row - Mobile: Stack, Desktop: Side by side */}
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6">
         {/* Left: In Depot Card */}
         <div className="lg:col-span-1">
           <Card className="bg-gray-900 border-gray-700 h-full">

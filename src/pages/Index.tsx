@@ -31,7 +31,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto p-4 space-y-6">
+      <div className="container mx-auto p-2 sm:p-3 md:p-4 space-y-3 sm:space-y-4 md:space-y-6 max-w-full overflow-x-hidden">
         {/* Header */}
         <DepotHeader />
 
@@ -42,7 +42,7 @@ const Index = () => {
         />
 
         {/* Main Content */}
-        <div className="pb-8">{renderActiveSection()}</div>
+        <div className="pb-4 sm:pb-6 md:pb-8">{renderActiveSection()}</div>
       </div>
     </div>
   );
