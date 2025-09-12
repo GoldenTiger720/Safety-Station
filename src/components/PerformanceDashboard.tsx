@@ -90,87 +90,85 @@ const PerformanceDashboard = () => {
 
             {/* Bottom Charts Row */}
             <div className="grid grid-cols-3 gap-4">
-              {/* In Process Chart */}
-              <div className="bg-white border border-gray-200 p-4 rounded-lg">
-                <div className="flex justify-between text-xs text-gray-600 mb-4">
+              {/* In Process Donut Chart */}
+              <div className="bg-white border border-gray-200 p-4 rounded-lg flex flex-col items-center relative">
+                <div className="flex justify-between text-xs text-gray-600 mb-2 w-full">
                   <span>7</span>
                   <span>26</span>
                   <span>1</span>
                   <span>7</span>
                 </div>
-                <div className="text-xs text-gray-600 mb-2">Overdue 29</div>
-                <div className="relative w-24 h-24 mx-auto mb-4">
-                  <svg className="w-24 h-24 transform -rotate-90">
+                <div className="text-xs text-gray-600 mb-2 self-start">
+                  Overdue 29
+                </div>
+                <div className="relative w-20 h-20 mb-4">
+                  <svg className="w-20 h-20 transform -rotate-90">
+                    {/* Red segment (large) */}
                     <circle
-                      cx="48"
-                      cy="48"
-                      r="36"
-                      stroke="#e5e7eb"
-                      strokeWidth="12"
-                      fill="none"
-                    />
-                    <circle
-                      cx="48"
-                      cy="48"
-                      r="36"
+                      cx="40"
+                      cy="40"
+                      r="32"
                       stroke="#ef4444"
-                      strokeWidth="12"
+                      strokeWidth="16"
                       fill="none"
-                      strokeDasharray="226"
-                      strokeDashoffset="56"
-                      strokeLinecap="round"
+                      strokeDasharray="80 75"
+                      strokeDashoffset="0"
                     />
+                    {/* Yellow segment (smaller) */}
                     <circle
-                      cx="48"
-                      cy="48"
-                      r="36"
+                      cx="40"
+                      cy="40"
+                      r="32"
                       stroke="#facc15"
-                      strokeWidth="12"
+                      strokeWidth="16"
                       fill="none"
-                      strokeDasharray="226"
-                      strokeDashoffset="170"
-                      strokeLinecap="round"
+                      strokeDasharray="75 80"
+                      strokeDashoffset="-80"
                     />
                   </svg>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-sm font-bold text-gray-800">9</span>
-                  </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-sm font-medium text-gray-800">
+                  <div className="text-xs font-medium text-gray-800 mb-1">
                     In Process
                   </div>
-                  <div className="text-lg font-bold text-red-500">-82.55</div>
+                </div>
+                <div className="absolute bottom-2 right-2">
+                  <div className="text-sm font-bold text-red-500">-82.55</div>
                 </div>
               </div>
 
-              {/* Possession Chart */}
-              <div className="bg-white border border-gray-200 p-4 rounded-lg">
-                <div className="relative w-24 h-24 mx-auto mb-4">
-                  <svg className="w-24 h-24 transform -rotate-90">
+              {/* Possession Donut Chart */}
+              <div className="bg-white border border-gray-200 p-4 rounded-lg flex flex-col items-center justify-between">
+                <div className="text-xs text-gray-600 mb-2 self-start">
+                  Possession
+                </div>
+                <div className="relative w-20 h-20 mb-2">
+                  <svg className="w-20 h-20 transform -rotate-90">
+                    {/* Blue segment (about 80%) */}
                     <circle
-                      cx="48"
-                      cy="48"
-                      r="36"
-                      stroke="#e5e7eb"
-                      strokeWidth="12"
-                      fill="none"
-                    />
-                    <circle
-                      cx="48"
-                      cy="48"
-                      r="36"
+                      cx="40"
+                      cy="40"
+                      r="32"
                       stroke="#3b82f6"
-                      strokeWidth="12"
+                      strokeWidth="16"
                       fill="none"
-                      strokeDasharray="226"
-                      strokeDashoffset="113"
-                      strokeLinecap="round"
+                      strokeDasharray="160 40"
+                      strokeDashoffset="0"
+                    />
+                    {/* Light blue/gray background for remaining */}
+                    <circle
+                      cx="40"
+                      cy="40"
+                      r="32"
+                      stroke="#e5e7eb"
+                      strokeWidth="16"
+                      fill="none"
+                      strokeDasharray="40 160"
+                      strokeDashoffset="-160"
                     />
                   </svg>
                 </div>
                 <div className="text-center space-y-1">
-                  <div className="text-xs text-gray-600">Possession</div>
                   <div className="text-xs font-medium text-gray-800">
                     Depot 1
                   </div>
@@ -179,47 +177,43 @@ const PerformanceDashboard = () => {
                 </div>
               </div>
 
-              {/* Preparation Chart */}
-              <div className="bg-white border border-gray-200 p-4 rounded-lg">
-                <div className="relative w-24 h-24 mx-auto mb-4">
-                  <svg className="w-24 h-24 transform -rotate-90">
+              {/* Preparation Donut Chart */}
+              <div className="bg-white border border-gray-200 p-4 rounded-lg flex flex-col items-center justify-between">
+                <div className="flex justify-between text-xs text-gray-600 mb-2 w-full">
+                  <span>Preparation</span>
+                  <span>Breakdown</span>
+                </div>
+                <div className="relative w-20 h-20 mb-2">
+                  <svg className="w-20 h-20 transform -rotate-90">
+                    {/* Purple segment (larger portion) */}
                     <circle
-                      cx="48"
-                      cy="48"
-                      r="36"
-                      stroke="#e5e7eb"
-                      strokeWidth="12"
-                      fill="none"
-                    />
-                    <circle
-                      cx="48"
-                      cy="48"
-                      r="36"
+                      cx="40"
+                      cy="40"
+                      r="32"
                       stroke="#8b5cf6"
-                      strokeWidth="12"
+                      strokeWidth="16"
                       fill="none"
-                      strokeDasharray="226"
-                      strokeDashoffset="90"
-                      strokeLinecap="round"
+                      strokeDasharray="120 81"
+                      strokeDashoffset="0"
                     />
+                    {/* Orange segment (smaller portion) */}
                     <circle
-                      cx="48"
-                      cy="48"
-                      r="36"
+                      cx="40"
+                      cy="40"
+                      r="32"
                       stroke="#f97316"
-                      strokeWidth="12"
+                      strokeWidth="16"
                       fill="none"
-                      strokeDasharray="226"
-                      strokeDashoffset="180"
-                      strokeLinecap="round"
+                      strokeDasharray="81 120"
+                      strokeDashoffset="-120"
                     />
                   </svg>
                 </div>
                 <div className="text-center space-y-1">
-                  <div className="text-xs text-purple-600">Preparation</div>
-                  <div className="text-xs text-orange-600">Breakdown</div>
-                  <div className="text-xs text-purple-600">Working</div>
-                  <div className="text-xs text-gray-600">Travel</div>
+                  <div className="flex justify-between text-xs w-full">
+                    <span className="text-purple-600">Working</span>
+                    <span className="text-gray-600">Travel</span>
+                  </div>
                 </div>
               </div>
             </div>
