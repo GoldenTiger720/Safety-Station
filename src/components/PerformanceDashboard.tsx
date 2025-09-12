@@ -1,10 +1,27 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Activity, TrendingUp } from "lucide-react";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import NewsCard from "@/components/NewsCard";
 import RSRGVideoCard from "@/components/RSRGVideoCard";
 
 const PerformanceDashboard = () => {
+  // Enhanced data for the donut charts with updated structure
+  const inProcessData = [
+    { name: "Critical", value: 65, color: "#ef4444", label: "Red" },
+    { name: "Warning", value: 35, color: "#facc15", label: "Yellow" },
+  ];
+
+  const possessionData = [
+    { name: "Active", value: 75, color: "#3b82f6", label: "Blue" },
+    { name: "Inactive", value: 25, color: "#e5e7eb", label: "Gray" },
+  ];
+
+  const preparationData = [
+    { name: "Preparation", value: 55, color: "#8b5cf6", label: "Purple" },
+    { name: "Breakdown", value: 45, color: "#f97316", label: "Orange" },
+  ];
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mt-8">
       {/* News and Video Section */}
@@ -88,135 +105,120 @@ const PerformanceDashboard = () => {
               </div>
             </div>
 
-            {/* Bottom Charts Row */}
-            <div className="grid grid-cols-3 gap-4">
-              {/* In Process Donut Chart */}
-              <div className="bg-white border border-gray-200 p-4 rounded-lg flex flex-col items-center relative">
-                <div className="flex justify-between text-xs text-gray-600 mb-2 w-full">
-                  <span>7</span>
-                  <span>26</span>
-                  <span>1</span>
-                  <span>7</span>
-                </div>
-                <div className="text-xs text-gray-600 mb-2 self-start">
-                  Overdue 29
-                </div>
-                <div className="relative w-20 h-20 mb-4">
-                  <svg className="w-20 h-20 transform -rotate-90">
-                    {/* Red segment (large) */}
-                    <circle
-                      cx="40"
-                      cy="40"
-                      r="32"
-                      stroke="#ef4444"
-                      strokeWidth="16"
-                      fill="none"
-                      strokeDasharray="80 75"
-                      strokeDashoffset="0"
-                    />
-                    {/* Yellow segment (smaller) */}
-                    <circle
-                      cx="40"
-                      cy="40"
-                      r="32"
-                      stroke="#facc15"
-                      strokeWidth="16"
-                      fill="none"
-                      strokeDasharray="75 80"
-                      strokeDashoffset="-80"
-                    />
-                  </svg>
-                </div>
-                <div className="text-center">
-                  <div className="text-xs font-medium text-gray-800 mb-1">
-                    In Process
-                  </div>
-                </div>
-                <div className="absolute bottom-2 right-2">
-                  <div className="text-sm font-bold text-red-500">-82.55</div>
+            {/* Pie Charts Section */}
+            <div className="grid grid-cols-3 gap-4 mt-6">
+              {/* In Process Chart */}
+              <div className="bg-white rounded-lg p-4">
+                <h4 className="text-sm font-semibold text-gray-700 text-center mb-3">
+                  In Process Status
+                </h4>
+                <ResponsiveContainer width="100%" height={200}>
+                  <PieChart>
+                    <Pie
+                      data={inProcessData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={40}
+                      outerRadius={80}
+                      paddingAngle={5}
+                      dataKey="value"
+                    >
+                      {inProcessData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+                <div className="flex justify-center gap-4 mt-2">
+                  {inProcessData.map((entry, index) => (
+                    <div key={index} className="flex items-center gap-1">
+                      <div
+                        className="w-3 h-3 rounded-full"
+                        style={{ backgroundColor: entry.color }}
+                      ></div>
+                      <span className="text-xs text-gray-600">
+                        {entry.name} ({entry.value}%)
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
 
-              {/* Possession Donut Chart */}
-              <div className="bg-white border border-gray-200 p-4 rounded-lg flex flex-col items-center justify-between">
-                <div className="text-xs text-gray-600 mb-2 self-start">
-                  Possession
-                </div>
-                <div className="relative w-20 h-20 mb-2">
-                  <svg className="w-20 h-20 transform -rotate-90">
-                    {/* Blue segment (about 80%) */}
-                    <circle
-                      cx="40"
-                      cy="40"
-                      r="32"
-                      stroke="#3b82f6"
-                      strokeWidth="16"
-                      fill="none"
-                      strokeDasharray="160 40"
-                      strokeDashoffset="0"
-                    />
-                    {/* Light blue/gray background for remaining */}
-                    <circle
-                      cx="40"
-                      cy="40"
-                      r="32"
-                      stroke="#e5e7eb"
-                      strokeWidth="16"
-                      fill="none"
-                      strokeDasharray="40 160"
-                      strokeDashoffset="-160"
-                    />
-                  </svg>
-                </div>
-                <div className="text-center space-y-1">
-                  <div className="text-xs font-medium text-gray-800">
-                    Depot 1
-                  </div>
-                  <div className="text-xs text-blue-600">Maintenance</div>
-                  <div className="text-sm font-bold text-gray-800">9</div>
+              {/* Possession Chart */}
+              <div className="bg-white rounded-lg p-4">
+                <h4 className="text-sm font-semibold text-gray-700 text-center mb-3">
+                  Possession Status
+                </h4>
+                <ResponsiveContainer width="100%" height={200}>
+                  <PieChart>
+                    <Pie
+                      data={possessionData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={40}
+                      outerRadius={80}
+                      paddingAngle={5}
+                      dataKey="value"
+                    >
+                      {possessionData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+                <div className="flex justify-center gap-4 mt-2">
+                  {possessionData.map((entry, index) => (
+                    <div key={index} className="flex items-center gap-1">
+                      <div
+                        className="w-3 h-3 rounded-full"
+                        style={{ backgroundColor: entry.color }}
+                      ></div>
+                      <span className="text-xs text-gray-600">
+                        {entry.name} ({entry.value}%)
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
 
-              {/* Preparation Donut Chart */}
-              <div className="bg-white border border-gray-200 p-4 rounded-lg flex flex-col items-center justify-between">
-                <div className="flex justify-between text-xs text-gray-600 mb-2 w-full">
-                  <span>Preparation</span>
-                  <span>Breakdown</span>
-                </div>
-                <div className="relative w-20 h-20 mb-2">
-                  <svg className="w-20 h-20 transform -rotate-90">
-                    {/* Purple segment (larger portion) */}
-                    <circle
-                      cx="40"
-                      cy="40"
-                      r="32"
-                      stroke="#8b5cf6"
-                      strokeWidth="16"
-                      fill="none"
-                      strokeDasharray="120 81"
-                      strokeDashoffset="0"
-                    />
-                    {/* Orange segment (smaller portion) */}
-                    <circle
-                      cx="40"
-                      cy="40"
-                      r="32"
-                      stroke="#f97316"
-                      strokeWidth="16"
-                      fill="none"
-                      strokeDasharray="81 120"
-                      strokeDashoffset="-120"
-                    />
-                  </svg>
-                </div>
-                <div className="text-center space-y-1">
-                  <div className="flex justify-between text-xs w-full">
-                    <span className="text-purple-600">Working</span>
-                    <span className="text-gray-600">Travel</span>
-                  </div>
+              {/* Preparation Chart */}
+              <div className="bg-white rounded-lg p-4">
+                <h4 className="text-sm font-semibold text-gray-700 text-center mb-3">
+                  Preparation Status
+                </h4>
+                <ResponsiveContainer width="100%" height={200}>
+                  <PieChart>
+                    <Pie
+                      data={preparationData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={40}
+                      outerRadius={80}
+                      paddingAngle={5}
+                      dataKey="value"
+                    >
+                      {preparationData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+                <div className="flex justify-center gap-4 mt-2">
+                  {preparationData.map((entry, index) => (
+                    <div key={index} className="flex items-center gap-1">
+                      <div
+                        className="w-3 h-3 rounded-full"
+                        style={{ backgroundColor: entry.color }}
+                      ></div>
+                      <span className="text-xs text-gray-600">
+                        {entry.name} ({entry.value}%)
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
+
           </CardContent>
         </Card>
       </div>
