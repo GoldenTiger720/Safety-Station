@@ -1,9 +1,9 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, Activity, TrendingUp } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import NewsCard from "@/components/NewsCard";
 import RSRGVideoCard from "@/components/RSRGVideoCard";
+import REDSafetyVideoCard from "@/components/REDSafetyVideoCard";
 
 const PerformanceDashboard = () => {
   // Enhanced data for the donut charts with updated structure
@@ -22,20 +22,32 @@ const PerformanceDashboard = () => {
     { name: "Breakdown", value: 45, color: "#f97316", label: "Orange" },
   ];
 
+  // Staff data for In Depot card
+  const staffInDepot = [
+    { name: "Darryl Gwilliam", location: "Office" },
+    { name: "Robert Mullen", location: "Office" },
+    { name: "Aidan Langley", location: "Safety Tour" },
+    { name: "Colm Jones", location: "Maintenance" },
+    { name: "Michael Sweetman", location: "Testing 743" },
+    { name: "Declan Kilmurray", location: "Hiding" },
+  ];
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mt-8">
-      {/* News and Video Section */}
-      <div className="lg:col-span-1 flex flex-col gap-4">
-        <div className="flex-1">
-          <NewsCard />
+      {/* Top Row */}
+      <div className="lg:col-span-4 grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {/* Left: News and RSRG Video */}
+        <div className="lg:col-span-1 flex flex-col gap-4">
+          <div className="flex-1">
+            <NewsCard />
+          </div>
+          <div className="flex-1">
+            <RSRGVideoCard />
+          </div>
         </div>
-        <div className="flex-1">
-          <RSRGVideoCard />
-        </div>
-      </div>
-
-      {/* Performance Highlights */}
-      <div className="lg:col-span-3">
+        
+        {/* Right: Performance Highlights */}
+        <div className="lg:col-span-3">
         <Card className="bg-gray-800 border-gray-700 h-full relative overflow-hidden">
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
@@ -225,52 +237,34 @@ const PerformanceDashboard = () => {
             </div>
           </CardContent>
         </Card>
+        </div>
       </div>
-
-      {/* In Depot */}
-      <div className="lg:col-span-4">
-        <Card className="bg-card border-border">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg text-foreground">In Depot</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 p-3 bg-depot-surface rounded-lg">
-                <Users className="w-6 h-6 text-depot-primary" />
-                <div>
-                  <p className="text-sm font-medium text-foreground">
-                    Staff Present
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    24 staff members checked in
-                  </p>
-                </div>
+      
+      {/* Bottom Row */}
+      <div className="lg:col-span-4 grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {/* Left: In Depot Card */}
+        <div className="lg:col-span-1">
+          <Card className="bg-gray-900 border-gray-700 h-full">
+            <CardHeader className="pb-3 bg-gray-800">
+              <CardTitle className="text-lg text-white">In Depot</CardTitle>
+            </CardHeader>
+            <CardContent className="p-0">
+              <div className="divide-y divide-gray-700">
+                {staffInDepot.map((staff, index) => (
+                  <div key={index} className="flex justify-between items-center px-4 py-2.5 hover:bg-gray-800/50 transition-colors">
+                    <span className="text-sm text-gray-200">{staff.name}</span>
+                    <span className="text-sm text-gray-400">{staff.location}</span>
+                  </div>
+                ))}
               </div>
-              <div className="flex items-center gap-3 p-3 bg-depot-surface rounded-lg">
-                <Activity className="w-6 h-6 text-depot-success" />
-                <div>
-                  <p className="text-sm font-medium text-foreground">
-                    Active Operations
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    3 maintenance tasks ongoing
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 p-3 bg-depot-surface rounded-lg">
-                <TrendingUp className="w-6 h-6 text-depot-warning" />
-                <div>
-                  <p className="text-sm font-medium text-foreground">
-                    Performance
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    Above target this week
-                  </p>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </div>
+        
+        {/* Right: RED Safety Video */}
+        <div className="lg:col-span-3">
+          <REDSafetyVideoCard />
+        </div>
       </div>
     </div>
   );

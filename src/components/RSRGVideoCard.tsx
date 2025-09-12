@@ -1,6 +1,6 @@
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Play, Pause, Volume2, Maximize2 } from 'lucide-react';
+import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Play, Pause, Volume2, Maximize2 } from "lucide-react";
 
 const RSRGVideoCard = () => {
   return (
@@ -10,40 +10,21 @@ const RSRGVideoCard = () => {
       </CardHeader>
       <CardContent className="p-3 flex-1 flex items-center">
         <div className="relative bg-black rounded-lg overflow-hidden aspect-video w-full">
-          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800">
-            <div className="text-center">
-              <h2 className="text-3xl font-bold text-white mb-2">CORK LINE</h2>
-              <p className="text-lg text-gray-300 mb-4">Rehabilitation Project</p>
-              <div className="flex items-center justify-center gap-6 text-white">
-                <span className="text-sm font-medium">RHOMBERG SERSA</span>
-                <div className="w-px h-6 bg-gray-600"></div>
-                <span className="text-sm font-medium">Iarnród Éireann Irish Rail</span>
-              </div>
-            </div>
-          </div>
-          
-          {/* Video Controls */}
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
-            <div className="flex items-center gap-3">
-              <button className="text-white hover:text-gray-300 transition-colors">
-                <Play className="w-5 h-5" />
-              </button>
-              <div className="flex-1">
-                <div className="relative">
-                  <div className="h-1 bg-gray-600 rounded-full">
-                    <div className="h-1 bg-white rounded-full w-0"></div>
-                  </div>
-                </div>
-              </div>
-              <span className="text-xs text-white">0:00 / 2:45</span>
-              <button className="text-white hover:text-gray-300 transition-colors">
-                <Volume2 className="w-4 h-4" />
-              </button>
-              <button className="text-white hover:text-gray-300 transition-colors">
-                <Maximize2 className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
+          <video
+            className="w-full h-full object-cover"
+            controls
+            poster="https://images.unsplash.com/photo-1590402494682-cd3fb53b1f70?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+          >
+            <source
+              src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+              type="video/mp4"
+            />
+            <source
+              src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.webm"
+              type="video/webm"
+            />
+            Your browser does not support the video tag.
+          </video>
         </div>
       </CardContent>
     </Card>
