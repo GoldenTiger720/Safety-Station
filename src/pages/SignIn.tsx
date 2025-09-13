@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -63,7 +69,8 @@ const SignIn = () => {
       onError: (error: any) => {
         toast({
           title: "Login Failed",
-          description: error.message || "Invalid email or password. Please try again.",
+          description:
+            error.message || "Invalid email or password. Please try again.",
           variant: "destructive",
         });
       },
@@ -75,9 +82,11 @@ const SignIn = () => {
       <div className="w-full lg:w-1/3 flex items-center justify-center p-8 bg-background">
         <Card className="w-full max-w-md border-0 shadow-none">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-3xl font-bold text-center">Welcome Back</CardTitle>
+            <CardTitle className="text-3xl font-bold text-center">
+              Welcome Back
+            </CardTitle>
             <CardDescription className="text-center">
-              Sign in to your Depot Pulse Hub account
+              Sign in to your Safety & Performance Station
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -89,7 +98,9 @@ const SignIn = () => {
                   type="email"
                   placeholder="john@example.com"
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -102,7 +113,9 @@ const SignIn = () => {
                     type={showPassword ? "text" : "password"}
                     placeholder="Enter your password"
                     value={formData.password}
-                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, password: e.target.value })
+                    }
                     required
                   />
                   <Button
@@ -112,7 +125,11 @@ const SignIn = () => {
                     className="absolute right-2 top-1/2 -translate-y-1/2 h-7 w-7 p-0"
                     onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
                   </Button>
                 </div>
               </div>

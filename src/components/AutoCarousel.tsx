@@ -46,7 +46,9 @@ const AutoCarousel: React.FC<AutoCarouselProps> = ({
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
                 <h2 className="text-3xl font-bold mb-2">
-                  {index === 0 ? "Welcome to Depot Pulse Hub" : "Depot Pulse Hub"}
+                  {index === 0
+                    ? "Welcome to Safety & Performance Station"
+                    : "Safety & Performance Station"}
                 </h2>
                 <p className="text-lg opacity-90">{image.alt}</p>
               </div>
