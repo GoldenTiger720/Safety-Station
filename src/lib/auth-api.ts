@@ -104,6 +104,14 @@ const authApi = {
       body: JSON.stringify({ refresh: refreshToken }),
     });
   },
+
+  logout: async (): Promise<{ message: string }> => {
+    const refreshToken = authStorage.getRefreshToken();
+    return apiRequest<{ message: string }>("/api/auth/logout", {
+      method: "POST",
+      body: JSON.stringify({ refresh: refreshToken }),
+    });
+  },
 };
 
 export const useSignUp = (onSuccessCallback?: (data: AuthResponse) => void) => {
@@ -133,8 +141,18 @@ export const useSignIn = (onSuccessCallback?: (data: AuthResponse) => void) => {
 };
 
 export const useLogout = () => {
-  return () => {
-    authStorage.clearAuth();
-    window.location.href = '/signin';
-  };
+  return useMutation({
+    mutationFn: authApi.logout,
+    onSuccess: () => {
+      // Clear all auth data from localStorage
+      authStorage.clearAuth();
+      // Redirect to signin page
+      window.location.href = '/signin';
+    },
+    onError: () => {
+      // Even if the logout API call fails, clear local data and redirect
+      authStorage.clearAuth();
+      window.location.href = '/signin';
+    },
+  });
 };

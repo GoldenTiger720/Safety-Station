@@ -8,11 +8,13 @@ import NewsSection from "@/components/NewsSection";
 import VideoSection from "@/components/VideoSection";
 import PerformanceDashboard from "@/components/PerformanceDashboard";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLogout } from "@/lib/auth-api";
 
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState<string>("dashboard");
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
+  const logoutMutation = useLogout();
 
   const handleProfileClick = () => {
     // Navigate to profile page (you can implement this later)
@@ -20,7 +22,7 @@ const Dashboard = () => {
   };
 
   const handleLogoutClick = () => {
-    logout();
+    logoutMutation.mutate();
   };
 
   const renderActiveSection = () => {

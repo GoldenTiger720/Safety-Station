@@ -5,7 +5,6 @@ interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   setUser: (user: User | null) => void;
-  logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -36,12 +35,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const logout = () => {
-    authStorage.clearAuth();
-    setUserState(null);
-    window.location.href = '/signin';
-  };
-
   const isAuthenticated = !!user && !!authStorage.getAccessToken();
 
   if (isLoading) {
@@ -49,7 +42,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, setUser, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, setUser }}>
       {children}
     </AuthContext.Provider>
   );
