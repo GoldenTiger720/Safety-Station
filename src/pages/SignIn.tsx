@@ -7,10 +7,16 @@ import { Button } from "@/components/ui/button";
 import AutoCarousel from "@/components/AutoCarousel";
 import { Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useSignIn } from "@/lib/auth-api";
+import { useAuth } from "@/contexts/AuthContext";
 
 const SignIn = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { setUser } = useAuth();
+  const signInMutation = useSignIn((data) => {
+    setUser(data.user);
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -32,9 +38,9 @@ const SignIn = () => {
     },
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.email || !formData.password) {
       toast({
         title: "Error",
@@ -44,14 +50,24 @@ const SignIn = () => {
       return;
     }
 
-    toast({
-      title: "Success",
-      description: "Login successful! Redirecting to dashboard...",
+    signInMutation.mutate(formData, {
+      onSuccess: () => {
+        toast({
+          title: "Success",
+          description: "Login successful! Redirecting to dashboard...",
+        });
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 1500);
+      },
+      onError: (error: any) => {
+        toast({
+          title: "Login Failed",
+          description: error.message || "Invalid email or password. Please try again.",
+          variant: "destructive",
+        });
+      },
     });
-
-    setTimeout(() => {
-      navigate("/dashboard");
-    }, 1500);
   };
 
   return (
@@ -111,8 +127,13 @@ const SignIn = () => {
                 </Button>
               </div>
 
-              <Button type="submit" className="w-full" size="lg">
-                Sign In
+              <Button
+                type="submit"
+                className="w-full"
+                size="lg"
+                disabled={signInMutation.isPending}
+              >
+                {signInMutation.isPending ? "Signing in..." : "Sign In"}
               </Button>
 
               <div className="text-center text-sm">

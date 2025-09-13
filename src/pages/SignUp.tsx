@@ -12,10 +12,16 @@ import { CalendarIcon, Eye, EyeOff } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { useSignUp } from "@/lib/auth-api";
+import { useAuth } from "@/contexts/AuthContext";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { setUser } = useAuth();
+  const signUpMutation = useSignUp((data) => {
+    setUser(data.user);
+  });
   const [date, setDate] = useState<Date>();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -49,9 +55,9 @@ const SignUp = () => {
     },
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (formData.password !== formData.confirmPassword) {
       toast({
         title: "Error",
@@ -79,14 +85,32 @@ const SignUp = () => {
       return;
     }
 
-    toast({
-      title: "Success",
-      description: "Registration successful! Redirecting to dashboard...",
-    });
+    const signUpData = {
+      email: formData.email,
+      password: formData.password,
+      confirmPassword: formData.confirmPassword,
+      visitReason: formData.visitReason,
+      date: date.toISOString(),
+    };
 
-    setTimeout(() => {
-      navigate("/dashboard");
-    }, 1500);
+    signUpMutation.mutate(signUpData, {
+      onSuccess: () => {
+        toast({
+          title: "Success",
+          description: "Registration successful! Redirecting to dashboard...",
+        });
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 1500);
+      },
+      onError: (error: any) => {
+        toast({
+          title: "Registration Failed",
+          description: error.message || "An error occurred during registration. Please try again.",
+          variant: "destructive",
+        });
+      },
+    });
   };
 
   return (
@@ -204,8 +228,13 @@ const SignUp = () => {
                 </div>
               </div>
 
-              <Button type="submit" className="w-full" size="lg">
-                Sign Up
+              <Button
+                type="submit"
+                className="w-full"
+                size="lg"
+                disabled={signUpMutation.isPending}
+              >
+                {signUpMutation.isPending ? "Creating account..." : "Sign Up"}
               </Button>
 
               <div className="text-center text-sm">
