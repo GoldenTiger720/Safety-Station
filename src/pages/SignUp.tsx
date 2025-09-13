@@ -20,7 +20,7 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
-    nameOrEmail: "",
+    email: "",
     visitReason: "",
     password: "",
     confirmPassword: "",
@@ -102,13 +102,13 @@ const SignUp = () => {
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="nameOrEmail">Name or Email</Label>
+                <Label htmlFor="email">Email</Label>
                 <Input
-                  id="nameOrEmail"
-                  type="text"
-                  placeholder="John Doe or john@example.com"
-                  value={formData.nameOrEmail}
-                  onChange={(e) => setFormData({ ...formData, nameOrEmail: e.target.value })}
+                  id="email"
+                  type="email"
+                  placeholder="john@example.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
                 />
               </div>

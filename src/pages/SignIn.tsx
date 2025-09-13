@@ -13,7 +13,7 @@ const SignIn = () => {
   const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    nameOrEmail: "",
+    email: "",
     password: "",
   });
 
@@ -35,7 +35,7 @@ const SignIn = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.nameOrEmail || !formData.password) {
+    if (!formData.email || !formData.password) {
       toast({
         title: "Error",
         description: "Please fill in all fields",
@@ -67,13 +67,13 @@ const SignIn = () => {
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="nameOrEmail">Name or Email</Label>
+                <Label htmlFor="email">Email</Label>
                 <Input
-                  id="nameOrEmail"
-                  type="text"
-                  placeholder="John Doe or john@example.com"
-                  value={formData.nameOrEmail}
-                  onChange={(e) => setFormData({ ...formData, nameOrEmail: e.target.value })}
+                  id="email"
+                  type="email"
+                  placeholder="john@example.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
                 />
               </div>
