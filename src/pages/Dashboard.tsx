@@ -10,16 +10,6 @@ import PerformanceDashboard from "@/components/PerformanceDashboard";
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState<string>("dashboard");
 
-  const handleProfileClick = () => {
-    // Navigate to profile page (you can implement this later)
-    console.log("Profile clicked");
-  };
-
-  const handleLogoutClick = () => {
-    // Logout functionality removed - no authentication required
-    console.log("Logout clicked");
-  };
-
   const renderActiveSection = () => {
     switch (activeSection) {
       case "checkin":
@@ -42,12 +32,7 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto p-2 sm:p-3 md:p-4 space-y-3 sm:space-y-4 md:space-y-6 max-w-full overflow-x-hidden">
-        <DepotHeader
-          userName="Guest User"
-          userEmail="guest@example.com"
-          onProfileClick={handleProfileClick}
-          onLogoutClick={handleLogoutClick}
-        />
+        <DepotHeader />
 
         <DepotNavigation
           onItemClick={setActiveSection}
