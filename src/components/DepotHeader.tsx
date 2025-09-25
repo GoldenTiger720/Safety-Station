@@ -53,7 +53,7 @@ const DepotHeader: React.FC<DepotHeaderProps> = ({
       </div>
 
       <div className="relative z-10 flex items-center">
-        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-foreground tracking-wide flex-1">
+        <h1 className="hidden sm:block text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-foreground tracking-wide flex-1">
           {title}
         </h1>
 
