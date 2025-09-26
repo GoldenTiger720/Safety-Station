@@ -29,7 +29,7 @@ const Dashboard = () => {
       case "bpms":
         return (
           <WebViewer
-            url="https://sindipro.vercel.app/"
+            url="https://kissflow.com"
             title="BPMS System"
             onBack={handleBackToDashboard}
           />
@@ -37,7 +37,7 @@ const Dashboard = () => {
       case "dms":
         return (
           <WebViewer
-            url="https://travelbook-henna.vercel.app/"
+            url="https://www.opendocman.com/document-management-system-demo/"
             title="DMS System"
             onBack={handleBackToDashboard}
           />
