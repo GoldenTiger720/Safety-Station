@@ -6,9 +6,14 @@ import DocumentViewer from "@/components/DocumentViewer";
 import NewsSection from "@/components/NewsSection";
 import VideoSection from "@/components/VideoSection";
 import PerformanceDashboard from "@/components/PerformanceDashboard";
+import WebViewer from "@/components/WebViewer";
 
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState<string>("dashboard");
+
+  const handleBackToDashboard = () => {
+    setActiveSection("dashboard");
+  };
 
   const renderActiveSection = () => {
     switch (activeSection) {
@@ -24,6 +29,22 @@ const Dashboard = () => {
       case "videos":
       case "induction":
         return <VideoSection />;
+      case "bpms":
+        return (
+          <WebViewer
+            url="https://sindipro.vercel.app/"
+            title="BPMS System"
+            onBack={handleBackToDashboard}
+          />
+        );
+      case "dms":
+        return (
+          <WebViewer
+            url="https://travelbook-henna.vercel.app/"
+            title="DMS System"
+            onBack={handleBackToDashboard}
+          />
+        );
       default:
         return <DashboardOverview />;
     }
