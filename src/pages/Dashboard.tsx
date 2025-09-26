@@ -20,11 +20,8 @@ const Dashboard = () => {
       case "checkin":
         return <StaffCheckIn />;
       case "documents":
-      case "maintenance":
-      case "operation":
         return <DocumentViewer />;
       case "news":
-      case "spotlight":
         return <NewsSection />;
       case "videos":
       case "induction":
@@ -42,6 +39,30 @@ const Dashboard = () => {
           <WebViewer
             url="https://travelbook-henna.vercel.app/"
             title="DMS System"
+            onBack={handleBackToDashboard}
+          />
+        );
+      case "maintenance":
+        return (
+          <WebViewer
+            url="https://www.manualslib.com/"
+            title="Maintenance Manuals"
+            onBack={handleBackToDashboard}
+          />
+        );
+      case "operation":
+        return (
+          <WebViewer
+            url="https://manuals.plus/"
+            title="Operation Manuals"
+            onBack={handleBackToDashboard}
+          />
+        );
+      case "spotlight":
+        return (
+          <WebViewer
+            url="https://spotlightsafetyapp.com/"
+            title="Spotlight Reports"
             onBack={handleBackToDashboard}
           />
         );
