@@ -132,38 +132,38 @@ const REDSafetyVideoCard = () => {
 
   return (
     <Card className="bg-gray-800 border-gray-700 h-full flex flex-col">
-      <CardHeader className="pb-3 bg-gray-900 flex-shrink-0">
-        <CardTitle className="text-lg text-white text-right">RED Safety Video</CardTitle>
+      <CardHeader className="pb-0.5 py-1 bg-gray-900 flex-shrink-0">
+        <CardTitle className="text-xs text-white text-right">RED Safety Video</CardTitle>
       </CardHeader>
-      <CardContent className="p-3 flex-1 flex flex-col gap-3">
+      <CardContent className="p-1 flex-1 flex flex-col gap-1">
         {/* Main video player */}
-        <div className="relative bg-black rounded-lg overflow-hidden aspect-video flex-1">
+        <div className="relative bg-black rounded overflow-hidden aspect-video flex-1">
           {selectedVideoId && (
             <YouTube
               videoId={selectedVideoId}
               opts={opts}
               className="w-full h-full"
-              iframeClassName="w-full h-full rounded-lg"
+              iframeClassName="w-full h-full rounded"
             />
           )}
         </div>
 
         {/* Video carousel */}
         <div className="relative">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             {/* Previous button */}
             <button
               onClick={prevVideo}
               disabled={currentVideoIndex === 0}
-              className="p-1 rounded bg-gray-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors"
+              className="p-0.5 rounded bg-gray-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors"
             >
-              <ChevronLeft className="w-4 h-4" />
+              <ChevronLeft className="w-3 h-3" />
             </button>
 
             {/* Video thumbnails */}
             <div className="flex-1 overflow-hidden">
               <div
-                className="flex gap-2 transition-transform duration-300"
+                className="flex gap-1 transition-transform duration-300"
                 style={{ transform: `translateX(-${currentVideoIndex * 33.33}%)` }}
               >
                 {videos.map((video) => (
@@ -171,7 +171,7 @@ const REDSafetyVideoCard = () => {
                     key={video.id.videoId}
                     className={`flex-shrink-0 w-1/3 cursor-pointer rounded overflow-hidden transition-all duration-200 ${
                       selectedVideoId === video.id.videoId
-                        ? 'ring-2 ring-red-500'
+                        ? 'ring-1 ring-red-500'
                         : 'hover:opacity-80'
                     }`}
                     onClick={() => selectVideo(video.id.videoId)}
@@ -183,11 +183,11 @@ const REDSafetyVideoCard = () => {
                         className="w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
-                        <Play className="w-6 h-6 text-white" />
+                        <Play className="w-3 h-3 text-white" />
                       </div>
                     </div>
-                    <div className="p-1">
-                      <p className="text-xs text-white truncate" title={video.snippet.title}>
+                    <div className="p-0.5">
+                      <p className="text-[8px] text-white truncate" title={video.snippet.title}>
                         {video.snippet.title}
                       </p>
                     </div>
@@ -200,9 +200,9 @@ const REDSafetyVideoCard = () => {
             <button
               onClick={nextVideo}
               disabled={currentVideoIndex >= videos.length - 3}
-              className="p-1 rounded bg-gray-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors"
+              className="p-0.5 rounded bg-gray-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors"
             >
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-3 h-3" />
             </button>
           </div>
         </div>

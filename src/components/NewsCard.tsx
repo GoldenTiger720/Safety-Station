@@ -35,35 +35,33 @@ const NewsCard = () => {
 
   return (
     <Card className="bg-gray-800 border-gray-700 h-full flex flex-col">
-      <CardHeader className="pb-3 bg-gray-900 flex-shrink-0">
-        <CardTitle className="text-md text-white">News</CardTitle>
+      <CardHeader className="pb-0.5 py-1 bg-gray-900 flex-shrink-0">
+        <CardTitle className="text-xs text-white">News</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-2 p-3 flex-1 overflow-auto">
-        {newsItems.map((item) => (
-          <div key={item.id} className="bg-white rounded-lg p-3 flex gap-3">
+      <CardContent className="space-y-1 p-2 flex-1 overflow-auto">
+        {newsItems.slice(0, 2).map((item) => (
+          <div key={item.id} className="bg-white rounded p-1.5 flex gap-2">
             <div className="flex-shrink-0">
               <img
                 src={item.image}
                 alt={item.title}
-                className="w-20 h-20 rounded object-cover bg-gray-200"
+                className="w-12 h-12 rounded object-cover bg-gray-200"
               />
             </div>
-            <div className="flex-1 min-w-0 flex flex-col justify-between">
-              <div>
-                <h3 className="text-sm font-semibold text-gray-900 mb-1 leading-tight">
-                  {item.title}
-                </h3>
-                <p className="text-xs text-gray-600 line-clamp-2 leading-tight">
-                  {item.description}
-                </p>
-              </div>
-              <div className="flex items-center gap-2 mt-2">
+            <div className="flex-1 min-w-0">
+              <h3 className="text-[10px] font-semibold text-gray-900 mb-0.5 leading-tight line-clamp-1">
+                {item.title}
+              </h3>
+              <p className="text-[8px] text-gray-600 line-clamp-2 leading-tight">
+                {item.description}
+              </p>
+              <div className="flex items-center gap-1 mt-1">
                 <img
                   src="/user.jpeg"
                   alt="user"
-                  className="w-4 h-4 bg-gray-300 rounded-full flex items-center justify-center"
+                  className="w-3 h-3 bg-gray-300 rounded-full"
                 />
-                <span className="text-xs text-gray-500">{item.date}</span>
+                <span className="text-[8px] text-gray-500">{item.date}</span>
               </div>
             </div>
           </div>

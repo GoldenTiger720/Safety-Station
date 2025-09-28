@@ -5,6 +5,9 @@ import StaffCheckIn from "@/components/StaffCheckIn";
 import DocumentViewer from "@/components/DocumentViewer";
 import VideoSection from "@/components/VideoSection";
 import PerformanceDashboard from "@/components/PerformanceDashboard";
+import NewsCard from "@/components/NewsCard";
+import REDSafetyVideoCard from "@/components/REDSafetyVideoCard";
+import InDepotCard from "@/components/InDepotCard";
 import WebViewer from "@/components/WebViewer";
 
 interface CheckInRecord {
@@ -96,8 +99,26 @@ interface DashboardOverviewProps {
 
 const DashboardOverview: React.FC<DashboardOverviewProps> = ({ checkedInStaff }) => {
   return (
-    <div className="space-y-2">
-      <PerformanceDashboard checkedInStaff={checkedInStaff} />
+    <div className="space-y-1 h-[calc(100vh-200px)]">
+      {/* First Row: NewsCard and PerformanceDashboard side-by-side */}
+      <div className="grid grid-cols-3 gap-1 h-[53%]">
+        <div className="h-full">
+          <NewsCard />
+        </div>
+        <div className="h-full col-span-2">
+          <PerformanceDashboard />
+        </div>
+      </div>
+
+      {/* Second Row: InDepotCard and REDSafetyVideoCard side-by-side */}
+      <div className="grid grid-cols-3 gap-1 h-[20%]">
+        <div className="h-full">
+          <InDepotCard checkedInStaff={checkedInStaff} />
+        </div>
+        <div className="h-full col-span-2">
+          <REDSafetyVideoCard />
+        </div>
+      </div>
     </div>
   );
 };

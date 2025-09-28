@@ -1,23 +1,8 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
-import NewsCard from "@/components/NewsCard";
-import REDSafetyVideoCard from "@/components/REDSafetyVideoCard";
 
-interface CheckInRecord {
-  id: string;
-  name: string;
-  company: string;
-  reason: string;
-  time: string;
-  status: 'checked-in' | 'checked-out';
-}
-
-interface PerformanceDashboardProps {
-  checkedInStaff?: CheckInRecord[];
-}
-
-const PerformanceDashboard: React.FC<PerformanceDashboardProps> = ({ checkedInStaff = [] }) => {
+const PerformanceDashboard: React.FC = () => {
   // Enhanced data for the donut charts with updated structure
   const inProcessData = [
     { name: "Critical", value: 65, color: "#ef4444", label: "Red" },
@@ -34,238 +19,156 @@ const PerformanceDashboard: React.FC<PerformanceDashboardProps> = ({ checkedInSt
     { name: "Breakdown", value: 45, color: "#f97316", label: "Orange" },
   ];
 
-  // Display only actual checked-in staff from StaffCheckIn component
-  const staffInDepot = checkedInStaff.map(staff => ({
-    name: staff.name,
-    company: staff.company,
-    reason: staff.reason,
-    isCheckedIn: true
-  }));
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:gap-6 mt-4 sm:mt-6 md:mt-2 px-2 sm:px-0">
-      {/* Top Row - Mobile: Stack, Desktop: Side by side */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6">
-        {/* Left: News */}
-        <div className="lg:col-span-1">
-          <NewsCard />
-        </div>
-        
-        {/* Right: Performance Highlights */}
-        <div className="lg:col-span-3">
-        <Card className="bg-gray-800 border-gray-700 h-full relative overflow-hidden">
-          <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
-            style={{
-              backgroundImage:
-                'url("https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2015&q=80")',
-            }}
-          ></div>
-          <CardHeader className="pb-3 bg-gray-900/80 relative z-10">
-            <CardTitle className="text-lg text-white text-right">
-              Performance Highlights
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2 p-3 relative z-10">
-            {/* Top Section with Headers and Data */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
-              {/* Spotlight Reporting */}
-              <div className="space-y-3">
-                <div className="bg-white bg-opacity-70 rounded-lg p-3 text-center">
-                  <h3 className="text-lg font-bold text-black">
-                    Spotlight Reporting
-                  </h3>
-                </div>
-                <div className="grid grid-cols-2 gap-1 sm:gap-2">
-                  <div className="bg-white bg-opacity-85 border border-gray-200 p-3 rounded text-center">
-                    <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800">81</div>
-                    <div className="text-[10px] sm:text-xs text-gray-600">Spotlights YTD</div>
-                  </div>
-                  <div className="bg-white bg-opacity-85 border border-gray-200 p-3 rounded text-center">
-                    <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800">2</div>
-                    <div className="text-[10px] sm:text-xs text-gray-600">Spotlights MTD</div>
-                  </div>
-                </div>
+    <Card className="bg-gray-800 border-gray-700 h-full relative overflow-hidden">
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+        style={{
+          backgroundImage:
+            'url("https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2015&q=80")',
+        }}
+      ></div>
+      <CardHeader className="pb-0.5 py-1 bg-gray-900/80 relative z-10">
+        <CardTitle className="text-xs text-white text-right">
+          Performance Highlights
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-1 p-2 relative z-10">
+        {/* Top Section with Headers and Data */}
+        <div className="grid grid-cols-3 gap-2 mb-2">
+          {/* Spotlight Reporting */}
+          <div className="space-y-1">
+            <div className="bg-white bg-opacity-70 rounded p-1 text-center">
+              <h3 className="text-[8px] font-bold text-black">
+                Spotlight Reporting
+              </h3>
+            </div>
+            <div className="grid grid-cols-2 gap-1">
+              <div className="bg-white bg-opacity-85 border border-gray-200 p-1 rounded text-center">
+                <div className="text-xs font-bold text-gray-800">81</div>
+                <div className="text-[7px] text-gray-600">Spotlights YTD</div>
               </div>
-
-              {/* Safety Tours */}
-              <div className="space-y-3">
-                <div className="bg-white bg-opacity-70 rounded-lg p-3 text-center">
-                  <h3 className="text-lg font-bold text-black">Safety Tours</h3>
-                </div>
-                <div className="grid grid-cols-2 gap-1 sm:gap-2">
-                  <div className="bg-white bg-opacity-85 border border-gray-200 p-3 rounded text-center">
-                    <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800">7.59</div>
-                    <div className="text-[10px] sm:text-xs text-gray-600">Safety Tour YTD</div>
-                  </div>
-                  <div className="bg-white bg-opacity-85 border border-gray-200 p-3 rounded text-center">
-                    <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800">7.33</div>
-                    <div className="text-[10px] sm:text-xs text-gray-600">Safety Tour MTD</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Possession Utilisation */}
-              <div className="space-y-3">
-                <div className="bg-white bg-opacity-70 rounded-lg p-3 text-center">
-                  <h3 className="text-lg font-bold text-black">
-                    Possession Utilisation
-                  </h3>
-                </div>
-                <div className="grid grid-cols-2 gap-1 sm:gap-2">
-                  <div className="bg-white bg-opacity-85 border border-gray-200 p-3 rounded text-center">
-                    <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800">63</div>
-                    <div className="text-[10px] sm:text-xs text-gray-600">Average</div>
-                  </div>
-                  <div className="bg-white bg-opacity-85 border border-gray-200 p-3 rounded text-center">
-                    <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800">
-                      218.42
-                    </div>
-                    <div className="text-[10px] sm:text-xs text-gray-600">Ave Work p/h</div>
-                  </div>
-                </div>
+              <div className="bg-white bg-opacity-85 border border-gray-200 p-1 rounded text-center">
+                <div className="text-xs font-bold text-gray-800">2</div>
+                <div className="text-[7px] text-gray-600">Spotlights MTD</div>
               </div>
             </div>
+          </div>
 
-            {/* Pie Charts Section */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mt-4 sm:mt-6">
-              {/* In Process Chart */}
-              <div className="bg-white bg-opacity-60 rounded-lg p-4">
-                <h4 className="text-sm font-semibold text-black text-center mb-3">
-                  In Process Status
-                </h4>
-                <ResponsiveContainer width="100%" height={200}>
-                  <PieChart>
-                    <Pie
-                      data={inProcessData}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={40}
-                      outerRadius={80}
-                      paddingAngle={5}
-                      dataKey="value"
-                    >
-                      {inProcessData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                  </PieChart>
-                </ResponsiveContainer>
+          {/* Safety Tours */}
+          <div className="space-y-1">
+            <div className="bg-white bg-opacity-70 rounded p-1 text-center">
+              <h3 className="text-[8px] font-bold text-black">Safety Tours</h3>
+            </div>
+            <div className="grid grid-cols-2 gap-1">
+              <div className="bg-white bg-opacity-85 border border-gray-200 p-1 rounded text-center">
+                <div className="text-xs font-bold text-gray-800">7.59</div>
+                <div className="text-[7px] text-gray-600">Safety Tour YTD</div>
               </div>
-
-              {/* Possession Chart */}
-              <div className="bg-white bg-opacity-60 rounded-lg p-4">
-                <h4 className="text-sm font-semibold text-black text-center mb-3">
-                  Possession Status
-                </h4>
-                <ResponsiveContainer width="100%" height={200}>
-                  <PieChart>
-                    <Pie
-                      data={possessionData}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={40}
-                      outerRadius={80}
-                      paddingAngle={5}
-                      dataKey="value"
-                    >
-                      {possessionData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-
-              {/* Preparation Chart */}
-              <div className="bg-white bg-opacity-60 rounded-lg p-4">
-                <h4 className="text-sm font-semibold text-black text-center mb-3">
-                  Preparation Status
-                </h4>
-                <ResponsiveContainer width="100%" height={200}>
-                  <PieChart>
-                    <Pie
-                      data={preparationData}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={40}
-                      outerRadius={80}
-                      paddingAngle={5}
-                      dataKey="value"
-                    >
-                      {preparationData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                  </PieChart>
-                </ResponsiveContainer>
+              <div className="bg-white bg-opacity-85 border border-gray-200 p-1 rounded text-center">
+                <div className="text-xs font-bold text-gray-800">7.33</div>
+                <div className="text-[7px] text-gray-600">Safety Tour MTD</div>
               </div>
             </div>
-          </CardContent>
-        </Card>
-        </div>
-      </div>
-      
-      {/* Bottom Row - Mobile: Stack, Desktop: Side by side */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6">
-        {/* Left: In Depot Card */}
-        <div className="lg:col-span-1">
-          <Card className="bg-gray-900 border-gray-700 h-[200px] overflow-hidden">
-            <CardHeader className="pb-2 bg-gray-800">
-              <CardTitle className="text-lg text-white">In Depot</CardTitle>
-            </CardHeader>
-            <CardContent className="p-0 h-[calc(100%-60px)] overflow-y-auto">
-              <div className="divide-y divide-gray-700">
-                {staffInDepot.length === 0 ? (
-                  <div className="px-2 sm:px-4 py-4 text-center">
-                    <p className="text-xs sm:text-sm text-gray-400">No staff currently checked in</p>
-                  </div>
-                ) : (
-                  staffInDepot.map((staff, index) => (
-                    <div key={index} className="px-2 sm:px-3 py-2 sm:py-3 hover:bg-gray-800/50 transition-colors">
-                      {/* Mobile: Stack vertically, Desktop: Grid */}
-                      <div className="block sm:hidden space-y-1">
-                        {/* Mobile Layout - Stacked */}
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm font-medium text-gray-200">{staff.name}</span>
-                          {staff.isCheckedIn && (
-                            <span className="bg-green-600 text-white px-1.5 py-0.5 rounded-full text-[10px] font-medium">Live</span>
-                          )}
-                        </div>
-                        <div className="text-xs text-gray-400">{staff.company}</div>
-                        <div className="text-xs text-gray-300">{staff.reason}</div>
-                      </div>
+          </div>
 
-                      {/* Desktop Layout - Grid */}
-                      <div className="hidden sm:block">
-                        <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-xs lg:text-sm">
-                          <div className="text-gray-400">Name:</div>
-                          <div className="text-gray-200 flex items-center gap-1 flex-wrap">
-                            <span className="break-words">{staff.name}</span>
-                            {staff.isCheckedIn && (
-                              <span className="bg-green-600 text-white px-1 py-0.5 rounded-full text-[8px] lg:text-[10px] flex-shrink-0">Live</span>
-                            )}
-                          </div>
-                          <div className="text-gray-400">Company:</div>
-                          <div className="text-gray-200 break-words">{staff.company}</div>
-                          <div className="text-gray-400">Reason:</div>
-                          <div className="text-gray-200 break-words">{staff.reason}</div>
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                )}
+          {/* Possession Utilisation */}
+          <div className="space-y-1">
+            <div className="bg-white bg-opacity-70 rounded p-1 text-center">
+              <h3 className="text-[8px] font-bold text-black">
+                Possession Utilisation
+              </h3>
+            </div>
+            <div className="grid grid-cols-2 gap-1">
+              <div className="bg-white bg-opacity-85 border border-gray-200 p-1 rounded text-center">
+                <div className="text-xs font-bold text-gray-800">63</div>
+                <div className="text-[7px] text-gray-600">Average</div>
               </div>
-            </CardContent>
-          </Card>
+              <div className="bg-white bg-opacity-85 border border-gray-200 p-1 rounded text-center">
+                <div className="text-xs font-bold text-gray-800">218.42</div>
+                <div className="text-[7px] text-gray-600">Ave Work p/h</div>
+              </div>
+            </div>
+          </div>
         </div>
-        
-        {/* Right: RED Safety Video */}
-        <div className="lg:col-span-3">
-          <REDSafetyVideoCard />
+
+        {/* Pie Charts Section */}
+        <div className="grid grid-cols-3 gap-2">
+          {/* In Process Chart */}
+          <div className="bg-white bg-opacity-60 rounded p-2">
+            <h4 className="text-[7px] font-semibold text-black text-center mb-0.5">
+              In Process Status
+            </h4>
+            <ResponsiveContainer width="100%" height={70}>
+              <PieChart>
+                <Pie
+                  data={inProcessData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={15}
+                  outerRadius={35}
+                  paddingAngle={5}
+                  dataKey="value"
+                >
+                  {inProcessData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Possession Chart */}
+          <div className="bg-white bg-opacity-60 rounded p-2">
+            <h4 className="text-[7px] font-semibold text-black text-center mb-0.5">
+              Possession Status
+            </h4>
+            <ResponsiveContainer width="100%" height={70}>
+              <PieChart>
+                <Pie
+                  data={possessionData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={15}
+                  outerRadius={35}
+                  paddingAngle={5}
+                  dataKey="value"
+                >
+                  {possessionData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Preparation Chart */}
+          <div className="bg-white bg-opacity-60 rounded p-2">
+            <h4 className="text-[7px] font-semibold text-black text-center mb-0.5">
+              Preparation Status
+            </h4>
+            <ResponsiveContainer width="100%" height={70}>
+              <PieChart>
+                <Pie
+                  data={preparationData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={15}
+                  outerRadius={35}
+                  paddingAngle={5}
+                  dataKey="value"
+                >
+                  {preparationData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 
