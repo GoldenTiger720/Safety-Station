@@ -11,7 +11,7 @@ const REDSafetyVideoCard = () => {
         <div className="relative bg-black rounded-lg overflow-hidden aspect-video w-full">
           <iframe
             className="w-full h-full"
-            src="https://www.youtube.com/embed?listType=search&list=@RhombergSersaRailGroup&controls=1&rel=0&modestbranding=1&enablejsapi=1"
+            src="https://www.youtube.com/@RhombergSersaRailGroup/"
             title="Rhomberg Sersa Rail Group Safety Videos"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
