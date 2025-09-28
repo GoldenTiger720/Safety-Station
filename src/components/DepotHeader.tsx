@@ -59,7 +59,7 @@ const DepotHeader: React.FC<DepotHeaderProps> = ({
 
         {/* User Name Display - positioned with margin to move it left */}
         {userName && (
-          <div className="mr-8 sm:mr-12 md:mr-16 lg:mr-56">
+          <div className="mr-8 sm:mr-12 md:mr-16 lg:mr-72">
             <p className="text-sm font-medium text-foreground">
               {userName}
             </p>

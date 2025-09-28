@@ -34,20 +34,13 @@ const PerformanceDashboard: React.FC<PerformanceDashboardProps> = ({ checkedInSt
     { name: "Breakdown", value: 45, color: "#f97316", label: "Orange" },
   ];
 
-  // Default staff data for In Depot card
-  const defaultStaff = [
-    { name: "Darryl Gwilliam", location: "Office" },
-    { name: "Robert Mullen", location: "Office" },
-    { name: "Aidan Langley", location: "Safety Tour" },
-  ];
-
-  // Combine checked-in staff with default staff, prioritizing checked-in staff
-  const checkedInStaffFormatted = checkedInStaff.map(staff => ({
+  // Display only actual checked-in staff from StaffCheckIn component
+  const staffInDepot = checkedInStaff.map(staff => ({
     name: staff.name,
-    location: staff.reason
+    company: staff.company,
+    reason: staff.reason,
+    isCheckedIn: true
   }));
-
-  const staffInDepot = [...checkedInStaffFormatted, ...defaultStaff].slice(0, 3);
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:gap-6 mt-4 sm:mt-6 md:mt-2 px-2 sm:px-0">
@@ -223,12 +216,45 @@ const PerformanceDashboard: React.FC<PerformanceDashboardProps> = ({ checkedInSt
             </CardHeader>
             <CardContent className="p-0 h-[calc(100%-60px)] overflow-y-auto">
               <div className="divide-y divide-gray-700">
-                {staffInDepot.map((staff, index) => (
-                  <div key={index} className="flex justify-between items-center px-4 py-2 hover:bg-gray-800/50 transition-colors">
-                    <span className="text-sm text-gray-200">{staff.name}</span>
-                    <span className="text-sm text-gray-400">{staff.location}</span>
+                {staffInDepot.length === 0 ? (
+                  <div className="px-2 sm:px-4 py-4 text-center">
+                    <p className="text-xs sm:text-sm text-gray-400">No staff currently checked in</p>
                   </div>
-                ))}
+                ) : (
+                  staffInDepot.map((staff, index) => (
+                    <div key={index} className="px-2 sm:px-3 py-2 sm:py-3 hover:bg-gray-800/50 transition-colors">
+                      {/* Mobile: Stack vertically, Desktop: Grid */}
+                      <div className="block sm:hidden space-y-1">
+                        {/* Mobile Layout - Stacked */}
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium text-gray-200">{staff.name}</span>
+                          {staff.isCheckedIn && (
+                            <span className="bg-green-600 text-white px-1.5 py-0.5 rounded-full text-[10px] font-medium">Live</span>
+                          )}
+                        </div>
+                        <div className="text-xs text-gray-400">{staff.company}</div>
+                        <div className="text-xs text-gray-300">{staff.reason}</div>
+                      </div>
+
+                      {/* Desktop Layout - Grid */}
+                      <div className="hidden sm:block">
+                        <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-xs lg:text-sm">
+                          <div className="text-gray-400">Name:</div>
+                          <div className="text-gray-200 flex items-center gap-1 flex-wrap">
+                            <span className="break-words">{staff.name}</span>
+                            {staff.isCheckedIn && (
+                              <span className="bg-green-600 text-white px-1 py-0.5 rounded-full text-[8px] lg:text-[10px] flex-shrink-0">Live</span>
+                            )}
+                          </div>
+                          <div className="text-gray-400">Company:</div>
+                          <div className="text-gray-200 break-words">{staff.company}</div>
+                          <div className="text-gray-400">Reason:</div>
+                          <div className="text-gray-200 break-words">{staff.reason}</div>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             </CardContent>
           </Card>

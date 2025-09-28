@@ -26,24 +26,7 @@ const StaffCheckIn: React.FC<StaffCheckInProps> = ({ onStaffUpdate, onUserCheckI
   const [name, setName] = useState('');
   const [company, setCompany] = useState('');
   const [reason, setReason] = useState('');
-  const [records, setRecords] = useState<CheckInRecord[]>([
-    {
-      id: '1',
-      name: 'John Smith',
-      company: 'ABC Corp',
-      reason: 'Employee',
-      time: '08:30',
-      status: 'checked-in'
-    },
-    {
-      id: '2',
-      name: 'Sarah Johnson',
-      company: 'XYZ Ltd',
-      reason: 'Visitor',
-      time: '08:45',
-      status: 'checked-in'
-    }
-  ]);
+  const [records, setRecords] = useState<CheckInRecord[]>([]);
   const { toast } = useToast();
 
   const handleCheckIn = () => {
