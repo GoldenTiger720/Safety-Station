@@ -36,7 +36,7 @@ const NewsCard = () => {
   return (
     <Card className="bg-gray-800 border-gray-700 h-full flex flex-col">
       <CardHeader className="pb-3 bg-gray-900 flex-shrink-0">
-        <CardTitle className="text-lg text-white">News</CardTitle>
+        <CardTitle className="text-md text-white">News</CardTitle>
       </CardHeader>
       <CardContent className="space-y-2 p-3 flex-1 overflow-auto">
         {newsItems.map((item) => (
