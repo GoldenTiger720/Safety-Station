@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import YouTube from "react-youtube";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChevronLeft, ChevronRight, Play } from "lucide-react";
 
@@ -74,18 +73,9 @@ const REDSafetyVideoCard = () => {
     fetchChannelVideos();
   }, []);
 
-  // YouTube player options
-  const opts = {
-    width: '100%',
-    height: '100%',
-    playerVars: {
-      autoplay: 0,
-      controls: 1,
-      rel: 0,
-      modestbranding: 1,
-      enablejsapi: 1,
-      origin: window.location.origin,
-    },
+  // Custom YouTube embed URL generator
+  const getYouTubeEmbedUrl = (videoId: string) => {
+    return `https://www.youtube.com/embed/${videoId}?autoplay=0&controls=1&rel=0&modestbranding=1&origin=${window.location.origin}`;
   };
 
   const nextVideo = () => {
@@ -135,48 +125,50 @@ const REDSafetyVideoCard = () => {
       <CardHeader className="pb-0.5 py-1 bg-gray-900 flex-shrink-0">
         <CardTitle className="text-xs text-white text-right">RED Safety Video</CardTitle>
       </CardHeader>
-      <CardContent className="p-1 flex-1 flex flex-col gap-1">
+      <CardContent className="p-1 flex-1 flex gap-1">
         {/* Main video player */}
-        <div className="relative bg-black rounded overflow-hidden flex-1 min-h-[40px]">
+        <div className="relative bg-black rounded overflow-hidden flex-1 min-h-[60px]">
           {selectedVideoId && (
-            <YouTube
-              videoId={selectedVideoId}
-              opts={opts}
-              className="w-full h-full"
-              iframeClassName="w-full h-full rounded"
+            <iframe
+              src={getYouTubeEmbedUrl(selectedVideoId)}
+              title="YouTube video player"
+              className="w-full h-full rounded border-0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              style={{ aspectRatio: '16/9' }}
             />
           )}
         </div>
 
-        {/* Video carousel */}
-        <div className="relative flex-shrink-0">
-          <div className="flex items-center gap-0.5 sm:gap-1">
+        {/* Video carousel - Vertical */}
+        <div className="relative flex-shrink-0 w-16 sm:w-20 h-full">
+          <div className="flex flex-col items-center gap-0.5 sm:gap-1 h-full">
             {/* Previous button */}
             <button
               onClick={prevVideo}
               disabled={currentVideoIndex === 0}
-              className="p-0.5 rounded bg-gray-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors flex-shrink-0 min-h-[20px] flex items-center justify-center"
+              className="p-0.5 rounded bg-gray-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors flex-shrink-0 min-w-[20px] flex items-center justify-center"
             >
-              <ChevronLeft className="w-1.5 h-1.5 sm:w-2 sm:h-2" />
+              <ChevronLeft className="w-1.5 h-1.5 sm:w-2 sm:h-2 rotate-90" />
             </button>
 
             {/* Video thumbnails */}
             <div className="flex-1 overflow-hidden">
               <div
-                className="flex gap-0.5 sm:gap-1 transition-transform duration-300"
-                style={{ transform: `translateX(-${currentVideoIndex * 100}%)` }}
+                className="flex flex-col gap-0.5 sm:gap-1 transition-transform duration-300"
+                style={{ transform: `translateY(-${currentVideoIndex * 100}%)` }}
               >
                 {videos.map((video) => (
                   <div
                     key={video.id.videoId}
-                    className={`flex-shrink-0 w-1/3 cursor-pointer rounded overflow-hidden transition-all duration-200 ${
+                    className={`flex-shrink-0 cursor-pointer rounded overflow-hidden transition-all duration-200 ${
                       selectedVideoId === video.id.videoId
                         ? 'ring-1 ring-red-500'
                         : 'hover:opacity-80'
                     }`}
                     onClick={() => selectVideo(video.id.videoId)}
                   >
-                    <div className="relative aspect-video bg-gray-900">
+                    <div className="relative aspect-video bg-gray-900 w-12 sm:w-16">
                       <img
                         src={video.snippet.thumbnails.medium.url}
                         alt={video.snippet.title}
@@ -187,7 +179,7 @@ const REDSafetyVideoCard = () => {
                       </div>
                     </div>
                     <div className="p-0.5 flex-shrink-0">
-                      <p className="text-[4px] sm:text-[6px] text-white truncate leading-tight" title={video.snippet.title}>
+                      <p className="text-[4px] sm:text-[5px] text-white truncate leading-tight" title={video.snippet.title}>
                         {video.snippet.title}
                       </p>
                     </div>
@@ -200,9 +192,9 @@ const REDSafetyVideoCard = () => {
             <button
               onClick={nextVideo}
               disabled={currentVideoIndex + 3 >= videos.length}
-              className="p-0.5 rounded bg-gray-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors flex-shrink-0 min-h-[20px] flex items-center justify-center"
+              className="p-0.5 rounded bg-gray-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors flex-shrink-0 min-w-[20px] flex items-center justify-center"
             >
-              <ChevronRight className="w-1.5 h-1.5 sm:w-2 sm:h-2" />
+              <ChevronRight className="w-1.5 h-1.5 sm:w-2 sm:h-2 rotate-90" />
             </button>
           </div>
         </div>
