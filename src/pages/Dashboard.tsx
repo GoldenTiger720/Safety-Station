@@ -42,19 +42,11 @@ const Dashboard = () => {
             onBack={handleBackToDashboard}
           />
         );
-      case "maintenance":
+      case "technical":
         return (
           <WebViewer
             url="https://rsrg.sharepoint.com/sites/re-rse/documents/Forms/Recent.aspx?id=%2Fsites%2Fre%2Drse%2Fdocuments%2FOperations%20Technical%20Library&newTargetListUrl=%2Fsites%2Fre%2Drse%2Fdocuments&viewpath=%2Fsites%2Fre%2Drse%2Fdocuments%2FForms%2FRecent%2Easpx"
-            title="Maintenance Manuals"
-            onBack={handleBackToDashboard}
-          />
-        );
-      case "operation":
-        return (
-          <WebViewer
-            url="https://rsrg.sharepoint.com/sites/re-rse/documents/Forms/Recent.aspx?id=%2Fsites%2Fre%2Drse%2Fdocuments%2FOperations%20Technical%20Library&newTargetListUrl=%2Fsites%2Fre%2Drse%2Fdocuments&viewpath=%2Fsites%2Fre%2Drse%2Fdocuments%2FForms%2FRecent%2Easpx"
-            title="Operation Manuals"
+            title="Technical Library"
             onBack={handleBackToDashboard}
           />
         );
