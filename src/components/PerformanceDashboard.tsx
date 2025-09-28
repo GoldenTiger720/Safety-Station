@@ -2,7 +2,6 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import NewsCard from "@/components/NewsCard";
-import RSRGVideoCard from "@/components/RSRGVideoCard";
 import REDSafetyVideoCard from "@/components/REDSafetyVideoCard";
 
 interface CheckInRecord {
@@ -54,14 +53,9 @@ const PerformanceDashboard: React.FC<PerformanceDashboardProps> = ({ checkedInSt
     <div className="grid grid-cols-1 gap-4 sm:gap-6 mt-4 sm:mt-6 md:mt-2 px-2 sm:px-0">
       {/* Top Row - Mobile: Stack, Desktop: Side by side */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6">
-        {/* Left: News and RSRG Video */}
-        <div className="lg:col-span-1 flex flex-col gap-3 sm:gap-4">
-          <div className="flex-1">
-            <NewsCard />
-          </div>
-          <div className="flex-1">
-            <RSRGVideoCard />
-          </div>
+        {/* Left: News */}
+        <div className="lg:col-span-1">
+          <NewsCard />
         </div>
         
         {/* Right: Performance Highlights */}
@@ -164,19 +158,6 @@ const PerformanceDashboard: React.FC<PerformanceDashboardProps> = ({ checkedInSt
                     </Pie>
                   </PieChart>
                 </ResponsiveContainer>
-                <div className="flex justify-center gap-4 mt-2">
-                  {inProcessData.map((entry, index) => (
-                    <div key={index} className="flex items-center gap-1">
-                      <div
-                        className="w-3 h-3 rounded-full"
-                        style={{ backgroundColor: entry.color }}
-                      ></div>
-                      <span className="text-xs text-black">
-                        {entry.name} ({entry.value}%)
-                      </span>
-                    </div>
-                  ))}
-                </div>
               </div>
 
               {/* Possession Chart */}
@@ -201,19 +182,6 @@ const PerformanceDashboard: React.FC<PerformanceDashboardProps> = ({ checkedInSt
                     </Pie>
                   </PieChart>
                 </ResponsiveContainer>
-                <div className="flex justify-center gap-4 mt-2">
-                  {possessionData.map((entry, index) => (
-                    <div key={index} className="flex items-center gap-1">
-                      <div
-                        className="w-3 h-3 rounded-full"
-                        style={{ backgroundColor: entry.color }}
-                      ></div>
-                      <span className="text-xs text-black">
-                        {entry.name} ({entry.value}%)
-                      </span>
-                    </div>
-                  ))}
-                </div>
               </div>
 
               {/* Preparation Chart */}
@@ -238,19 +206,6 @@ const PerformanceDashboard: React.FC<PerformanceDashboardProps> = ({ checkedInSt
                     </Pie>
                   </PieChart>
                 </ResponsiveContainer>
-                <div className="flex justify-center gap-4 mt-2">
-                  {preparationData.map((entry, index) => (
-                    <div key={index} className="flex items-center gap-1">
-                      <div
-                        className="w-3 h-3 rounded-full"
-                        style={{ backgroundColor: entry.color }}
-                      ></div>
-                      <span className="text-xs text-black">
-                        {entry.name} ({entry.value}%)
-                      </span>
-                    </div>
-                  ))}
-                </div>
               </div>
             </div>
           </CardContent>
