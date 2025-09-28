@@ -30,41 +30,37 @@ const REDSafetyVideoCard = () => {
     const fetchChannelVideos = async () => {
       try {
         const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY || 'AIzaSyDfy5VjW55Te8pLJ4l2YKCi5n7wic5nqnI';
-        const CHANNEL_HANDLE = '@RhombergSersaRailGroup';
+        const CHANNEL_ID = 'UCJjI6OClvs6LjQK-9P7G6QA'; // Direct channel ID for @RhombergSersaRailGroup
 
-        // First, get the channel ID from the handle
-        const channelResponse = await fetch(
-          `https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=${CHANNEL_HANDLE}&key=${API_KEY}`
+        console.log('Fetching videos with API key:', API_KEY ? 'Present' : 'Missing');
+
+        // Directly fetch videos using the channel ID
+        const videosResponse = await fetch(
+          `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&type=video&order=date&maxResults=10&key=${API_KEY}`
         );
 
-        if (!channelResponse.ok) {
-          throw new Error('Failed to fetch channel information');
+        console.log('Videos response status:', videosResponse.status);
+
+        if (!videosResponse.ok) {
+          const errorText = await videosResponse.text();
+          console.error('API Error:', errorText);
+          throw new Error(`Failed to fetch videos: ${videosResponse.status}`);
         }
 
-        const channelData = await channelResponse.json();
+        const videosData = await videosResponse.json();
+        console.log('Videos data:', videosData);
 
-        if (channelData.items && channelData.items.length > 0) {
-          const channelId = channelData.items[0].snippet.channelId || channelData.items[0].id.channelId;
-
-          // Now fetch videos from the channel
-          const videosResponse = await fetch(
-            `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&type=video&order=date&maxResults=10&key=${API_KEY}`
-          );
-
-          if (!videosResponse.ok) {
-            throw new Error('Failed to fetch videos');
-          }
-
-          const videosData = await videosResponse.json();
-          setVideos(videosData.items || []);
-
-          if (videosData.items && videosData.items.length > 0) {
-            setSelectedVideoId(videosData.items[0].id.videoId);
-          }
+        if (videosData.items && videosData.items.length > 0) {
+          setVideos(videosData.items);
+          setSelectedVideoId(videosData.items[0].id.videoId);
+          console.log('Videos loaded:', videosData.items.length);
+        } else {
+          console.log('No videos found');
+          setError('No videos found for this channel');
         }
       } catch (err) {
         console.error('Error fetching YouTube videos:', err);
-        setError('Failed to load videos');
+        setError(`Failed to load videos: ${err.message}`);
       } finally {
         setLoading(false);
       }
@@ -143,22 +139,26 @@ const REDSafetyVideoCard = () => {
         {/* Video carousel - Vertical */}
         <div className="relative flex-shrink-0 w-16 sm:w-20 h-full">
           <div className="flex flex-col items-center gap-0.5 sm:gap-1 h-full">
+            {/* Debug info */}
+            {videos.length === 0 && !loading && (
+              <div className="text-white text-[8px] p-1">No videos</div>
+            )}
+
             {/* Previous button */}
-            <button
-              onClick={prevVideo}
-              disabled={currentVideoIndex === 0}
-              className="p-0.5 rounded bg-gray-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors flex-shrink-0 min-w-[20px] flex items-center justify-center"
-            >
-              <ChevronLeft className="w-1.5 h-1.5 sm:w-2 sm:h-2 rotate-90" />
-            </button>
+            {videos.length > 3 && (
+              <button
+                onClick={prevVideo}
+                disabled={currentVideoIndex === 0}
+                className="p-0.5 rounded bg-gray-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors flex-shrink-0 min-w-[20px] flex items-center justify-center"
+              >
+                <ChevronLeft className="w-1.5 h-1.5 sm:w-2 sm:h-2 rotate-90" />
+              </button>
+            )}
 
             {/* Video thumbnails */}
-            <div className="flex-1 overflow-hidden">
-              <div
-                className="flex flex-col gap-0.5 sm:gap-1 transition-transform duration-300"
-                style={{ transform: `translateY(-${currentVideoIndex * 100}%)` }}
-              >
-                {videos.map((video) => (
+            <div className="flex-1 overflow-hidden w-full">
+              <div className="flex flex-col gap-0.5 sm:gap-1">
+                {videos.slice(currentVideoIndex, currentVideoIndex + 3).map((video) => (
                   <div
                     key={video.id.videoId}
                     className={`flex-shrink-0 cursor-pointer rounded overflow-hidden transition-all duration-200 ${
@@ -168,17 +168,20 @@ const REDSafetyVideoCard = () => {
                     }`}
                     onClick={() => selectVideo(video.id.videoId)}
                   >
-                    <div className="relative aspect-video bg-gray-900 w-12 sm:w-16">
+                    <div className="relative bg-gray-900 w-12 sm:w-16 h-8 sm:h-10">
                       <img
-                        src={video.snippet.thumbnails.medium.url}
+                        src={video.snippet.thumbnails.medium?.url || video.snippet.thumbnails.default?.url}
                         alt={video.snippet.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover rounded"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                        }}
                       />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
+                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 rounded">
                         <Play className="w-1.5 h-1.5 sm:w-2 sm:h-2 text-white" />
                       </div>
                     </div>
-                    <div className="p-0.5 flex-shrink-0">
+                    <div className="p-0.5 flex-shrink-0 w-full">
                       <p className="text-[4px] sm:text-[5px] text-white truncate leading-tight" title={video.snippet.title}>
                         {video.snippet.title}
                       </p>
@@ -189,13 +192,15 @@ const REDSafetyVideoCard = () => {
             </div>
 
             {/* Next button */}
-            <button
-              onClick={nextVideo}
-              disabled={currentVideoIndex + 3 >= videos.length}
-              className="p-0.5 rounded bg-gray-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors flex-shrink-0 min-w-[20px] flex items-center justify-center"
-            >
-              <ChevronRight className="w-1.5 h-1.5 sm:w-2 sm:h-2 rotate-90" />
-            </button>
+            {videos.length > 3 && (
+              <button
+                onClick={nextVideo}
+                disabled={currentVideoIndex + 3 >= videos.length}
+                className="p-0.5 rounded bg-gray-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors flex-shrink-0 min-w-[20px] flex items-center justify-center"
+              >
+                <ChevronRight className="w-1.5 h-1.5 sm:w-2 sm:h-2 rotate-90" />
+              </button>
+            )}
           </div>
         </div>
       </CardContent>
