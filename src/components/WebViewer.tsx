@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { DepotButton } from "@/components/ui/depot-button";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { ArrowLeft, Loader2, ExternalLink } from "lucide-react";
 
 interface WebViewerProps {
   url: string;
@@ -10,10 +10,59 @@ interface WebViewerProps {
 
 const WebViewer: React.FC<WebViewerProps> = ({ url, title, onBack }) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const timeoutRef = useRef<NodeJS.Timeout>();
 
   const handleIframeLoad = () => {
     setIsLoading(false);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    // Check if iframe is actually accessible
+    try {
+      const iframe = iframeRef.current;
+      if (iframe && iframe.contentWindow) {
+        // Try to access the iframe's location (will throw if blocked)
+        const iframeLocation = iframe.contentWindow.location.href;
+        if (iframeLocation === 'about:blank') {
+          setHasError(true);
+        }
+      }
+    } catch (error) {
+      // If we can't access the iframe content, it's likely blocked
+      setHasError(true);
+    }
   };
+
+  const handleIframeError = () => {
+    setIsLoading(false);
+    setHasError(true);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+  };
+
+  const openInNewWindow = () => {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  useEffect(() => {
+    // Set a timeout to detect if iframe is blocked
+    timeoutRef.current = setTimeout(() => {
+      if (isLoading) {
+        setIsLoading(false);
+        setHasError(true);
+      }
+    }, 10000); // 10 second timeout
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [isLoading]);
 
   return (
     <div className="fixed inset-0 z-50 bg-white flex flex-col">
@@ -31,12 +80,23 @@ const WebViewer: React.FC<WebViewerProps> = ({ url, title, onBack }) => {
           </DepotButton>
           <span className="text-sm font-medium text-foreground">{title}</span>
         </div>
-        {isLoading && (
-          <div className="flex items-center gap-1 text-xs text-gray-600">
-            <Loader2 className="w-3 h-3 animate-spin" />
-            Loading...
-          </div>
-        )}
+        <div className="flex items-center gap-2">
+          <DepotButton
+            variant="secondary"
+            size="sm"
+            onClick={openInNewWindow}
+            className="flex items-center gap-1 h-6 px-2 py-0"
+          >
+            <ExternalLink className="w-3 h-3" />
+            Open in New Tab
+          </DepotButton>
+          {isLoading && (
+            <div className="flex items-center gap-1 text-xs text-gray-600">
+              <Loader2 className="w-3 h-3 animate-spin" />
+              Loading...
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Loading overlay */}
@@ -60,9 +120,32 @@ const WebViewer: React.FC<WebViewerProps> = ({ url, title, onBack }) => {
         </div>
       )}
 
+      {/* Error state */}
+      {hasError && (
+        <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-depot-surface to-depot-surface-elevated">
+          <div className="text-center space-y-4 max-w-md px-4">
+            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto">
+              <ExternalLink className="w-8 h-8 text-red-600" />
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-lg font-semibold text-foreground">Cannot Display Content</h3>
+              <p className="text-sm text-muted-foreground">
+                This website cannot be embedded due to security restrictions.
+                Please use the "Open in New Tab" button above to view the content.
+              </p>
+            </div>
+            <DepotButton onClick={openInNewWindow} className="flex items-center gap-2">
+              <ExternalLink className="w-4 h-4" />
+              Open in New Tab
+            </DepotButton>
+          </div>
+        </div>
+      )}
+
       {/* Website iframe below navbar */}
-      <div className="flex-1" style={{display: isLoading ? 'none' : 'block'}}>
+      <div className="flex-1" style={{display: isLoading || hasError ? 'none' : 'block'}}>
         <iframe
+          ref={iframeRef}
           src={url}
           title={title}
           className="w-full h-full border-0"
@@ -70,6 +153,7 @@ const WebViewer: React.FC<WebViewerProps> = ({ url, title, onBack }) => {
           referrerPolicy="strict-origin-when-cross-origin"
           sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation"
           onLoad={handleIframeLoad}
+          onError={handleIframeError}
         />
       </div>
     </div>
