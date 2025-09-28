@@ -19,7 +19,7 @@ const REDSafetyVideoCard = () => {
   };
 
   // Event handlers
-  const onReady = (event: any) => {
+  const onReady = () => {
     // The player is ready and we can interact with it
     console.log('YouTube player is ready');
   };
