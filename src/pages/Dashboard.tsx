@@ -3,7 +3,6 @@ import DepotHeader from "@/components/DepotHeader";
 import DepotNavigation from "@/components/DepotNavigation";
 import StaffCheckIn from "@/components/StaffCheckIn";
 import DocumentViewer from "@/components/DocumentViewer";
-import NewsSection from "@/components/NewsSection";
 import VideoSection from "@/components/VideoSection";
 import PerformanceDashboard from "@/components/PerformanceDashboard";
 import WebViewer from "@/components/WebViewer";
@@ -32,8 +31,6 @@ const Dashboard = () => {
         return <StaffCheckIn onStaffUpdate={setCheckedInStaff} onUserCheckIn={(user) => { setCurrentUser(user); if (user) setActiveSection("dashboard"); }} currentUser={currentUser} />;
       case "documents":
         return <DocumentViewer />;
-      case "news":
-        return <NewsSection />;
       case "videos":
       case "induction":
         return <VideoSection />;
