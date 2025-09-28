@@ -18,11 +18,11 @@ const depotButtonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-12 px-6 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-16 rounded-xl px-8 text-lg",
-        xl: "h-20 rounded-xl px-12 text-xl font-semibold",
-        icon: "h-12 w-12",
+        default: "h-8 xs:h-10 sm:h-12 px-1 xs:px-2 sm:px-4 md:px-6 py-1 xs:py-1.5 sm:py-2",
+        sm: "h-6 xs:h-7 sm:h-8 rounded-md px-1 xs:px-2 sm:px-3 text-xs",
+        lg: "h-12 xs:h-14 sm:h-16 rounded-xl px-4 xs:px-6 sm:px-8 text-lg",
+        xl: "h-16 xs:h-18 sm:h-20 rounded-xl px-6 xs:px-9 sm:px-12 text-xl font-semibold",
+        icon: "h-8 w-8 xs:h-10 xs:w-10 sm:h-12 sm:w-12",
       },
     },
     defaultVariants: {

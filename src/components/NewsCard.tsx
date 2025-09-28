@@ -40,28 +40,28 @@ const NewsCard = () => {
       </CardHeader>
       <CardContent className="space-y-1 p-2 flex-1 overflow-auto">
         {newsItems.slice(0, 2).map((item) => (
-          <div key={item.id} className="bg-white rounded p-1.5 flex gap-2">
+          <div key={item.id} className="bg-white rounded p-1 sm:p-1.5 flex gap-1 sm:gap-2">
             <div className="flex-shrink-0">
               <img
                 src={item.image}
                 alt={item.title}
-                className="w-12 h-12 rounded object-cover bg-gray-200"
+                className="w-8 h-8 sm:w-12 sm:h-12 rounded object-cover bg-gray-200"
               />
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="text-[10px] font-semibold text-gray-900 mb-0.5 leading-tight line-clamp-1">
+              <h3 className="text-[8px] sm:text-[10px] font-semibold text-gray-900 mb-0.5 leading-tight line-clamp-1">
                 {item.title}
               </h3>
-              <p className="text-[8px] text-gray-600 line-clamp-2 leading-tight">
+              <p className="text-[6px] sm:text-[8px] text-gray-600 line-clamp-2 leading-tight">
                 {item.description}
               </p>
-              <div className="flex items-center gap-1 mt-1">
+              <div className="flex items-center gap-0.5 sm:gap-1 mt-0.5 sm:mt-1">
                 <img
                   src="/user.jpeg"
                   alt="user"
-                  className="w-3 h-3 bg-gray-300 rounded-full"
+                  className="w-2 h-2 sm:w-3 sm:h-3 bg-gray-300 rounded-full"
                 />
-                <span className="text-[8px] text-gray-500">{item.date}</span>
+                <span className="text-[6px] sm:text-[8px] text-gray-500">{item.date}</span>
               </div>
             </div>
           </div>

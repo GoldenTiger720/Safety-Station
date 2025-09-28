@@ -99,7 +99,7 @@ interface DashboardOverviewProps {
 
 const DashboardOverview: React.FC<DashboardOverviewProps> = ({ checkedInStaff }) => {
   return (
-    <div className="space-y-1 h-[calc(100vh-200px)]">
+    <div className="flex flex-col space-y-1 h-[calc(100vh-200px)]">
       {/* First Row: NewsCard and PerformanceDashboard side-by-side */}
       <div className="grid grid-cols-3 gap-1 h-[53%]">
         <div className="h-full">
@@ -111,7 +111,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ checkedInStaff })
       </div>
 
       {/* Second Row: InDepotCard and REDSafetyVideoCard side-by-side */}
-      <div className="grid grid-cols-3 gap-1 h-[20%]">
+      <div className="grid grid-cols-3 gap-1 flex-1">
         <div className="h-full">
           <InDepotCard checkedInStaff={checkedInStaff} />
         </div>

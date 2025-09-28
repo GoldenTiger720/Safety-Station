@@ -41,23 +41,23 @@ const InDepotCard: React.FC<InDepotCardProps> = ({ checkedInStaff = [] }) => {
                 <div className="block sm:hidden space-y-0.5">
                   {/* Mobile Layout - Stacked */}
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-medium text-gray-200">{staff.name}</span>
+                    <span className="text-[8px] sm:text-[10px] font-medium text-gray-200">{staff.name}</span>
                     {staff.isCheckedIn && (
-                      <span className="bg-green-600 text-white px-1 py-0.5 rounded-full text-[8px] font-medium">Live</span>
+                      <span className="bg-green-600 text-white px-0.5 py-0.5 rounded-full text-[6px] sm:text-[8px] font-medium">Live</span>
                     )}
                   </div>
-                  <div className="text-[8px] text-gray-400">{staff.company}</div>
-                  <div className="text-[8px] text-gray-300">{staff.reason}</div>
+                  <div className="text-[6px] sm:text-[8px] text-gray-400">{staff.company}</div>
+                  <div className="text-[6px] sm:text-[8px] text-gray-300">{staff.reason}</div>
                 </div>
 
                 {/* Desktop Layout - Grid */}
                 <div className="hidden sm:block">
-                  <div className="grid grid-cols-2 gap-x-1 gap-y-0.5 text-[8px]">
+                  <div className="grid grid-cols-2 gap-x-0.5 sm:gap-x-1 gap-y-0.5 text-[6px] sm:text-[8px]">
                     <div className="text-gray-400">Name:</div>
-                    <div className="text-gray-200 flex items-center gap-1 flex-wrap">
+                    <div className="text-gray-200 flex items-center gap-0.5 sm:gap-1 flex-wrap">
                       <span className="break-words">{staff.name}</span>
                       {staff.isCheckedIn && (
-                        <span className="bg-green-600 text-white px-1 py-0.5 rounded-full text-[6px] flex-shrink-0">Live</span>
+                        <span className="bg-green-600 text-white px-0.5 sm:px-1 py-0.5 rounded-full text-[5px] sm:text-[6px] flex-shrink-0">Live</span>
                       )}
                     </div>
                     <div className="text-gray-400">Company:</div>

@@ -90,13 +90,13 @@ const REDSafetyVideoCard = () => {
 
   const nextVideo = () => {
     if (currentVideoIndex < videos.length - 3) {
-      setCurrentVideoIndex(currentVideoIndex + 1);
+      setCurrentVideoIndex(currentVideoIndex + 3);
     }
   };
 
   const prevVideo = () => {
     if (currentVideoIndex > 0) {
-      setCurrentVideoIndex(currentVideoIndex - 1);
+      setCurrentVideoIndex(currentVideoIndex - 3);
     }
   };
 
@@ -137,7 +137,7 @@ const REDSafetyVideoCard = () => {
       </CardHeader>
       <CardContent className="p-1 flex-1 flex flex-col gap-1">
         {/* Main video player */}
-        <div className="relative bg-black rounded overflow-hidden aspect-video flex-1">
+        <div className="relative bg-black rounded overflow-hidden flex-1 min-h-[40px]">
           {selectedVideoId && (
             <YouTube
               videoId={selectedVideoId}
@@ -149,22 +149,22 @@ const REDSafetyVideoCard = () => {
         </div>
 
         {/* Video carousel */}
-        <div className="relative">
-          <div className="flex items-center gap-1">
+        <div className="relative flex-shrink-0">
+          <div className="flex items-center gap-0.5 sm:gap-1">
             {/* Previous button */}
             <button
               onClick={prevVideo}
               disabled={currentVideoIndex === 0}
-              className="p-0.5 rounded bg-gray-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors"
+              className="p-0.5 rounded bg-gray-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors flex-shrink-0 min-h-[20px] flex items-center justify-center"
             >
-              <ChevronLeft className="w-3 h-3" />
+              <ChevronLeft className="w-1.5 h-1.5 sm:w-2 sm:h-2" />
             </button>
 
             {/* Video thumbnails */}
             <div className="flex-1 overflow-hidden">
               <div
-                className="flex gap-1 transition-transform duration-300"
-                style={{ transform: `translateX(-${currentVideoIndex * 33.33}%)` }}
+                className="flex gap-0.5 sm:gap-1 transition-transform duration-300"
+                style={{ transform: `translateX(-${currentVideoIndex * 100}%)` }}
               >
                 {videos.map((video) => (
                   <div
@@ -183,11 +183,11 @@ const REDSafetyVideoCard = () => {
                         className="w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
-                        <Play className="w-3 h-3 text-white" />
+                        <Play className="w-1.5 h-1.5 sm:w-2 sm:h-2 text-white" />
                       </div>
                     </div>
-                    <div className="p-0.5">
-                      <p className="text-[8px] text-white truncate" title={video.snippet.title}>
+                    <div className="p-0.5 flex-shrink-0">
+                      <p className="text-[4px] sm:text-[6px] text-white truncate leading-tight" title={video.snippet.title}>
                         {video.snippet.title}
                       </p>
                     </div>
@@ -199,10 +199,10 @@ const REDSafetyVideoCard = () => {
             {/* Next button */}
             <button
               onClick={nextVideo}
-              disabled={currentVideoIndex >= videos.length - 3}
-              className="p-0.5 rounded bg-gray-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors"
+              disabled={currentVideoIndex + 3 >= videos.length}
+              className="p-0.5 rounded bg-gray-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors flex-shrink-0 min-h-[20px] flex items-center justify-center"
             >
-              <ChevronRight className="w-3 h-3" />
+              <ChevronRight className="w-1.5 h-1.5 sm:w-2 sm:h-2" />
             </button>
           </div>
         </div>

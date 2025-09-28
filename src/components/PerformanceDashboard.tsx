@@ -36,78 +36,78 @@ const PerformanceDashboard: React.FC = () => {
       </CardHeader>
       <CardContent className="space-y-1 p-2 relative z-10">
         {/* Top Section with Headers and Data */}
-        <div className="grid grid-cols-3 gap-2 mb-2">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-1 sm:gap-2 mb-1 sm:mb-2">
           {/* Spotlight Reporting */}
           <div className="space-y-1">
-            <div className="bg-white bg-opacity-70 rounded p-1 text-center">
-              <h3 className="text-[8px] font-bold text-black">
+            <div className="bg-white bg-opacity-70 rounded p-0.5 sm:p-1 text-center">
+              <h3 className="text-[6px] sm:text-[8px] font-bold text-black">
                 Spotlight Reporting
               </h3>
             </div>
-            <div className="grid grid-cols-2 gap-1">
-              <div className="bg-white bg-opacity-85 border border-gray-200 p-1 rounded text-center">
-                <div className="text-xs font-bold text-gray-800">81</div>
-                <div className="text-[7px] text-gray-600">Spotlights YTD</div>
+            <div className="grid grid-cols-2 gap-0.5 sm:gap-1">
+              <div className="bg-white bg-opacity-85 border border-gray-200 p-0.5 sm:p-1 rounded text-center">
+                <div className="text-[10px] sm:text-xs font-bold text-gray-800">81</div>
+                <div className="text-[5px] sm:text-[7px] text-gray-600">Spotlights YTD</div>
               </div>
-              <div className="bg-white bg-opacity-85 border border-gray-200 p-1 rounded text-center">
-                <div className="text-xs font-bold text-gray-800">2</div>
-                <div className="text-[7px] text-gray-600">Spotlights MTD</div>
+              <div className="bg-white bg-opacity-85 border border-gray-200 p-0.5 sm:p-1 rounded text-center">
+                <div className="text-[10px] sm:text-xs font-bold text-gray-800">2</div>
+                <div className="text-[5px] sm:text-[7px] text-gray-600">Spotlights MTD</div>
               </div>
             </div>
           </div>
 
           {/* Safety Tours */}
           <div className="space-y-1">
-            <div className="bg-white bg-opacity-70 rounded p-1 text-center">
-              <h3 className="text-[8px] font-bold text-black">Safety Tours</h3>
+            <div className="bg-white bg-opacity-70 rounded p-0.5 sm:p-1 text-center">
+              <h3 className="text-[6px] sm:text-[8px] font-bold text-black">Safety Tours</h3>
             </div>
-            <div className="grid grid-cols-2 gap-1">
-              <div className="bg-white bg-opacity-85 border border-gray-200 p-1 rounded text-center">
-                <div className="text-xs font-bold text-gray-800">7.59</div>
-                <div className="text-[7px] text-gray-600">Safety Tour YTD</div>
+            <div className="grid grid-cols-2 gap-0.5 sm:gap-1">
+              <div className="bg-white bg-opacity-85 border border-gray-200 p-0.5 sm:p-1 rounded text-center">
+                <div className="text-[10px] sm:text-xs font-bold text-gray-800">7.59</div>
+                <div className="text-[5px] sm:text-[7px] text-gray-600">Safety Tour YTD</div>
               </div>
-              <div className="bg-white bg-opacity-85 border border-gray-200 p-1 rounded text-center">
-                <div className="text-xs font-bold text-gray-800">7.33</div>
-                <div className="text-[7px] text-gray-600">Safety Tour MTD</div>
+              <div className="bg-white bg-opacity-85 border border-gray-200 p-0.5 sm:p-1 rounded text-center">
+                <div className="text-[10px] sm:text-xs font-bold text-gray-800">7.33</div>
+                <div className="text-[5px] sm:text-[7px] text-gray-600">Safety Tour MTD</div>
               </div>
             </div>
           </div>
 
           {/* Possession Utilisation */}
           <div className="space-y-1">
-            <div className="bg-white bg-opacity-70 rounded p-1 text-center">
-              <h3 className="text-[8px] font-bold text-black">
+            <div className="bg-white bg-opacity-70 rounded p-0.5 sm:p-1 text-center">
+              <h3 className="text-[6px] sm:text-[8px] font-bold text-black">
                 Possession Utilisation
               </h3>
             </div>
-            <div className="grid grid-cols-2 gap-1">
-              <div className="bg-white bg-opacity-85 border border-gray-200 p-1 rounded text-center">
-                <div className="text-xs font-bold text-gray-800">63</div>
-                <div className="text-[7px] text-gray-600">Average</div>
+            <div className="grid grid-cols-2 gap-0.5 sm:gap-1">
+              <div className="bg-white bg-opacity-85 border border-gray-200 p-0.5 sm:p-1 rounded text-center">
+                <div className="text-[10px] sm:text-xs font-bold text-gray-800">63</div>
+                <div className="text-[5px] sm:text-[7px] text-gray-600">Average</div>
               </div>
-              <div className="bg-white bg-opacity-85 border border-gray-200 p-1 rounded text-center">
-                <div className="text-xs font-bold text-gray-800">218.42</div>
-                <div className="text-[7px] text-gray-600">Ave Work p/h</div>
+              <div className="bg-white bg-opacity-85 border border-gray-200 p-0.5 sm:p-1 rounded text-center">
+                <div className="text-[10px] sm:text-xs font-bold text-gray-800">218.42</div>
+                <div className="text-[5px] sm:text-[7px] text-gray-600">Ave Work p/h</div>
               </div>
             </div>
           </div>
         </div>
 
         {/* Pie Charts Section */}
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-3 gap-1 sm:gap-2">
           {/* In Process Chart */}
-          <div className="bg-white bg-opacity-60 rounded p-2">
-            <h4 className="text-[7px] font-semibold text-black text-center mb-0.5">
+          <div className="bg-white bg-opacity-60 rounded p-1 sm:p-2">
+            <h4 className="text-[5px] sm:text-[7px] font-semibold text-black text-center mb-0.5">
               In Process Status
             </h4>
-            <ResponsiveContainer width="100%" height={70}>
+            <ResponsiveContainer width="100%" height={30}>
               <PieChart>
                 <Pie
                   data={inProcessData}
                   cx="50%"
                   cy="50%"
-                  innerRadius={15}
-                  outerRadius={35}
+                  innerRadius={8}
+                  outerRadius={15}
                   paddingAngle={5}
                   dataKey="value"
                 >
@@ -120,18 +120,18 @@ const PerformanceDashboard: React.FC = () => {
           </div>
 
           {/* Possession Chart */}
-          <div className="bg-white bg-opacity-60 rounded p-2">
-            <h4 className="text-[7px] font-semibold text-black text-center mb-0.5">
+          <div className="bg-white bg-opacity-60 rounded p-1 sm:p-2">
+            <h4 className="text-[5px] sm:text-[7px] font-semibold text-black text-center mb-0.5">
               Possession Status
             </h4>
-            <ResponsiveContainer width="100%" height={70}>
+            <ResponsiveContainer width="100%" height={30}>
               <PieChart>
                 <Pie
                   data={possessionData}
                   cx="50%"
                   cy="50%"
-                  innerRadius={15}
-                  outerRadius={35}
+                  innerRadius={8}
+                  outerRadius={15}
                   paddingAngle={5}
                   dataKey="value"
                 >
@@ -144,18 +144,18 @@ const PerformanceDashboard: React.FC = () => {
           </div>
 
           {/* Preparation Chart */}
-          <div className="bg-white bg-opacity-60 rounded p-2">
-            <h4 className="text-[7px] font-semibold text-black text-center mb-0.5">
+          <div className="bg-white bg-opacity-60 rounded p-1 sm:p-2">
+            <h4 className="text-[5px] sm:text-[7px] font-semibold text-black text-center mb-0.5">
               Preparation Status
             </h4>
-            <ResponsiveContainer width="100%" height={70}>
+            <ResponsiveContainer width="100%" height={30}>
               <PieChart>
                 <Pie
                   data={preparationData}
                   cx="50%"
                   cy="50%"
-                  innerRadius={15}
-                  outerRadius={35}
+                  innerRadius={8}
+                  outerRadius={15}
                   paddingAngle={5}
                   dataKey="value"
                 >
