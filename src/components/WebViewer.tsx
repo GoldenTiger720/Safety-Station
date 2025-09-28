@@ -10,7 +10,6 @@ interface WebViewerProps {
 
 const WebViewer: React.FC<WebViewerProps> = ({ url, title, onBack }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout>();
 
@@ -27,21 +26,24 @@ const WebViewer: React.FC<WebViewerProps> = ({ url, title, onBack }) => {
         // Try to access the iframe's location (will throw if blocked)
         const iframeLocation = iframe.contentWindow.location.href;
         if (iframeLocation === 'about:blank') {
-          setHasError(true);
+          openInNewWindow();
+          onBack();
         }
       }
     } catch (error) {
       // If we can't access the iframe content, it's likely blocked
-      setHasError(true);
+      openInNewWindow();
+      onBack();
     }
   };
 
   const handleIframeError = () => {
     setIsLoading(false);
-    setHasError(true);
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
+    openInNewWindow();
+    onBack();
   };
 
   const openInNewWindow = () => {
@@ -53,7 +55,8 @@ const WebViewer: React.FC<WebViewerProps> = ({ url, title, onBack }) => {
     timeoutRef.current = setTimeout(() => {
       if (isLoading) {
         setIsLoading(false);
-        setHasError(true);
+        openInNewWindow();
+        onBack();
       }
     }, 10000); // 10 second timeout
 
@@ -120,30 +123,8 @@ const WebViewer: React.FC<WebViewerProps> = ({ url, title, onBack }) => {
         </div>
       )}
 
-      {/* Error state */}
-      {hasError && (
-        <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-depot-surface to-depot-surface-elevated">
-          <div className="text-center space-y-4 max-w-md px-4">
-            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto">
-              <ExternalLink className="w-8 h-8 text-red-600" />
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-lg font-semibold text-foreground">Cannot Display Content</h3>
-              <p className="text-sm text-muted-foreground">
-                This website cannot be embedded due to security restrictions.
-                Please use the "Open in New Tab" button above to view the content.
-              </p>
-            </div>
-            <DepotButton onClick={openInNewWindow} className="flex items-center gap-2">
-              <ExternalLink className="w-4 h-4" />
-              Open in New Tab
-            </DepotButton>
-          </div>
-        </div>
-      )}
-
       {/* Website iframe below navbar */}
-      <div className="flex-1" style={{display: isLoading || hasError ? 'none' : 'block'}}>
+      <div className="flex-1" style={{display: isLoading ? 'none' : 'block'}}>
         <iframe
           ref={iframeRef}
           src={url}
