@@ -9,21 +9,15 @@ const REDSafetyVideoCard = () => {
       </CardHeader>
       <CardContent className="p-3 flex-1 flex items-center">
         <div className="relative bg-black rounded-lg overflow-hidden aspect-video w-full">
-          <video
-            className="w-full h-full object-cover"
-            controls
-            poster="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-          >
-            <source
-              src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
-              type="video/mp4"
-            />
-            <source
-              src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.webm"
-              type="video/webm"
-            />
-            Your browser does not support the video tag.
-          </video>
+          <iframe
+            className="w-full h-full"
+            src="https://www.youtube.com/embed?listType=user_uploads&list=RhombergSersaRailGroup&controls=1&rel=0&modestbranding=1&enablejsapi=1"
+            title="Rhomberg Sersa Rail Group Safety Videos"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+            loading="lazy"
+          />
         </div>
       </CardContent>
     </Card>
