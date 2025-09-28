@@ -34,11 +34,11 @@ const NewsCard = () => {
   ];
 
   return (
-    <Card className="bg-gray-800 border-gray-700 h-full flex flex-col">
+    <Card className="bg-gray-800 border-gray-700 flex flex-col" style={{ height: 'fit-content' }}>
       <CardHeader className="pb-0.5 py-1 bg-gray-900 flex-shrink-0">
         <CardTitle className="text-xs text-white">News</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-1 p-2 flex-1 overflow-auto">
+      <CardContent className="space-y-1 p-2 flex-shrink-0">
         {newsItems.slice(0, 2).map((item) => (
           <div key={item.id} className="bg-white rounded p-1 sm:p-1.5 flex gap-1 sm:gap-2">
             <div className="flex-shrink-0">

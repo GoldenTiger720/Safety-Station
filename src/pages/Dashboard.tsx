@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import DepotHeader from "@/components/DepotHeader";
 import DepotNavigation from "@/components/DepotNavigation";
 import StaffCheckIn from "@/components/StaffCheckIn";
@@ -98,24 +98,53 @@ interface DashboardOverviewProps {
 }
 
 const DashboardOverview: React.FC<DashboardOverviewProps> = ({ checkedInStaff }) => {
+  const newsCardRef = useRef<HTMLDivElement>(null);
+  const performanceDashboardRef = useRef<HTMLDivElement>(null);
+  const [inDepotHeight, setInDepotHeight] = useState<number>(0);
+
+  useEffect(() => {
+    const calculateHeight = () => {
+      if (newsCardRef.current && performanceDashboardRef.current) {
+        const newsHeight = newsCardRef.current.offsetHeight;
+        const performanceHeight = performanceDashboardRef.current.offsetHeight;
+        const calculatedHeight = performanceHeight - newsHeight - 4; // 4px for gap
+        setInDepotHeight(Math.max(calculatedHeight, 100)); // Minimum height of 100px
+      }
+    };
+
+    // Calculate on mount and when window resizes
+    calculateHeight();
+    window.addEventListener('resize', calculateHeight);
+
+    // Use ResizeObserver to detect component size changes
+    const resizeObserver = new ResizeObserver(calculateHeight);
+    if (newsCardRef.current) resizeObserver.observe(newsCardRef.current);
+    if (performanceDashboardRef.current) resizeObserver.observe(performanceDashboardRef.current);
+
+    return () => {
+      window.removeEventListener('resize', calculateHeight);
+      resizeObserver.disconnect();
+    };
+  }, []);
+
   return (
-    <div className="flex flex-col space-y-1 h-[calc(100vh-200px)]">
-      {/* First Row: NewsCard and PerformanceDashboard side-by-side */}
-      <div className="grid grid-cols-3 gap-1 h-[53%]">
-        <div className="h-full">
+    <div className="flex gap-1 h-[calc(100vh-200px)]">
+      {/* Left Column: NewsCard and InDepotCard stacked */}
+      <div className="w-1/3 flex flex-col gap-1">
+        <div ref={newsCardRef}>
           <NewsCard />
         </div>
-        <div className="h-full col-span-2">
-          <PerformanceDashboard />
+        <div style={{ height: inDepotHeight }}>
+          <InDepotCard checkedInStaff={checkedInStaff} />
         </div>
       </div>
 
-      {/* Second Row: InDepotCard and REDSafetyVideoCard side-by-side */}
-      <div className="grid grid-cols-3 gap-1 flex-1">
-        <div className="h-full">
-          <InDepotCard checkedInStaff={checkedInStaff} />
+      {/* Right Column: PerformanceDashboard and REDSafetyVideoCard stacked */}
+      <div className="w-2/3 flex flex-col gap-1">
+        <div ref={performanceDashboardRef}>
+          <PerformanceDashboard />
         </div>
-        <div className="h-full col-span-2">
+        <div className="flex-1">
           <REDSafetyVideoCard />
         </div>
       </div>
