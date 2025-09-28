@@ -29,7 +29,7 @@ const Dashboard = () => {
       case "bpms":
         return (
           <WebViewer
-            url="https://kissflow.com"
+            url="https://rsrg.processdesign.bicplatform.de/client/#/view"
             title="BPMS System"
             onBack={handleBackToDashboard}
           />
@@ -37,7 +37,7 @@ const Dashboard = () => {
       case "dms":
         return (
           <WebViewer
-            url="https://www.opendocman.com/document-management-system-demo/"
+            url="https://rsrg.sharepoint.com/sites/wg-dms/SitePages/DMS-DOKUMENTE.aspx"
             title="DMS System"
             onBack={handleBackToDashboard}
           />
@@ -45,7 +45,7 @@ const Dashboard = () => {
       case "maintenance":
         return (
           <WebViewer
-            url="https://www.manualslib.com/"
+            url="https://rsrg.sharepoint.com/sites/re-rse/documents/Forms/Recent.aspx?id=%2Fsites%2Fre%2Drse%2Fdocuments%2FOperations%20Technical%20Library&newTargetListUrl=%2Fsites%2Fre%2Drse%2Fdocuments&viewpath=%2Fsites%2Fre%2Drse%2Fdocuments%2FForms%2FRecent%2Easpx"
             title="Maintenance Manuals"
             onBack={handleBackToDashboard}
           />
@@ -53,7 +53,7 @@ const Dashboard = () => {
       case "operation":
         return (
           <WebViewer
-            url="https://manuals.plus/"
+            url="https://rsrg.sharepoint.com/sites/re-rse/documents/Forms/Recent.aspx?id=%2Fsites%2Fre%2Drse%2Fdocuments%2FOperations%20Technical%20Library&newTargetListUrl=%2Fsites%2Fre%2Drse%2Fdocuments&viewpath=%2Fsites%2Fre%2Drse%2Fdocuments%2FForms%2FRecent%2Easpx"
             title="Operation Manuals"
             onBack={handleBackToDashboard}
           />
@@ -61,7 +61,7 @@ const Dashboard = () => {
       case "spotlight":
         return (
           <WebViewer
-            url="https://spotlightsafetyapp.com/"
+            url=" https://forms.office.com/Pages/ResponsePage.aspx?id=P6uWrWQ9VUSKyypPe63Cfyd-GXc638xPnbpuq9F_PqBUNTdZUDNRVTdHWFdXWkxETERROFJKV0RPMy4u"
             title="Spotlight Reports"
             onBack={handleBackToDashboard}
           />
