@@ -5,7 +5,20 @@ import NewsCard from "@/components/NewsCard";
 import RSRGVideoCard from "@/components/RSRGVideoCard";
 import REDSafetyVideoCard from "@/components/REDSafetyVideoCard";
 
-const PerformanceDashboard = () => {
+interface CheckInRecord {
+  id: string;
+  name: string;
+  company: string;
+  reason: string;
+  time: string;
+  status: 'checked-in' | 'checked-out';
+}
+
+interface PerformanceDashboardProps {
+  checkedInStaff?: CheckInRecord[];
+}
+
+const PerformanceDashboard: React.FC<PerformanceDashboardProps> = ({ checkedInStaff = [] }) => {
   // Enhanced data for the donut charts with updated structure
   const inProcessData = [
     { name: "Critical", value: 65, color: "#ef4444", label: "Red" },
@@ -22,18 +35,23 @@ const PerformanceDashboard = () => {
     { name: "Breakdown", value: 45, color: "#f97316", label: "Orange" },
   ];
 
-  // Staff data for In Depot card
-  const staffInDepot = [
+  // Default staff data for In Depot card
+  const defaultStaff = [
     { name: "Darryl Gwilliam", location: "Office" },
     { name: "Robert Mullen", location: "Office" },
     { name: "Aidan Langley", location: "Safety Tour" },
-    { name: "Colm Jones", location: "Maintenance" },
-    { name: "Michael Sweetman", location: "Testing 743" },
-    { name: "Declan Kilmurray", location: "Hiding" },
   ];
 
+  // Combine checked-in staff with default staff, prioritizing checked-in staff
+  const checkedInStaffFormatted = checkedInStaff.map(staff => ({
+    name: staff.name,
+    location: staff.reason
+  }));
+
+  const staffInDepot = [...checkedInStaffFormatted, ...defaultStaff].slice(0, 3);
+
   return (
-    <div className="grid grid-cols-1 gap-4 sm:gap-6 mt-4 sm:mt-6 md:mt-8 px-2 sm:px-0">
+    <div className="grid grid-cols-1 gap-4 sm:gap-6 mt-4 sm:mt-6 md:mt-2 px-2 sm:px-0">
       {/* Top Row - Mobile: Stack, Desktop: Side by side */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6">
         {/* Left: News and RSRG Video */}
@@ -244,14 +262,14 @@ const PerformanceDashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6">
         {/* Left: In Depot Card */}
         <div className="lg:col-span-1">
-          <Card className="bg-gray-900 border-gray-700 h-full">
-            <CardHeader className="pb-3 bg-gray-800">
+          <Card className="bg-gray-900 border-gray-700 h-[200px] overflow-hidden">
+            <CardHeader className="pb-2 bg-gray-800">
               <CardTitle className="text-lg text-white">In Depot</CardTitle>
             </CardHeader>
-            <CardContent className="p-0">
+            <CardContent className="p-0 h-[calc(100%-60px)] overflow-y-auto">
               <div className="divide-y divide-gray-700">
                 {staffInDepot.map((staff, index) => (
-                  <div key={index} className="flex justify-between items-center px-4 py-2.5 hover:bg-gray-800/50 transition-colors">
+                  <div key={index} className="flex justify-between items-center px-4 py-2 hover:bg-gray-800/50 transition-colors">
                     <span className="text-sm text-gray-200">{staff.name}</span>
                     <span className="text-sm text-gray-400">{staff.location}</span>
                   </div>

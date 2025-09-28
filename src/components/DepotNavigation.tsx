@@ -94,8 +94,8 @@ const DepotNavigation: React.FC<DepotNavigationProps> = ({
   activeItem,
 }) => {
   return (
-    <div className="p-2 sm:p-3 md:p-4 lg:p-6 bg-depot-surface-elevated">
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-1.5 sm:gap-2 md:gap-3">
+    <div className="p-2 sm:p-3 md:p-4 lg:p-2 bg-depot-surface-elevated">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-1.5 sm:gap-2 md:gap-3">
         {navigationItems.map((item) => (
           <DepotButton
             key={item.id}

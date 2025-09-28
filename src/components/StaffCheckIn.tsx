@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DepotButton } from '@/components/ui/depot-button';
 import { Badge } from '@/components/ui/badge';
 import { Clock, User, CheckCircle, XCircle } from 'lucide-react';
@@ -8,26 +9,35 @@ import { useToast } from '@/hooks/use-toast';
 
 interface CheckInRecord {
   id: string;
-  employeeId: string;
   name: string;
+  company: string;
+  reason: string;
   time: string;
   status: 'checked-in' | 'checked-out';
 }
 
-const StaffCheckIn: React.FC = () => {
-  const [employeeId, setEmployeeId] = useState('');
+interface StaffCheckInProps {
+  onStaffUpdate?: (staff: CheckInRecord[]) => void;
+}
+
+const StaffCheckIn: React.FC<StaffCheckInProps> = ({ onStaffUpdate }) => {
+  const [name, setName] = useState('');
+  const [company, setCompany] = useState('');
+  const [reason, setReason] = useState('');
   const [records, setRecords] = useState<CheckInRecord[]>([
     {
       id: '1',
-      employeeId: 'EMP001',
       name: 'John Smith',
+      company: 'ABC Corp',
+      reason: 'Employee',
       time: '08:30',
       status: 'checked-in'
     },
     {
       id: '2',
-      employeeId: 'EMP002',
       name: 'Sarah Johnson',
+      company: 'XYZ Ltd',
+      reason: 'Visitor',
       time: '08:45',
       status: 'checked-in'
     }
@@ -35,21 +45,21 @@ const StaffCheckIn: React.FC = () => {
   const { toast } = useToast();
 
   const handleCheckIn = () => {
-    if (!employeeId.trim()) {
+    if (!name.trim() || !company.trim() || !reason) {
       toast({
         title: "Error",
-        description: "Please enter your Employee ID",
+        description: "Please fill in all required fields",
         variant: "destructive"
       });
       return;
     }
 
-    const existingRecord = records.find(r => r.employeeId === employeeId && r.status === 'checked-in');
-    
+    const existingRecord = records.find(r => r.name === name && r.status === 'checked-in');
+
     if (existingRecord) {
       toast({
         title: "Already Checked In",
-        description: `Employee ${employeeId} is already checked in`,
+        description: `${name} is already checked in`,
         variant: "destructive"
       });
       return;
@@ -57,18 +67,23 @@ const StaffCheckIn: React.FC = () => {
 
     const newRecord: CheckInRecord = {
       id: Date.now().toString(),
-      employeeId,
-      name: `Employee ${employeeId}`,
-      time: new Date().toLocaleTimeString('en-US', { 
-        hour12: false, 
-        hour: '2-digit', 
-        minute: '2-digit' 
+      name,
+      company,
+      reason,
+      time: new Date().toLocaleTimeString('en-US', {
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit'
       }),
       status: 'checked-in'
     };
 
-    setRecords([newRecord, ...records]);
-    setEmployeeId('');
+    const updatedRecords = [newRecord, ...records];
+    setRecords(updatedRecords);
+    onStaffUpdate?.(updatedRecords.filter(r => r.status === 'checked-in'));
+    setName('');
+    setCompany('');
+    setReason('');
     toast({
       title: "Check-in Successful",
       description: `Welcome ${newRecord.name}! Check-in recorded at ${newRecord.time}`,
@@ -76,38 +91,41 @@ const StaffCheckIn: React.FC = () => {
   };
 
   const handleCheckOut = () => {
-    if (!employeeId.trim()) {
+    if (!name.trim()) {
       toast({
         title: "Error",
-        description: "Please enter your Employee ID",
+        description: "Please enter your name",
         variant: "destructive"
       });
       return;
     }
 
-    const existingRecord = records.find(r => r.employeeId === employeeId && r.status === 'checked-in');
-    
+    const existingRecord = records.find(r => r.name === name && r.status === 'checked-in');
+
     if (!existingRecord) {
       toast({
         title: "Not Checked In",
-        description: `Employee ${employeeId} is not currently checked in`,
+        description: `${name} is not currently checked in`,
         variant: "destructive"
       });
       return;
     }
 
-    const updatedRecords = records.map(r => 
-      r.employeeId === employeeId && r.status === 'checked-in' 
-        ? { ...r, status: 'checked-out' as const, time: new Date().toLocaleTimeString('en-US', { 
-            hour12: false, 
-            hour: '2-digit', 
-            minute: '2-digit' 
+    const updatedRecords = records.map(r =>
+      r.name === name && r.status === 'checked-in'
+        ? { ...r, status: 'checked-out' as const, time: new Date().toLocaleTimeString('en-US', {
+            hour12: false,
+            hour: '2-digit',
+            minute: '2-digit'
           }) }
         : r
     );
 
     setRecords(updatedRecords);
-    setEmployeeId('');
+    onStaffUpdate?.(updatedRecords.filter(r => r.status === 'checked-in'));
+    setName('');
+    setCompany('');
+    setReason('');
     toast({
       title: "Check-out Successful",
       description: `Goodbye ${existingRecord.name}! Have a safe day.`,
@@ -124,65 +142,51 @@ const StaffCheckIn: React.FC = () => {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <Input
-              placeholder="Enter Employee ID"
-              value={employeeId}
-              onChange={(e) => setEmployeeId(e.target.value.toUpperCase())}
-              className="flex-1 text-lg h-12"
+              placeholder="Enter Full Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="text-lg h-12"
             />
-            <div className="flex gap-2">
-              <DepotButton 
-                variant="success" 
-                size="lg"
-                onClick={handleCheckIn}
-                className="flex items-center gap-2"
-              >
-                <CheckCircle className="w-5 h-5" />
-                Check In
-              </DepotButton>
-              <DepotButton 
-                variant="accent" 
-                size="lg"
-                onClick={handleCheckOut}
-                className="flex items-center gap-2"
-              >
-                <XCircle className="w-5 h-5" />
-                Check Out
-              </DepotButton>
-            </div>
+            <Input
+              placeholder="Enter Company"
+              value={company}
+              onChange={(e) => setCompany(e.target.value)}
+              className="text-lg h-12"
+            />
+            <Select value={reason} onValueChange={setReason}>
+              <SelectTrigger className="text-lg h-12">
+                <SelectValue placeholder="Select Reason for Visit" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Employee">Employee</SelectItem>
+                <SelectItem value="Visitor">Visitor</SelectItem>
+                <SelectItem value="Supplier">Supplier</SelectItem>
+                <SelectItem value="Audit">Audit</SelectItem>
+                <SelectItem value="Safety">Safety</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-        </CardContent>
-      </Card>
-
-      <Card className="bg-card border-border">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Clock className="w-5 h-5" />
-            Today's Activity
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-3">
-            {records.slice(0, 8).map((record) => (
-              <div key={record.id} className="flex items-center justify-between p-3 bg-depot-surface rounded-lg">
-                <div className="flex items-center gap-3">
-                  <Badge 
-                    variant={record.status === 'checked-in' ? 'default' : 'secondary'}
-                    className={record.status === 'checked-in' ? 'bg-depot-success' : 'bg-depot-accent'}
-                  >
-                    {record.status === 'checked-in' ? 'IN' : 'OUT'}
-                  </Badge>
-                  <div>
-                    <p className="font-medium">{record.name}</p>
-                    <p className="text-sm text-muted-foreground">{record.employeeId}</p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <p className="font-mono text-lg">{record.time}</p>
-                </div>
-              </div>
-            ))}
+          <div className="flex gap-2 justify-center">
+            <DepotButton
+              variant="success"
+              size="lg"
+              onClick={handleCheckIn}
+              className="flex items-center gap-2"
+            >
+              <CheckCircle className="w-5 h-5" />
+              Check In
+            </DepotButton>
+            <DepotButton
+              variant="accent"
+              size="lg"
+              onClick={handleCheckOut}
+              className="flex items-center gap-2"
+            >
+              <XCircle className="w-5 h-5" />
+              Check Out
+            </DepotButton>
           </div>
         </CardContent>
       </Card>

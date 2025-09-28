@@ -8,8 +8,18 @@ import VideoSection from "@/components/VideoSection";
 import PerformanceDashboard from "@/components/PerformanceDashboard";
 import WebViewer from "@/components/WebViewer";
 
+interface CheckInRecord {
+  id: string;
+  name: string;
+  company: string;
+  reason: string;
+  time: string;
+  status: 'checked-in' | 'checked-out';
+}
+
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState<string>("dashboard");
+  const [checkedInStaff, setCheckedInStaff] = useState<CheckInRecord[]>([]);
 
   const handleBackToDashboard = () => {
     setActiveSection("dashboard");
@@ -18,7 +28,7 @@ const Dashboard = () => {
   const renderActiveSection = () => {
     switch (activeSection) {
       case "checkin":
-        return <StaffCheckIn />;
+        return <StaffCheckIn onStaffUpdate={setCheckedInStaff} />;
       case "documents":
         return <DocumentViewer />;
       case "news":
@@ -59,13 +69,13 @@ const Dashboard = () => {
           />
         );
       default:
-        return <DashboardOverview />;
+        return <DashboardOverview checkedInStaff={checkedInStaff} />;
     }
   };
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto p-2 sm:p-3 md:p-4 space-y-3 sm:space-y-4 md:space-y-6 max-w-full overflow-x-hidden">
+      <div className="container mx-auto p-2 sm:p-3 md:p-4 space-y-0 max-w-full overflow-x-hidden">
         <DepotHeader />
 
         <DepotNavigation
@@ -73,16 +83,20 @@ const Dashboard = () => {
           activeItem={activeSection}
         />
 
-        <div className="pb-4 sm:pb-6 md:pb-8">{renderActiveSection()}</div>
+        <div>{renderActiveSection()}</div>
       </div>
     </div>
   );
 };
 
-const DashboardOverview = () => {
+interface DashboardOverviewProps {
+  checkedInStaff: CheckInRecord[];
+}
+
+const DashboardOverview: React.FC<DashboardOverviewProps> = ({ checkedInStaff }) => {
   return (
-    <div className="space-y-6">
-      <PerformanceDashboard />
+    <div className="space-y-2">
+      <PerformanceDashboard checkedInStaff={checkedInStaff} />
     </div>
   );
 };
