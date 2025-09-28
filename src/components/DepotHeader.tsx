@@ -57,48 +57,12 @@ const DepotHeader: React.FC<DepotHeaderProps> = ({
           {title}
         </h1>
 
-        {/* User Avatar Dropdown - positioned with margin to move it left */}
-        {(userName || userEmail) && (
-          <div className="mr-8 sm:mr-12 md:mr-16 lg:mr-40">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="flex items-center space-x-3 hover:opacity-80 transition-opacity cursor-pointer">
-                  <div className="text-right hidden sm:block">
-                    {userName && (
-                      <p className="text-sm font-medium text-foreground">
-                        {userName}
-                      </p>
-                    )}
-                    {userEmail && (
-                      <p className="text-xs text-foreground/70">{userEmail}</p>
-                    )}
-                  </div>
-                  <Avatar className="h-8 w-8 sm:h-10 sm:w-10">
-                    <AvatarImage src={userAvatar} alt={userName || userEmail} />
-                    <AvatarFallback className="bg-primary text-primary-foreground text-sm font-medium">
-                      {getInitials(userName, userEmail)}
-                    </AvatarFallback>
-                  </Avatar>
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end" forceMount>
-                <DropdownMenuItem
-                  onClick={onProfileClick}
-                  className="cursor-pointer"
-                >
-                  <User className="mr-2 h-4 w-4" />
-                  <span>My Profile</span>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={onLogoutClick}
-                  className="cursor-pointer text-red-600"
-                >
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Log out</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+        {/* User Name Display - positioned with margin to move it left */}
+        {userName && (
+          <div className="mr-8 sm:mr-12 md:mr-16 lg:mr-56">
+            <p className="text-sm font-medium text-foreground">
+              {userName}
+            </p>
           </div>
         )}
       </div>

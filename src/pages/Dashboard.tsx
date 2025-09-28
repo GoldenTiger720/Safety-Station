@@ -20,6 +20,7 @@ interface CheckInRecord {
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState<string>("dashboard");
   const [checkedInStaff, setCheckedInStaff] = useState<CheckInRecord[]>([]);
+  const [currentUser, setCurrentUser] = useState<{ name: string; company: string } | null>(null);
 
   const handleBackToDashboard = () => {
     setActiveSection("dashboard");
@@ -28,7 +29,7 @@ const Dashboard = () => {
   const renderActiveSection = () => {
     switch (activeSection) {
       case "checkin":
-        return <StaffCheckIn onStaffUpdate={setCheckedInStaff} />;
+        return <StaffCheckIn onStaffUpdate={setCheckedInStaff} onUserCheckIn={(user) => { setCurrentUser(user); if (user) setActiveSection("dashboard"); }} currentUser={currentUser} />;
       case "documents":
         return <DocumentViewer />;
       case "news":
@@ -76,7 +77,10 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto p-2 sm:p-3 md:p-4 space-y-0 max-w-full overflow-x-hidden">
-        <DepotHeader />
+        <DepotHeader
+          userName={currentUser?.name}
+          userEmail={currentUser?.company}
+        />
 
         <DepotNavigation
           onItemClick={setActiveSection}

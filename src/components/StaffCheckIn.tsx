@@ -18,9 +18,11 @@ interface CheckInRecord {
 
 interface StaffCheckInProps {
   onStaffUpdate?: (staff: CheckInRecord[]) => void;
+  onUserCheckIn?: (user: { name: string; company: string } | null) => void;
+  currentUser?: { name: string; company: string } | null;
 }
 
-const StaffCheckIn: React.FC<StaffCheckInProps> = ({ onStaffUpdate }) => {
+const StaffCheckIn: React.FC<StaffCheckInProps> = ({ onStaffUpdate, onUserCheckIn, currentUser }) => {
   const [name, setName] = useState('');
   const [company, setCompany] = useState('');
   const [reason, setReason] = useState('');
@@ -81,6 +83,7 @@ const StaffCheckIn: React.FC<StaffCheckInProps> = ({ onStaffUpdate }) => {
     const updatedRecords = [newRecord, ...records];
     setRecords(updatedRecords);
     onStaffUpdate?.(updatedRecords.filter(r => r.status === 'checked-in'));
+    onUserCheckIn?.({ name, company });
     setName('');
     setCompany('');
     setReason('');
@@ -91,44 +94,56 @@ const StaffCheckIn: React.FC<StaffCheckInProps> = ({ onStaffUpdate }) => {
   };
 
   const handleCheckOut = () => {
-    if (!name.trim()) {
+    if (!currentUser) {
       toast({
         title: "Error",
-        description: "Please enter your name",
+        description: "No user currently checked in",
         variant: "destructive"
       });
       return;
     }
 
-    const existingRecord = records.find(r => r.name === name && r.status === 'checked-in');
+    // Find existing record or create checkout record if none exists
+    let existingRecord = records.find(r => r.name === currentUser.name && r.status === 'checked-in');
 
-    if (!existingRecord) {
-      toast({
-        title: "Not Checked In",
-        description: `${name} is not currently checked in`,
-        variant: "destructive"
-      });
-      return;
+    let updatedRecords;
+    if (existingRecord) {
+      // Update existing record to checked-out
+      updatedRecords = records.map(r =>
+        r.name === currentUser.name && r.status === 'checked-in'
+          ? { ...r, status: 'checked-out' as const, time: new Date().toLocaleTimeString('en-US', {
+              hour12: false,
+              hour: '2-digit',
+              minute: '2-digit'
+            }) }
+          : r
+      );
+    } else {
+      // Create a new checkout record if no existing record found
+      const checkoutRecord: CheckInRecord = {
+        id: Date.now().toString(),
+        name: currentUser.name,
+        company: currentUser.company,
+        reason: 'Employee', // Default reason since we don't have it stored
+        time: new Date().toLocaleTimeString('en-US', {
+          hour12: false,
+          hour: '2-digit',
+          minute: '2-digit'
+        }),
+        status: 'checked-out'
+      };
+      updatedRecords = [checkoutRecord, ...records];
     }
-
-    const updatedRecords = records.map(r =>
-      r.name === name && r.status === 'checked-in'
-        ? { ...r, status: 'checked-out' as const, time: new Date().toLocaleTimeString('en-US', {
-            hour12: false,
-            hour: '2-digit',
-            minute: '2-digit'
-          }) }
-        : r
-    );
 
     setRecords(updatedRecords);
     onStaffUpdate?.(updatedRecords.filter(r => r.status === 'checked-in'));
+    onUserCheckIn?.(null);
     setName('');
     setCompany('');
     setReason('');
     toast({
       title: "Check-out Successful",
-      description: `Goodbye ${existingRecord.name}! Have a safe day.`,
+      description: `Goodbye ${currentUser.name}! Have a safe day.`,
     });
   };
 
@@ -142,51 +157,63 @@ const StaffCheckIn: React.FC<StaffCheckInProps> = ({ onStaffUpdate }) => {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <Input
-              placeholder="Enter Full Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="text-lg h-12"
-            />
-            <Input
-              placeholder="Enter Company"
-              value={company}
-              onChange={(e) => setCompany(e.target.value)}
-              className="text-lg h-12"
-            />
-            <Select value={reason} onValueChange={setReason}>
-              <SelectTrigger className="text-lg h-12">
-                <SelectValue placeholder="Select Reason for Visit" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Employee">Employee</SelectItem>
-                <SelectItem value="Visitor">Visitor</SelectItem>
-                <SelectItem value="Supplier">Supplier</SelectItem>
-                <SelectItem value="Audit">Audit</SelectItem>
-                <SelectItem value="Safety">Safety</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          {!currentUser && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <Input
+                placeholder="Enter Full Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="text-lg h-12"
+              />
+              <Input
+                placeholder="Enter Company"
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
+                className="text-lg h-12"
+              />
+              <Select value={reason} onValueChange={setReason}>
+                <SelectTrigger className="text-lg h-12">
+                  <SelectValue placeholder="Select Reason for Visit" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Employee">Employee</SelectItem>
+                  <SelectItem value="Visitor">Visitor</SelectItem>
+                  <SelectItem value="Supplier">Supplier</SelectItem>
+                  <SelectItem value="Audit">Audit</SelectItem>
+                  <SelectItem value="Safety">Safety</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+          {currentUser && (
+            <div className="text-center p-4 bg-depot-surface rounded-lg">
+              <p className="text-lg font-medium">Welcome back, {currentUser.name}!</p>
+              <p className="text-sm text-muted-foreground">From {currentUser.company}</p>
+              <p className="text-sm text-muted-foreground mt-2">Click the button below to check out</p>
+            </div>
+          )}
           <div className="flex gap-2 justify-center">
-            <DepotButton
-              variant="success"
-              size="lg"
-              onClick={handleCheckIn}
-              className="flex items-center gap-2"
-            >
-              <CheckCircle className="w-5 h-5" />
-              Check In
-            </DepotButton>
-            <DepotButton
-              variant="accent"
-              size="lg"
-              onClick={handleCheckOut}
-              className="flex items-center gap-2"
-            >
-              <XCircle className="w-5 h-5" />
-              Check Out
-            </DepotButton>
+            {!currentUser ? (
+              <DepotButton
+                variant="success"
+                size="lg"
+                onClick={handleCheckIn}
+                className="flex items-center gap-2"
+              >
+                <CheckCircle className="w-5 h-5" />
+                Check In
+              </DepotButton>
+            ) : (
+              <DepotButton
+                variant="accent"
+                size="lg"
+                onClick={handleCheckOut}
+                className="flex items-center gap-2"
+              >
+                <XCircle className="w-5 h-5" />
+                Check Out {currentUser.name}
+              </DepotButton>
+            )}
           </div>
         </CardContent>
       </Card>
