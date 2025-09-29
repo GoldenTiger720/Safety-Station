@@ -28,7 +28,7 @@ const REDSafetyVideoCard = () => {
   useEffect(() => {
     const fetchChannelVideos = async () => {
       try {
-        const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY || 'AIzaSyDfy5VjW55Te8pLJ4l2YKCi5n7wic5nqnI';
+        const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY;
         const CHANNEL_ID = 'UCJjI6OClvs6LjQK-9P7G6QA'; // Direct channel ID for @RhombergSersaRailGroup
 
         console.log('Fetching videos with API key:', API_KEY ? 'Present' : 'Missing');
@@ -123,7 +123,7 @@ const REDSafetyVideoCard = () => {
         <div className="relative bg-black rounded overflow-hidden flex-1 min-h-[60px]">
           {selectedVideoId && (
             <iframe
-              src={getYouTubeEmbedUrl(selectedVideoId)}
+              src="https://www.youtube.com/embed/videoseries?list=UU mRZ_gsX-EO7bLOybSwJcNQ"
               title="YouTube video player"
               className="w-full h-full rounded border-0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
