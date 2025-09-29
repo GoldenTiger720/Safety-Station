@@ -60,9 +60,9 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
       <CardHeader className="pb-0.5 py-1 bg-gray-900 flex-shrink-0">
         <CardTitle className="text-xs text-white text-right">RED Safety Video</CardTitle>
       </CardHeader>
-      <CardContent className="p-1 flex-1 flex gap-1">
+      <CardContent className="flex gap-4">
         {/* Main video player */}
-        <div className=" bg-black rounded overflow-hidden flex-1 ">
+        <div className=" bg-black rounded ">
           {selectedVideoId && (
             <iframe
               src={getYouTubeEmbedUrl(selectedVideoId)}
@@ -87,12 +87,17 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
               opts={{
                 align: "start",
                 slidesToScroll: 1,
+                dragFree: true,
+                containScroll: false,
+                skipSnaps: true,
+                watchDrag: true,
+                axis: "y",
               }}
               className="w-full h-full"
             >
-              <CarouselContent className="h-full -mt-1">
+              <CarouselContent className="h-full -mt-1 flex flex-col touch-pan-y overflow-y-auto">
                 {videos.map((video) => (
-                  <CarouselItem key={video.video_id} className="pt-1 basis-auto">
+                  <CarouselItem key={video.video_id} className="pt-1 basis-auto flex-shrink-0 min-h-0">
                     <div
                       className={`flex-shrink-0 cursor-pointer rounded overflow-hidden transition-all duration-200 ${
                         selectedVideoId === video.video_id
