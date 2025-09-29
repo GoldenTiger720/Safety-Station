@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Play } from "lucide-react";
 import { YouTubeVideo } from "@/api/dashboard-api";
+import YouTube from "react-youtube";
 
 interface REDSafetyVideoCardProps {
   videos: YouTubeVideo[];
@@ -19,18 +20,30 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
     }
   }, [videos, selectedVideoId]);
 
-  // Custom YouTube embed URL generator
-  const getYouTubeEmbedUrl = (videoId: string) => {
-    const params = new URLSearchParams({
-      autoplay: '0',
-      controls: '1',
-      rel: '0',
-      modestbranding: '1',
-      enablejsapi: '1',
-      fs: '1',
-      playsinline: '1'
-    });
-    return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
+  // YouTube player options
+  const youtubeOptions = {
+    height: '100%',
+    width: '100%',
+    playerVars: {
+      autoplay: 0,
+      controls: 1,
+      rel: 0,
+      modestbranding: 1,
+      fs: 1,
+      playsinline: 1,
+      iv_load_policy: 3,
+      cc_load_policy: 0,
+    },
+  };
+
+  // YouTube player event handlers
+  const onPlayerReady = (event: any) => {
+    // You can add custom logic when player is ready
+    console.log('YouTube player ready');
+  };
+
+  const onPlayerError = (event: any) => {
+    console.error('YouTube player error:', event.data);
   };
 
 
@@ -73,15 +86,13 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
         {/* Main video player */}
         <div className="bg-black rounded overflow-hidden flex-1 min-h-[60px] max-h-[200px] aspect-video">
           {selectedVideoId && (
-            <iframe
-              src={getYouTubeEmbedUrl(selectedVideoId)}
-              title="YouTube video player"
-              className="w-full h-full rounded"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="strict-origin-when-cross-origin"
-              style={{ border: 'none' }}
+            <YouTube
+              videoId={selectedVideoId}
+              opts={youtubeOptions}
+              onReady={onPlayerReady}
+              onError={onPlayerError}
+              className="w-full h-full"
+              iframeClassName="w-full h-full rounded"
             />
           )}
         </div>
