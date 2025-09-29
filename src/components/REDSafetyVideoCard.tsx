@@ -62,12 +62,12 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
       </CardHeader>
       <CardContent className="p-1 flex-1 flex gap-1">
         {/* Main video player */}
-        <div className="bg-black rounded overflow-hidden flex-1 min-h-[60px] relative">
+        <div className="bg-black rounded overflow-hidden flex-1 min-h-[60px] max-h-[200px] aspect-video">
           {selectedVideoId && (
             <iframe
               src={getYouTubeEmbedUrl(selectedVideoId)}
               title="YouTube video player"
-              className="absolute top-0 left-0 w-full h-full object-cover"
+              className="w-full h-full rounded"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
               style={{ border: 'none' }}
