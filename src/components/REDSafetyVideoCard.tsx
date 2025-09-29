@@ -25,7 +25,6 @@ const REDSafetyVideoCard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch videos from YouTube API
   useEffect(() => {
     const fetchChannelVideos = async () => {
       try {
@@ -33,8 +32,6 @@ const REDSafetyVideoCard = () => {
         const CHANNEL_ID = 'UCJjI6OClvs6LjQK-9P7G6QA'; // Direct channel ID for @RhombergSersaRailGroup
 
         console.log('Fetching videos with API key:', API_KEY ? 'Present' : 'Missing');
-
-        // Directly fetch videos using the channel ID
         const videosResponse = await fetch(
           `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&type=video&order=date&maxResults=10&key=${API_KEY}`
         );
