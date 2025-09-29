@@ -82,7 +82,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="mx-auto p-2 sm:p-3 md:p-4 space-y-0 max-w-full h-full overflow-x-hidden min-h-screen">
+      <div className="mx-auto flex flex-col p-2 sm:p-3 md:p-4 space-y-0 max-w-full h-full overflow-x-hidden min-h-screen">
         <DepotHeader
           userName={currentUser?.name}
           userEmail={currentUser?.company}
@@ -93,7 +93,7 @@ const Dashboard = () => {
           activeItem={activeSection}
         />
 
-        <div>{renderActiveSection()}</div>
+        {renderActiveSection()}
       </div>
     </div>
   );
@@ -111,21 +111,20 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ checkedInStaff, y
   const performanceDashboardRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="flex flex-col w-full overflow-hidden">
-
-      <div className="grid grid-cols-3 gap-0.5 h-full overflow-hidden">
+    <div className="flex flex-col w-full flex-1 h-full overflow-hidden">
+      <div className="grid grid-cols-3 gap-0.5 h-full flex-1 overflow-hidden">
         {/* Left Column: NewsCard and InDepotCard stacked */}
-        <div className=" col-span-1 flex flex-col h-full max-h-[calc(100vh-360px)] gap-0.5 sm:gap-1">
-          <div className="h-[70%]" ref={newsCardRef}>
+        <div className=" col-span-1 flex flex-col h-[90vh] gap-0.5 sm:gap-1">
+          <div className="h-2/3" ref={newsCardRef}>
             <NewsCard />
           </div>
-          <div className="h-[30%]">
+          <div className="h-1/3">
             <InDepotCard checkedInStaff={checkedInStaff} />
           </div>
         </div>
 
         {/* Right Column: PerformanceDashboard and REDSafetyVideoCard stacked */}
-        <div className="col-span-2 flex flex-col gap-0.5 max-h-[calc(100vh-360px)] sm:gap-1">
+        <div className="col-span-2 flex flex-col gap-0.5 h-[90vh] sm:gap-1">
           <div className="h-1/2" ref={performanceDashboardRef}>
             <PerformanceDashboard />
           </div>
