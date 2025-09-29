@@ -2,69 +2,22 @@ import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Play } from "lucide-react";
+import { YouTubeVideo } from "@/api/dashboard-api";
 
-interface YouTubeVideo {
-  id: {
-    videoId: string;
-  };
-  snippet: {
-    title: string;
-    description: string;
-    thumbnails: {
-      medium: {
-        url: string;
-      };
-    };
-    publishedAt: string;
-  };
+interface REDSafetyVideoCardProps {
+  videos: YouTubeVideo[];
+  loading: boolean;
+  error: string | null;
 }
 
-const REDSafetyVideoCard = () => {
-  const [videos, setVideos] = useState<YouTubeVideo[]>([]);
+const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading, error }) => {
   const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchChannelVideos = async () => {
-      try {
-        const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY;
-        const CHANNEL_ID = 'UCOGIhRWR2mrn_eEC0XMoV5Q'; // Direct channel ID for @RhombergSersaRailGroup
-
-        console.log('Fetching videos with API key:', API_KEY ? 'Present' : 'Missing');
-        const videosResponse = await fetch(
-          `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&type=video&order=date&maxResults=10&key=${API_KEY}`
-        );
-
-        console.log('Videos response status:', videosResponse.status);
-
-        if (!videosResponse.ok) {
-          const errorText = await videosResponse.text();
-          console.error('API Error:', errorText);
-          throw new Error(`Failed to fetch videos: ${videosResponse.status}`);
-        }
-
-        const videosData = await videosResponse.json();
-        console.log('Videos data:', videosData);
-
-        if (videosData.items && videosData.items.length > 0) {
-          setVideos(videosData.items);
-          setSelectedVideoId(videosData.items[0].id.videoId);
-          console.log('Videos loaded:', videosData.items.length);
-        } else {
-          console.log('No videos found');
-          setError('No videos found for this channel');
-        }
-      } catch (err) {
-        console.error('Error fetching YouTube videos:', err);
-        setError(`Failed to load videos: ${err.message}`);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchChannelVideos();
-  }, []);
+    if (videos.length > 0 && !selectedVideoId) {
+      setSelectedVideoId(videos[0].id.videoId);
+    }
+  }, [videos, selectedVideoId]);
 
   // Custom YouTube embed URL generator
   const getYouTubeEmbedUrl = (videoId: string) => {

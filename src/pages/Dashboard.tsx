@@ -9,6 +9,7 @@ import NewsCard from "@/components/NewsCard";
 import REDSafetyVideoCard from "@/components/REDSafetyVideoCard";
 import InDepotCard from "@/components/InDepotCard";
 import WebViewer from "@/components/WebViewer";
+import { useYouTubeVideos, YouTubeVideo } from "@/api/dashboard-api";
 
 interface CheckInRecord {
   id: string;
@@ -19,10 +20,15 @@ interface CheckInRecord {
   status: 'checked-in' | 'checked-out';
 }
 
+
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState<string>("dashboard");
   const [checkedInStaff, setCheckedInStaff] = useState<CheckInRecord[]>([]);
   const [currentUser, setCurrentUser] = useState<{ name: string; company: string } | null>(null);
+
+  // Use ReactQuery hook for YouTube videos
+  const { data: youtubeVideosData, isLoading: videosLoading, error: videosError } = useYouTubeVideos();
+  const youtubeVideos = youtubeVideosData?.items || [];
 
   const handleBackToDashboard = () => {
     setActiveSection("dashboard");
@@ -70,7 +76,7 @@ const Dashboard = () => {
           />
         );
       default:
-        return <DashboardOverview checkedInStaff={checkedInStaff} />;
+        return <DashboardOverview checkedInStaff={checkedInStaff} youtubeVideos={youtubeVideos} videosLoading={videosLoading} videosError={videosError?.message || null} />;
     }
   };
 
@@ -95,9 +101,12 @@ const Dashboard = () => {
 
 interface DashboardOverviewProps {
   checkedInStaff: CheckInRecord[];
+  youtubeVideos: YouTubeVideo[];
+  videosLoading: boolean;
+  videosError: string | null;
 }
 
-const DashboardOverview: React.FC<DashboardOverviewProps> = ({ checkedInStaff }) => {
+const DashboardOverview: React.FC<DashboardOverviewProps> = ({ checkedInStaff, youtubeVideos, videosLoading, videosError }) => {
   const newsCardRef = useRef<HTMLDivElement>(null);
   const performanceDashboardRef = useRef<HTMLDivElement>(null);
   const [inDepotHeight, setInDepotHeight] = useState<number>(0);
@@ -145,7 +154,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ checkedInStaff })
           <PerformanceDashboard />
         </div>
         <div className="flex-1 min-h-0 h-full">
-          <REDSafetyVideoCard />
+          <REDSafetyVideoCard videos={youtubeVideos} loading={videosLoading} error={videosError} />
         </div>
       </div>
     </div>
