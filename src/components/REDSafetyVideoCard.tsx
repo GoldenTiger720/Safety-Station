@@ -29,7 +29,7 @@ const REDSafetyVideoCard = () => {
     const fetchChannelVideos = async () => {
       try {
         const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY;
-        const CHANNEL_ID = 'UCmRZ_gsX-EO7bLOybSwJcNQ'; // Direct channel ID for @RhombergSersaRailGroup
+        const CHANNEL_ID = 'UCOGIhRWR2mrn_eEC0XMoV5Q'; // Direct channel ID for @RhombergSersaRailGroup
 
         console.log('Fetching videos with API key:', API_KEY ? 'Present' : 'Missing');
         const videosResponse = await fetch(
