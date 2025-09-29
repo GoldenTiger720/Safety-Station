@@ -86,7 +86,6 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
           )}
         </div>
 
-        {/* Video carousel - Vertical with embla-carousel */}
         <div className="relative flex-shrink-0 w-16 sm:w-20 h-full">
           {videos.length === 0 && !loading && (
             <div className="text-white text-[8px] p-1">No videos</div>
