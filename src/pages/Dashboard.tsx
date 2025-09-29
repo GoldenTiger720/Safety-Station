@@ -114,7 +114,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ checkedInStaff, y
     <div className="flex flex-col w-full flex-1 h-full overflow-hidden">
       <div className="grid grid-cols-3 gap-0.5 h-full flex-1 overflow-hidden">
         {/* Left Column: NewsCard and InDepotCard stacked */}
-        <div className=" col-span-1 flex flex-col h-[90vh] gap-0.5 sm:gap-1">
+        <div className=" col-span-1 flex flex-col min-[1920px]:h-[90vh] gap-0.5 sm:gap-1">
           <div className="h-2/3" ref={newsCardRef}>
             <NewsCard />
           </div>
@@ -124,7 +124,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ checkedInStaff, y
         </div>
 
         {/* Right Column: PerformanceDashboard and REDSafetyVideoCard stacked */}
-        <div className="col-span-2 flex flex-col gap-0.5 h-[90vh] sm:gap-1">
+        <div className="col-span-2 flex flex-col gap-0.5 min-[1920px]:h-[90vh] sm:gap-1">
           <div className="h-1/2" ref={performanceDashboardRef}>
             <PerformanceDashboard />
           </div>

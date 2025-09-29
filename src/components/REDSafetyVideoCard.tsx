@@ -53,7 +53,7 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
 
   if (loading) {
     return (
-      <Card className="bg-gray-800 border-gray-700 h-full flex flex-col">
+      <Card className="bg-gray-800 border-gray-700 !h-full flex flex-col">
         <CardHeader className="pb-3 bg-gray-900 flex-shrink-0">
           <CardTitle className="text-lg xl:text-[2.5vw] text-white text-right">RED Safety Video</CardTitle>
         </CardHeader>
@@ -78,26 +78,26 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
   }
 
   return (
-    <Card className="bg-gray-800 border-gray-700 flex flex-col">
+    <Card className="bg-gray-800 border-gray-700 h-full flex flex-col">
       <CardHeader className="pb-0.5 py-[1vw] bg-gray-900 flex-shrink-0">
         <CardTitle className="text-[2.5vw] text-white text-right">RED Safety Video</CardTitle>
       </CardHeader>
       <CardContent className="p-1 flex-1 flex gap-1">
         {/* Main video player */}
-        <div className="bg-black rounded overflow-hidden flex-1 aspect-video flex items-center justify-center">
+        <div className="bg-black rounded overflow-hidden flex justify-center">
           {selectedVideoId && (
             <YouTube
               videoId={selectedVideoId}
               opts={youtubeOptions}
               onReady={onPlayerReady}
               onError={onPlayerError}
-              className="flex items-center justify-center w-full h-full flex-1"
+              className="flex justify-center items-center w-full h-full flex-1"
               iframeClassName="w-[55vw] h-[30vw] rounded object-contain"
             />
           )}
         </div>
 
-        <div className="relative w-16 sm:w-20 xl:w-[8vw] h-full">
+        <div className="relative w-16 sm:w-20 xl:w-[8vw]">
           {videos.length === 0 && !loading && (
             <div className="text-white text-[8px] p-1">No videos</div>
           )}
@@ -114,7 +114,7 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
                 watchDrag: true,
                 axis: "y",
               }}
-              className="w-full h-full"
+              className="w-full max-h-96"
             >
               <CarouselContent className="h-full -mt-1 flex flex-col touch-pan-y overflow-y-auto">
                 {videos.map((video) => (
