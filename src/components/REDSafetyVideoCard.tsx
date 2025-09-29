@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ChevronLeft, ChevronRight, Play } from "lucide-react";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Play } from "lucide-react";
 
 interface YouTubeVideo {
   id: {
@@ -20,7 +21,6 @@ interface YouTubeVideo {
 
 const REDSafetyVideoCard = () => {
   const [videos, setVideos] = useState<YouTubeVideo[]>([]);
-  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -71,17 +71,6 @@ const REDSafetyVideoCard = () => {
     return `https://www.youtube.com/embed/${videoId}?autoplay=0&controls=1&rel=0&modestbranding=1&origin=${window.location.origin}`;
   };
 
-  const nextVideo = () => {
-    if (currentVideoIndex < videos.length - 3) {
-      setCurrentVideoIndex(currentVideoIndex + 3);
-    }
-  };
-
-  const prevVideo = () => {
-    if (currentVideoIndex > 0) {
-      setCurrentVideoIndex(currentVideoIndex - 3);
-    }
-  };
 
   const selectVideo = (videoId: string) => {
     setSelectedVideoId(videoId);
@@ -123,7 +112,7 @@ const REDSafetyVideoCard = () => {
         <div className="relative bg-black rounded overflow-hidden flex-1 min-h-[60px]">
           {selectedVideoId && (
             <iframe
-              src="https://www.youtube.com/embed/videoseries?list=UU mRZ_gsX-EO7bLOybSwJcNQ"
+              src={getYouTubeEmbedUrl(selectedVideoId)}
               title="YouTube video player"
               className="w-full h-full rounded border-0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -133,72 +122,62 @@ const REDSafetyVideoCard = () => {
           )}
         </div>
 
-        {/* Video carousel - Vertical */}
+        {/* Video carousel - Vertical with embla-carousel */}
         <div className="relative flex-shrink-0 w-16 sm:w-20 h-full">
-          <div className="flex flex-col items-center gap-0.5 sm:gap-1 h-full">
-            {/* Debug info */}
-            {videos.length === 0 && !loading && (
-              <div className="text-white text-[8px] p-1">No videos</div>
-            )}
+          {videos.length === 0 && !loading && (
+            <div className="text-white text-[8px] p-1">No videos</div>
+          )}
 
-            {/* Previous button */}
-            {videos.length > 3 && (
-              <button
-                onClick={prevVideo}
-                disabled={currentVideoIndex === 0}
-                className="p-0.5 rounded bg-gray-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors flex-shrink-0 min-w-[20px] flex items-center justify-center"
-              >
-                <ChevronLeft className="w-1.5 h-1.5 sm:w-2 sm:h-2 rotate-90" />
-              </button>
-            )}
-
-            {/* Video thumbnails */}
-            <div className="flex-1 overflow-hidden w-full">
-              <div className="flex flex-col gap-0.5 sm:gap-1">
-                {videos.slice(currentVideoIndex, currentVideoIndex + 3).map((video) => (
-                  <div
-                    key={video.id.videoId}
-                    className={`flex-shrink-0 cursor-pointer rounded overflow-hidden transition-all duration-200 ${
-                      selectedVideoId === video.id.videoId
-                        ? 'ring-1 ring-red-500'
-                        : 'hover:opacity-80'
-                    }`}
-                    onClick={() => selectVideo(video.id.videoId)}
-                  >
-                    <div className="relative bg-gray-900 w-12 sm:w-16 h-8 sm:h-10">
-                      <img
-                        src={video.snippet.thumbnails.medium?.url || video.snippet.thumbnails.default?.url}
-                        alt={video.snippet.title}
-                        className="w-full h-full object-cover rounded"
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none';
-                        }}
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 rounded">
-                        <Play className="w-1.5 h-1.5 sm:w-2 sm:h-2 text-white" />
+          {videos.length > 0 && (
+            <Carousel
+              orientation="vertical"
+              opts={{
+                align: "start",
+                slidesToScroll: 1,
+              }}
+              className="w-full h-full"
+            >
+              <CarouselContent className="h-full -mt-1">
+                {videos.map((video) => (
+                  <CarouselItem key={video.id.videoId} className="pt-1 basis-auto">
+                    <div
+                      className={`flex-shrink-0 cursor-pointer rounded overflow-hidden transition-all duration-200 ${
+                        selectedVideoId === video.id.videoId
+                          ? 'ring-1 ring-red-500'
+                          : 'hover:opacity-80'
+                      }`}
+                      onClick={() => selectVideo(video.id.videoId)}
+                    >
+                      <div className="relative bg-gray-900 w-12 sm:w-16 h-8 sm:h-10">
+                        <img
+                          src={video.snippet.thumbnails.medium?.url || video.snippet.thumbnails.default?.url}
+                          alt={video.snippet.title}
+                          className="w-full h-full object-cover rounded"
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                          }}
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 rounded">
+                          <Play className="w-1.5 h-1.5 sm:w-2 sm:h-2 text-white" />
+                        </div>
+                      </div>
+                      <div className="p-0.5 flex-shrink-0 w-full">
+                        <p className="text-[4px] sm:text-[5px] text-white truncate leading-tight" title={video.snippet.title}>
+                          {video.snippet.title}
+                        </p>
                       </div>
                     </div>
-                    <div className="p-0.5 flex-shrink-0 w-full">
-                      <p className="text-[4px] sm:text-[5px] text-white truncate leading-tight" title={video.snippet.title}>
-                        {video.snippet.title}
-                      </p>
-                    </div>
-                  </div>
+                  </CarouselItem>
                 ))}
-              </div>
-            </div>
-
-            {/* Next button */}
-            {videos.length > 3 && (
-              <button
-                onClick={nextVideo}
-                disabled={currentVideoIndex + 3 >= videos.length}
-                className="p-0.5 rounded bg-gray-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors flex-shrink-0 min-w-[20px] flex items-center justify-center"
-              >
-                <ChevronRight className="w-1.5 h-1.5 sm:w-2 sm:h-2 rotate-90" />
-              </button>
-            )}
-          </div>
+              </CarouselContent>
+              {videos.length > 3 && (
+                <>
+                  <CarouselPrevious className="static h-4 w-4 mt-1 mb-1 bg-gray-700 border-gray-600 text-white hover:bg-gray-600" />
+                  <CarouselNext className="static h-4 w-4 mt-1 mb-1 bg-gray-700 border-gray-600 text-white hover:bg-gray-600" />
+                </>
+              )}
+            </Carousel>
+          )}
         </div>
       </CardContent>
     </Card>
