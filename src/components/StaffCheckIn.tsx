@@ -179,7 +179,6 @@ const StaffCheckIn: React.FC<StaffCheckInProps> = ({ onStaffUpdate, onUserCheckI
             {!currentUser ? (
               <DepotButton
                 variant="success"
-                size="lg"
                 onClick={handleCheckIn}
                 className="flex items-center gap-2"
               >
@@ -189,7 +188,6 @@ const StaffCheckIn: React.FC<StaffCheckInProps> = ({ onStaffUpdate, onUserCheckI
             ) : (
               <DepotButton
                 variant="accent"
-                size="lg"
                 onClick={handleCheckOut}
                 className="flex items-center gap-2"
               >

@@ -74,7 +74,6 @@ const WebViewer: React.FC<WebViewerProps> = ({ url, title, onBack }) => {
         <div className="flex items-center gap-2">
           <DepotButton
             variant="secondary"
-            size="sm"
             onClick={onBack}
             className="flex items-center gap-1 h-6 px-2 py-0"
           >
@@ -86,7 +85,6 @@ const WebViewer: React.FC<WebViewerProps> = ({ url, title, onBack }) => {
         <div className="flex items-center gap-2">
           <DepotButton
             variant="secondary"
-            size="sm"
             onClick={openInNewWindow}
             className="flex items-center gap-1 h-6 px-2 py-0"
           >
