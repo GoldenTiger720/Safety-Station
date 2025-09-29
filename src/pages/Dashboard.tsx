@@ -28,7 +28,7 @@ const Dashboard = () => {
 
   // Use ReactQuery hook for YouTube videos
   const { data: youtubeVideosData, isLoading: videosLoading, error: videosError } = useYouTubeVideos();
-  const youtubeVideos = youtubeVideosData?.items || [];
+  const youtubeVideos = youtubeVideosData?.videos || [];
 
   const handleBackToDashboard = () => {
     setActiveSection("dashboard");

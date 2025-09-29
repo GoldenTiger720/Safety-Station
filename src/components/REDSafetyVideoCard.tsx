@@ -15,7 +15,7 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
 
   useEffect(() => {
     if (videos.length > 0 && !selectedVideoId) {
-      setSelectedVideoId(videos[0].id.videoId);
+      setSelectedVideoId(videos[0].video_id);
     }
   }, [videos, selectedVideoId]);
 
@@ -92,19 +92,19 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
             >
               <CarouselContent className="h-full -mt-1">
                 {videos.map((video) => (
-                  <CarouselItem key={video.id.videoId} className="pt-1 basis-auto">
+                  <CarouselItem key={video.video_id} className="pt-1 basis-auto">
                     <div
                       className={`flex-shrink-0 cursor-pointer rounded overflow-hidden transition-all duration-200 ${
-                        selectedVideoId === video.id.videoId
+                        selectedVideoId === video.video_id
                           ? 'ring-1 ring-red-500'
                           : 'hover:opacity-80'
                       }`}
-                      onClick={() => selectVideo(video.id.videoId)}
+                      onClick={() => selectVideo(video.video_id)}
                     >
                       <div className="relative bg-gray-900 w-12 sm:w-16 h-8 sm:h-10">
                         <img
-                          src={video.snippet.thumbnails.medium?.url || video.snippet.thumbnails.default?.url}
-                          alt={video.snippet.title}
+                          src={video.thumbnail_url}
+                          alt={video.title}
                           className="w-full h-full object-cover rounded"
                           onError={(e) => {
                             e.currentTarget.style.display = 'none';
@@ -115,8 +115,8 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
                         </div>
                       </div>
                       <div className="p-0.5 flex-shrink-0 w-full">
-                        <p className="text-[4px] sm:text-[5px] text-white truncate leading-tight" title={video.snippet.title}>
-                          {video.snippet.title}
+                        <p className="text-[4px] sm:text-[5px] text-white truncate leading-tight" title={video.title}>
+                          {video.title}
                         </p>
                       </div>
                     </div>

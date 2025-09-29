@@ -2,26 +2,30 @@ import { useQuery } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/api-config';
 
 export interface YouTubeVideo {
-  id: {
-    videoId: string;
-  };
-  snippet: {
-    title: string;
-    description: string;
-    thumbnails: {
-      medium: {
-        url: string;
-      };
-      default?: {
-        url: string;
-      };
-    };
-    publishedAt: string;
-  };
+  id: number;
+  video_id: string;
+  title: string;
+  description: string;
+  thumbnail_url: string;
+  video_url: string;
+  duration: string;
+  published_at: string;
+  view_count: number;
+  like_count: number;
+  channel_title: string;
+  fetched_at: string;
+  updated_at: string;
+  is_active: boolean;
 }
 
 export interface YouTubeListResponse {
-  items: YouTubeVideo[];
+  success: boolean;
+  message: string;
+  videos: YouTubeVideo[];
+  from_cache: boolean;
+  fetched_today: boolean;
+  total_videos: number;
+  videos_updated?: number;
 }
 
 // API function to fetch YouTube videos
