@@ -137,25 +137,31 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ checkedInStaff, y
   }, []);
 
   return (
-    <div className="flex gap-0.5 sm:gap-1 h-[calc(100vh-140px)] sm:h-[calc(100vh-180px)] overflow-hidden">
-      {/* Left Column: NewsCard and InDepotCard stacked */}
-      <div className="w-1/3 flex flex-col gap-0.5 sm:gap-1">
-        <div ref={newsCardRef}>
-          <NewsCard />
+    <div className="flex flex-col w-full overflow-hidden">
+
+      <div className="flex gap-0.5 overflow-hidden">
+        {/* Left Column: NewsCard and InDepotCard stacked */}
+        <div className="w-1/3 flex flex-col gap-0.5 sm:gap-1">
+          <div ref={newsCardRef}>
+            <NewsCard />
+          </div>
+          <div style={{ height: inDepotHeight }}>
+            <InDepotCard checkedInStaff={checkedInStaff} />
+          </div>
         </div>
-        <div style={{ height: inDepotHeight }}>
-          <InDepotCard checkedInStaff={checkedInStaff} />
+
+        {/* Right Column: PerformanceDashboard and REDSafetyVideoCard stacked */}
+        <div className="w-2/3 flex flex-col gap-0.5 sm:gap-1">
+          <div ref={performanceDashboardRef}>
+            <PerformanceDashboard />
+          </div>
+          
         </div>
+
       </div>
 
-      {/* Right Column: PerformanceDashboard and REDSafetyVideoCard stacked */}
-      <div className="w-2/3 flex flex-col gap-0.5 sm:gap-1">
-        <div ref={performanceDashboardRef}>
-          <PerformanceDashboard />
-        </div>
-        <div className="flex-1 min-h-0 h-full">
-          <REDSafetyVideoCard videos={youtubeVideos} loading={videosLoading} error={videosError} />
-        </div>
+      <div className="!h-[calc(100vh-315px)]">
+        <REDSafetyVideoCard videos={youtubeVideos} loading={videosLoading} error={videosError} />
       </div>
     </div>
   );
