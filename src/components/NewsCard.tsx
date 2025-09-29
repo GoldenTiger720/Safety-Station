@@ -34,25 +34,25 @@ const NewsCard = () => {
   ];
 
   return (
-    <Card className="bg-gray-800 border-gray-700 flex flex-col" style={{ height: 'fit-content' }}>
-      <CardHeader className="pb-0.5 py-1 bg-gray-900 flex-shrink-0">
-        <CardTitle className="text-xs text-white">News</CardTitle>
+    <Card className="bg-gray-800 border-gray-700 h-full flex flex-col">
+      <CardHeader className="pb-0.5 py-[1vw] bg-gray-900 flex-shrink-0">
+        <CardTitle className="text-[2.5vw] text-white">News</CardTitle>
       </CardHeader>
       <CardContent className="space-y-1 p-2 flex-shrink-0">
         {newsItems.slice(0, 2).map((item) => (
-          <div key={item.id} className="bg-white rounded p-1 sm:p-1.5 flex gap-1 sm:gap-2">
+          <div key={item.id} className="bg-white rounded p-1 sm:p-1.5 flex gap-1 sm:gap-2 xl:gap-5">
             <div className="flex-shrink-0">
               <img
                 src={item.image}
                 alt={item.title}
-                className="w-8 h-8 sm:w-12 sm:h-12 rounded object-cover bg-gray-200"
+                className="h-[7vw] w-[7vw] rounded object-cover bg-gray-200"
               />
             </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="text-[8px] sm:text-[10px] font-semibold text-gray-900 mb-0.5 leading-tight line-clamp-1">
+            <div className="flex-1 min-w-0 flex flex-col justify-center">
+              <h3 className="text-[8px] sm:text-[10px] xl:text-[1.5vw] font-semibold text-gray-900 mb-0.5 leading-tight line-clamp-1">
                 {item.title}
               </h3>
-              <p className="text-[6px] sm:text-[8px] text-gray-600 line-clamp-2 leading-tight">
+              <p className="text-[6px] sm:text-[8px] xl:text-[1vw] text-gray-600 line-clamp-2 leading-tight">
                 {item.description}
               </p>
               <div className="flex items-center gap-0.5 sm:gap-1 mt-0.5 sm:mt-1">

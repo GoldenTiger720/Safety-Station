@@ -25,14 +25,14 @@ const InDepotCard: React.FC<InDepotCardProps> = ({ checkedInStaff = [] }) => {
 
   return (
     <Card className="bg-gray-900 border-gray-700 h-full overflow-hidden">
-      <CardHeader className="pb-0.5 py-1 bg-gray-800">
-        <CardTitle className="text-xs text-white">In Depot</CardTitle>
+      <CardHeader className="pb-0.5 py-[1vw] bg-gray-800">
+        <CardTitle className="text-[2.5vw] text-white">In Depot</CardTitle>
       </CardHeader>
       <CardContent className="p-0 h-[calc(100%-30px)] overflow-y-auto">
         <div className="divide-y divide-gray-700">
           {staffInDepot.length === 0 ? (
             <div className="px-2 py-2 text-center">
-              <p className="text-[10px] text-gray-400">No staff currently checked in</p>
+              <p className="text-[10px] xl:text-[1.5vw] text-gray-400">No staff currently checked in</p>
             </div>
           ) : (
             staffInDepot.map((staff, index) => (

@@ -82,7 +82,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto p-2 sm:p-3 md:p-4 space-y-0 max-w-full overflow-x-hidden">
+      <div className="mx-auto p-2 sm:p-3 md:p-4 space-y-0 max-w-full h-full overflow-x-hidden min-h-screen">
         <DepotHeader
           userName={currentUser?.name}
           userEmail={currentUser?.company}
@@ -109,59 +109,31 @@ interface DashboardOverviewProps {
 const DashboardOverview: React.FC<DashboardOverviewProps> = ({ checkedInStaff, youtubeVideos, videosLoading, videosError }) => {
   const newsCardRef = useRef<HTMLDivElement>(null);
   const performanceDashboardRef = useRef<HTMLDivElement>(null);
-  const [inDepotHeight, setInDepotHeight] = useState<number>(0);
-
-  useEffect(() => {
-    const calculateHeight = () => {
-      if (newsCardRef.current && performanceDashboardRef.current) {
-        const newsHeight = newsCardRef.current.offsetHeight;
-        const performanceHeight = performanceDashboardRef.current.offsetHeight;
-        const calculatedHeight = performanceHeight - newsHeight - 4; // 4px for gap
-        setInDepotHeight(Math.max(calculatedHeight, 100)); // Minimum height of 100px
-      }
-    };
-
-    // Calculate on mount and when window resizes
-    calculateHeight();
-    window.addEventListener('resize', calculateHeight);
-
-    // Use ResizeObserver to detect component size changes
-    const resizeObserver = new ResizeObserver(calculateHeight);
-    if (newsCardRef.current) resizeObserver.observe(newsCardRef.current);
-    if (performanceDashboardRef.current) resizeObserver.observe(performanceDashboardRef.current);
-
-    return () => {
-      window.removeEventListener('resize', calculateHeight);
-      resizeObserver.disconnect();
-    };
-  }, []);
 
   return (
     <div className="flex flex-col w-full overflow-hidden">
 
-      <div className="flex gap-0.5 overflow-hidden">
+      <div className="grid grid-cols-3 gap-0.5 h-full overflow-hidden">
         {/* Left Column: NewsCard and InDepotCard stacked */}
-        <div className="w-1/3 flex flex-col gap-0.5 sm:gap-1">
-          <div ref={newsCardRef}>
+        <div className=" col-span-1 flex flex-col h-full max-h-[calc(100vh-360px)] gap-0.5 sm:gap-1">
+          <div className="h-[70%]" ref={newsCardRef}>
             <NewsCard />
           </div>
-          <div style={{ height: inDepotHeight }}>
+          <div className="h-[30%]">
             <InDepotCard checkedInStaff={checkedInStaff} />
           </div>
         </div>
 
         {/* Right Column: PerformanceDashboard and REDSafetyVideoCard stacked */}
-        <div className="w-2/3 flex flex-col gap-0.5 sm:gap-1">
-          <div ref={performanceDashboardRef}>
+        <div className="col-span-2 flex flex-col gap-0.5 max-h-[calc(100vh-360px)] sm:gap-1">
+          <div className="h-1/2" ref={performanceDashboardRef}>
             <PerformanceDashboard />
           </div>
-          
+          <div className="h-1/2">
+            <REDSafetyVideoCard videos={youtubeVideos} loading={videosLoading} error={videosError} />
+          </div>
         </div>
 
-      </div>
-
-      <div className="!h-[calc(100vh-315px)]">
-        <REDSafetyVideoCard videos={youtubeVideos} loading={videosLoading} error={videosError} />
       </div>
     </div>
   );

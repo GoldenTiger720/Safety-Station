@@ -55,7 +55,7 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
     return (
       <Card className="bg-gray-800 border-gray-700 h-full flex flex-col">
         <CardHeader className="pb-3 bg-gray-900 flex-shrink-0">
-          <CardTitle className="text-lg text-white text-right">RED Safety Video</CardTitle>
+          <CardTitle className="text-lg xl:text-[2.5vw] text-white text-right">RED Safety Video</CardTitle>
         </CardHeader>
         <CardContent className="p-3 flex-1 flex items-center justify-center">
           <p className="text-white">Loading videos...</p>
@@ -68,7 +68,7 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
     return (
       <Card className="bg-gray-800 border-gray-700 h-full flex flex-col">
         <CardHeader className="pb-3 bg-gray-900 flex-shrink-0">
-          <CardTitle className="text-lg text-white text-right">RED Safety Video</CardTitle>
+          <CardTitle className="text-lg xl:text-[2.5vw] text-white text-right">RED Safety Video</CardTitle>
         </CardHeader>
         <CardContent className="p-3 flex-1 flex items-center justify-center">
           <p className="text-white">{error || 'No videos available'}</p>
@@ -78,13 +78,13 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
   }
 
   return (
-    <Card className="bg-gray-800 border-gray-700 h-full w-full flex flex-col">
-      <CardHeader className="pb-0.5 py-1 bg-gray-900 flex-shrink-0">
-        <CardTitle className="text-xs text-white text-right">RED Safety Video</CardTitle>
+    <Card className="bg-gray-800 border-gray-700 flex flex-col">
+      <CardHeader className="pb-0.5 py-[1vw] bg-gray-900 flex-shrink-0">
+        <CardTitle className="text-[2.5vw] text-white text-right">RED Safety Video</CardTitle>
       </CardHeader>
       <CardContent className="p-1 flex-1 flex gap-1">
         {/* Main video player */}
-        <div className="bg-black rounded overflow-hidden flex-1 min-h-[60px] max-h-[200px] aspect-video">
+        <div className="bg-black rounded overflow-hidden flex-1 min-h-[60px] aspect-video">
           {selectedVideoId && (
             <YouTube
               videoId={selectedVideoId}
@@ -97,7 +97,7 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
           )}
         </div>
 
-        <div className="relative flex-shrink-0 w-16 sm:w-20 h-full">
+        <div className="relative w-16 sm:w-20 xl:w-[8vw] h-full">
           {videos.length === 0 && !loading && (
             <div className="text-white text-[8px] p-1">No videos</div>
           )}
@@ -127,7 +127,7 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
                       }`}
                       onClick={() => selectVideo(video.video_id)}
                     >
-                      <div className="relative bg-gray-900 w-12 sm:w-16 h-8 sm:h-10">
+                      <div className="relative bg-gray-900 w-12 sm:w-16 xl:w-[8vw] h-8 sm:h-10 xl:h-[6vw]">
                         <img
                           src={video.thumbnail_url}
                           alt={video.title}

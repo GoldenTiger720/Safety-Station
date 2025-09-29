@@ -85,21 +85,20 @@ const DepotNavigation: React.FC<DepotNavigationProps> = ({
   activeItem,
 }) => {
   return (
-    <div className="p-0.5 xs:p-1 sm:p-2 md:p-3 bg-depot-surface-elevated">
+    <div className="p-0.5 xs:p-1 sm:p-2 md:p-3 xl:py-[1vw] bg-depot-surface-elevated">
       <div className="grid grid-cols-7 gap-0.5 xs:gap-1 sm:gap-1.5 md:gap-2">
         {navigationItems.map((item) => (
           <DepotButton
             key={item.id}
             variant={activeItem === item.id ? "accent" : item.variant}
-            size={item.size}
             onClick={() => onItemClick(item.id)}
-            className="flex flex-col items-center justify-center gap-0 xs:gap-0.5 sm:gap-1 min-h-0 h-full"
+            className="flex flex-col items-center justify-center leading-0 py-3"
           >
-            <span className="text-[6px] xs:text-[7px] sm:text-[8px] md:text-[9px] lg:text-[10px] font-medium text-center leading-tight break-words w-full hyphens-auto overflow-hidden">
+            <span className="text-[6px] xs:text-[7px] sm:text-[8px] md:text-[9px] lg:text-[10px] xl:text-[1.5vw] font-medium text-center break-words">
               {item.label}
             </span>
             {item.label1 && (
-              <span className="text-[6px] xs:text-[7px] sm:text-[8px] md:text-[9px] lg:text-[10px] font-medium text-center leading-tight break-words w-full hyphens-auto overflow-hidden">
+              <span className="text-[6px] xs:text-[7px] sm:text-[8px] md:text-[9px] lg:text-[10px] xl:text-[1.5vw] font-medium text-center break-words">
                 {item.label1}
               </span>
             )}
