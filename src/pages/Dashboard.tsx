@@ -8,6 +8,7 @@ import PerformanceDashboard from "@/components/PerformanceDashboard";
 import NewsCard from "@/components/NewsCard";
 import REDSafetyVideoCard from "@/components/REDSafetyVideoCard";
 import InDepotCard from "@/components/InDepotCard";
+import WeatherCard from "@/components/WeatherCard";
 import WebViewer from "@/components/WebViewer";
 import { useYouTubeVideos, YouTubeVideo } from "@/api/dashboard-api";
 
@@ -123,12 +124,15 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({ checkedInStaff, y
           </div>
         </div>
 
-        {/* Right Column: PerformanceDashboard and REDSafetyVideoCard stacked */}
+        {/* Right Column: PerformanceDashboard, WeatherCard, and REDSafetyVideoCard stacked */}
         <div className="col-span-2 flex flex-col gap-0.5 min-[1920px]:h-[90vh] sm:gap-1">
-          <div className="h-1/2" ref={performanceDashboardRef}>
+          <div className="h-1/3" ref={performanceDashboardRef}>
             <PerformanceDashboard />
           </div>
-          <div className="h-1/2">
+          <div className="h-1/3">
+            <WeatherCard />
+          </div>
+          <div className="h-1/3">
             <REDSafetyVideoCard videos={youtubeVideos} loading={videosLoading} error={videosError} />
           </div>
         </div>
