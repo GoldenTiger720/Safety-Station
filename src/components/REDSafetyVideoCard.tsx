@@ -21,7 +21,16 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
 
   // Custom YouTube embed URL generator
   const getYouTubeEmbedUrl = (videoId: string) => {
-    return `https://www.youtube.com/embed/${videoId}?autoplay=0&controls=1&rel=0&modestbranding=1&origin=${window.location.origin}`;
+    const params = new URLSearchParams({
+      autoplay: '0',
+      controls: '1',
+      rel: '0',
+      modestbranding: '1',
+      enablejsapi: '1',
+      fs: '1',
+      playsinline: '1'
+    });
+    return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
   };
 
 
@@ -68,8 +77,10 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
               src={getYouTubeEmbedUrl(selectedVideoId)}
               title="YouTube video player"
               className="w-full h-full rounded"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
               allowFullScreen
+              loading="lazy"
+              referrerPolicy="strict-origin-when-cross-origin"
               style={{ border: 'none' }}
             />
           )}
