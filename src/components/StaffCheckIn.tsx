@@ -39,7 +39,7 @@ const StaffCheckIn: React.FC<StaffCheckInProps> = ({
   const [records, setRecords] = useState<CheckInRecord[]>([]);
   const { toast } = useToast();
 
-  const handleCheckIn = () => {
+  const handleCheckIn = async () => {
     if (!name.trim() || !company.trim() || !reason) {
       toast({
         title: "Error",
@@ -62,30 +62,54 @@ const StaffCheckIn: React.FC<StaffCheckInProps> = ({
       return;
     }
 
-    const newRecord: CheckInRecord = {
-      id: Date.now().toString(),
-      name,
-      company,
-      reason,
-      time: new Date().toLocaleTimeString("en-US", {
-        hour12: false,
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-      status: "checked-in",
-    };
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/depot/checkin/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          company,
+          reason,
+        }),
+      });
 
-    const updatedRecords = [newRecord, ...records];
-    setRecords(updatedRecords);
-    onStaffUpdate?.(updatedRecords.filter((r) => r.status === "checked-in"));
-    onUserCheckIn?.({ name, company });
-    setName("");
-    setCompany("");
-    setReason("");
-    toast({
-      title: "Check-in Successful",
-      description: `Welcome ${newRecord.name}! Check-in recorded at ${newRecord.time}`,
-    });
+      if (!response.ok) {
+        throw new Error("Check-in failed");
+      }
+
+      const newRecord: CheckInRecord = {
+        id: Date.now().toString(),
+        name,
+        company,
+        reason,
+        time: new Date().toLocaleTimeString("en-US", {
+          hour12: false,
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+        status: "checked-in",
+      };
+
+      const updatedRecords = [newRecord, ...records];
+      setRecords(updatedRecords);
+      onStaffUpdate?.(updatedRecords.filter((r) => r.status === "checked-in"));
+      onUserCheckIn?.({ name, company });
+      setName("");
+      setCompany("");
+      setReason("");
+      toast({
+        title: "Check-in Successful",
+        description: `Welcome ${newRecord.name}! Check-in recorded at ${newRecord.time}`,
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to check in. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleCheckOut = () => {
