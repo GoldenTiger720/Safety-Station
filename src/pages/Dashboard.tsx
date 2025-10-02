@@ -68,6 +68,14 @@ const Dashboard = () => {
             onBack={handleBackToDashboard}
           />
         );
+      case "spotlight":
+        return (
+          <WebViewer
+            url=" https://forms.office.com/Pages/ResponsePage.aspx?id=P6uWrWQ9VUSKyypPe63Cfyd-GXc638xPnbpuq9F_PqBUNTdZUDNRVTdHWFdXWkxETERROFJKV0RPMy4u"
+            title="Spotlight Reports"
+            onBack={handleBackToDashboard}
+          />
+        );
       case "admin":
         // Navigate to admin panel
         window.location.href = "/admin";

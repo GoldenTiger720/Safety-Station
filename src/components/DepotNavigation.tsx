@@ -66,13 +66,21 @@ const navigationItems: NavigationItem[] = [
     size: "default",
   },
   {
-    id: "admin",
-    label: "Admin",
-    label1: "Panel",
+    id: "spotlight",
+    label: "Spotlight",
+    label1: "Report",
     icon: null,
-    variant: "warning",
+    variant: "accent",
     size: "default",
   },
+  // {
+  //   id: "admin",
+  //   label: "Admin",
+  //   label1: "Panel",
+  //   icon: null,
+  //   variant: "warning",
+  //   size: "default",
+  // },
 ];
 
 interface DepotNavigationProps {
