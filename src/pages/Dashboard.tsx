@@ -11,21 +11,11 @@ import InDepotCard from "@/components/InDepotCard";
 import WeatherCard from "@/components/WeatherCard";
 import WebViewer from "@/components/WebViewer";
 import { useYouTubeVideos, YouTubeVideo } from "@/api/dashboard-api";
-
-interface CheckInRecord {
-  id: string;
-  name: string;
-  company: string;
-  reason: string;
-  time: string;
-  status: 'checked-in' | 'checked-out';
-}
-
+import { CheckInRecord } from "@/api/checkin-api";
 
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState<string>("dashboard");
   const [checkedInStaff, setCheckedInStaff] = useState<CheckInRecord[]>([]);
-  const [currentUser, setCurrentUser] = useState<{ name: string; company: string } | null>(null);
 
   // Use ReactQuery hook for YouTube videos
   const { data: youtubeVideosData, isLoading: videosLoading, error: videosError } = useYouTubeVideos();
@@ -38,7 +28,7 @@ const Dashboard = () => {
   const renderActiveSection = () => {
     switch (activeSection) {
       case "checkin":
-        return <StaffCheckIn onStaffUpdate={setCheckedInStaff} onUserCheckIn={(user) => { setCurrentUser(user); if (user) setActiveSection("dashboard"); }} currentUser={currentUser} />;
+        return <StaffCheckIn onStaffUpdate={setCheckedInStaff} />;
       case "documents":
         return <DocumentViewer />;
       case "videos":
@@ -88,10 +78,7 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="mx-auto flex flex-col p-2 sm:p-3 md:p-4 space-y-0 max-w-full h-full overflow-x-hidden min-h-screen">
-        <DepotHeader
-          userName={currentUser?.name}
-          userEmail={currentUser?.company}
-        />
+        <DepotHeader />
 
         <DepotNavigation
           onItemClick={setActiveSection}

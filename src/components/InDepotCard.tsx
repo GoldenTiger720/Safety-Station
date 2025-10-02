@@ -1,14 +1,6 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-interface CheckInRecord {
-  id: string;
-  name: string;
-  company: string;
-  reason: string;
-  time: string;
-  status: 'checked-in' | 'checked-out';
-}
+import { CheckInRecord } from "@/api/checkin-api";
 
 interface InDepotCardProps {
   checkedInStaff?: CheckInRecord[];
