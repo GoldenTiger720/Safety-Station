@@ -55,7 +55,7 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
     return (
       <Card className="bg-gray-800 border-gray-700 !h-full flex flex-col">
         <CardHeader className="pb-3 bg-gray-900 flex-shrink-0">
-          <CardTitle className="text-lg xl:text-[2.5vw] text-white text-right">RED Safety Video</CardTitle>
+          <CardTitle className="text-lg xl:text-[2.5vw] text-white text-right">RSRG Videos</CardTitle>
         </CardHeader>
         <CardContent className="p-3 flex-1 flex items-center justify-center">
           <p className="text-white">Loading videos...</p>
@@ -68,7 +68,7 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
     return (
       <Card className="bg-gray-800 border-gray-700 h-full flex flex-col">
         <CardHeader className="pb-3 bg-gray-900 flex-shrink-0">
-          <CardTitle className="text-lg xl:text-[2.5vw] text-white text-right">RED Safety Video</CardTitle>
+          <CardTitle className="text-lg xl:text-[2.5vw] text-white text-right">RSRG Videos</CardTitle>
         </CardHeader>
         <CardContent className="p-3 flex-1 flex items-center justify-center">
           <p className="text-white">{error || 'No videos available'}</p>
@@ -80,7 +80,7 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
   return (
     <Card className="bg-gray-800 border-gray-700 h-full flex flex-col">
       <CardHeader className="pb-0.5 py-[1vw] bg-gray-900 flex-shrink-0">
-        <CardTitle className="text-[2.5vw] text-white text-right">RED Safety Video</CardTitle>
+        <CardTitle className="text-[2.5vw] text-white text-right">RSRG Videos</CardTitle>
       </CardHeader>
       <CardContent className="p-1 flex-1 flex gap-1">
         {/* Main video player */}
