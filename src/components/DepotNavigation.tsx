@@ -66,11 +66,11 @@ const navigationItems: NavigationItem[] = [
     size: "default",
   },
   {
-    id: "spotlight",
-    label: "Spotlight",
-    label1: "Report",
+    id: "admin",
+    label: "Admin",
+    label1: "Panel",
     icon: null,
-    variant: "accent",
+    variant: "warning",
     size: "default",
   },
 ];
