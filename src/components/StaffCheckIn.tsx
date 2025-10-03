@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/select";
 import { DepotButton } from "@/components/ui/depot-button";
 import { Badge } from "@/components/ui/badge";
-import { Clock, User, CheckCircle, XCircle } from "lucide-react";
+import { Clock, User, CheckCircle, XCircle, Download } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useCheckInRecords, useCreateCheckIn, useCheckOutUser, useReCheckInUser, CheckInRecord } from "@/api/checkin-api";
 import { format } from "date-fns";
@@ -142,6 +142,49 @@ const StaffCheckIn: React.FC<StaffCheckInProps> = ({
     }
   };
 
+  const handleExportExcel = () => {
+    try {
+      // Create CSV content
+      const headers = ["ID", "Name", "Company", "Reason", "Check In Time", "Check Out Time", "Status"];
+      const csvContent = [
+        headers.join(","),
+        ...allRecords.map(record => [
+          record.id,
+          `"${record.name}"`,
+          `"${record.company}"`,
+          `"${record.reason}"`,
+          `"${format(new Date(record.check_in_time), "yyyy-MM-dd HH:mm:ss")}"`,
+          record.check_out_time ? `"${format(new Date(record.check_out_time), "yyyy-MM-dd HH:mm:ss")}"` : '""',
+          `"${record.status}"`
+        ].join(","))
+      ].join("\n");
+
+      // Create blob and download
+      const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+
+      link.setAttribute("href", url);
+      link.setAttribute("download", `checkin_records_${format(new Date(), "yyyy-MM-dd_HHmmss")}.csv`);
+      link.style.visibility = "hidden";
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      toast({
+        title: "Export Successful",
+        description: "Check-in records have been exported to Excel file.",
+      });
+    } catch (error) {
+      toast({
+        title: "Export Failed",
+        description: "Failed to export records. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Check-in Form Card */}
@@ -227,14 +270,25 @@ const StaffCheckIn: React.FC<StaffCheckInProps> = ({
       {/* Checked-in Users List Card */}
       <Card className="bg-card border-border">
         <CardHeader>
-          <CardTitle className="flex items-center justify-between">
+          <CardTitle className="flex items-center justify-between flex-wrap gap-2">
             <div className="flex items-center gap-2 text-lg sm:text-xl md:text-2xl">
               <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-green-500" />
               Currently Checked In
             </div>
-            <Badge variant="secondary" className="text-base sm:text-lg md:text-xl px-3 py-1">
-              {checkedInUsers.length} {checkedInUsers.length === 1 ? "Person" : "People"}
-            </Badge>
+            <div className="flex items-center gap-2">
+              <Badge variant="secondary" className="text-base sm:text-lg md:text-xl px-3 py-1">
+                {checkedInUsers.length} {checkedInUsers.length === 1 ? "Person" : "People"}
+              </Badge>
+              <DepotButton
+                variant="default"
+                onClick={handleExportExcel}
+                disabled={allRecords.length === 0}
+                className="flex items-center gap-2 px-3 py-2 text-sm"
+              >
+                <Download className="w-4 h-4" />
+                Export Excel
+              </DepotButton>
+            </div>
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -264,7 +318,7 @@ const StaffCheckIn: React.FC<StaffCheckInProps> = ({
                         </p>
                         <p className="text-xs sm:text-sm text-muted-foreground flex items-center gap-1 mt-1">
                           <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
-                          Checked in at {format(new Date(user.check_in_time), "HH:mm")}
+                          Checked in: {format(new Date(user.check_in_time), "yyyy-MM-dd HH:mm")}
                         </p>
                       </div>
                     </div>
@@ -323,15 +377,15 @@ const StaffCheckIn: React.FC<StaffCheckInProps> = ({
                         <p className="text-sm sm:text-base text-muted-foreground">
                           {user.company} • {user.reason}
                         </p>
-                        <div className="flex items-center gap-3 mt-1">
+                        <div className="flex flex-col gap-1 mt-1">
                           <p className="text-xs sm:text-sm text-muted-foreground flex items-center gap-1">
                             <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
-                            In: {format(new Date(user.check_in_time), "HH:mm")}
+                            In: {format(new Date(user.check_in_time), "yyyy-MM-dd HH:mm")}
                           </p>
                           {user.check_out_time && (
                             <p className="text-xs sm:text-sm text-muted-foreground flex items-center gap-1">
                               <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
-                              Out: {format(new Date(user.check_out_time), "HH:mm")}
+                              Out: {format(new Date(user.check_out_time), "yyyy-MM-dd HH:mm")}
                             </p>
                           )}
                         </div>
