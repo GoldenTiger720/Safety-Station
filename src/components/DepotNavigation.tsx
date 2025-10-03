@@ -28,7 +28,7 @@ const navigationItems: NavigationItem[] = [
   {
     id: "checkin",
     label: "Staff Check",
-    label1:"In/Out",
+    label1: "In/Out",
     icon: null,
     variant: "default",
     size: "default",
@@ -36,9 +36,9 @@ const navigationItems: NavigationItem[] = [
   {
     id: "induction",
     label: "Depot",
-    label1:  "Induction",
+    label1: "Induction",
     icon: null,
-    variant: "secondary",
+    variant: "default",
     size: "default",
   },
   {
