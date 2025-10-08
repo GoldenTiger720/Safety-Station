@@ -10,6 +10,7 @@ import REDSafetyVideoCard from "@/components/REDSafetyVideoCard";
 import InDepotCard from "@/components/InDepotCard";
 import WeatherCard from "@/components/WeatherCard";
 import WebViewer from "@/components/WebViewer";
+import SafetyAlerts from "@/components/SafetyAlerts";
 import { useYouTubeVideos, YouTubeVideo } from "@/api/dashboard-api";
 import { CheckInRecord } from "@/api/checkin-api";
 
@@ -34,22 +35,8 @@ const Dashboard = () => {
       case "videos":
       case "induction":
         return <VideoSection />;
-      case "bpms":
-        return (
-          <WebViewer
-            url="https://rsrg.processdesign.bicplatform.de/client/#/view"
-            title="BPMS System"
-            onBack={handleBackToDashboard}
-          />
-        );
-      case "dms":
-        return (
-          <WebViewer
-            url="https://rsrg.sharepoint.com/sites/wg-dms/SitePages/DMS-DOKUMENTE.aspx"
-            title="DMS System"
-            onBack={handleBackToDashboard}
-          />
-        );
+      case "safety-alerts":
+        return <SafetyAlerts />;
       case "technical":
         return (
           <WebViewer
