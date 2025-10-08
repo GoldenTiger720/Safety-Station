@@ -50,6 +50,14 @@ const navigationItems: NavigationItem[] = [
     size: "default",
   },
   {
+    id: "document-control",
+    label: "Document",
+    label1: "Control",
+    icon: null,
+    variant: "default",
+    size: "default",
+  },
+  {
     id: "technical",
     label: "Technical",
     label1: "Library",
@@ -86,7 +94,7 @@ const DepotNavigation: React.FC<DepotNavigationProps> = ({
 }) => {
   return (
     <div className="p-0.5 xs:p-1 sm:p-2 md:p-3 xl:py-[1vw] bg-depot-surface-elevated">
-      <div className="grid grid-cols-6 gap-0.5 xs:gap-1 sm:gap-1.5 md:gap-2">
+      <div className="grid grid-cols-7 gap-0.5 xs:gap-1 sm:gap-1.5 md:gap-2">
         {navigationItems.map((item) => (
           <DepotButton
             key={item.id}

@@ -11,6 +11,7 @@ import InDepotCard from "@/components/InDepotCard";
 import WeatherCard from "@/components/WeatherCard";
 import WebViewer from "@/components/WebViewer";
 import SafetyAlerts from "@/components/SafetyAlerts";
+import DocumentControl from "@/components/DocumentControl";
 import { useYouTubeVideos, YouTubeVideo } from "@/api/dashboard-api";
 import { CheckInRecord } from "@/api/checkin-api";
 
@@ -37,6 +38,8 @@ const Dashboard = () => {
         return <VideoSection />;
       case "safety-alerts":
         return <SafetyAlerts />;
+      case "document-control":
+        return <DocumentControl />;
       case "technical":
         return (
           <WebViewer
