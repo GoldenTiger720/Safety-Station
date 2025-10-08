@@ -241,10 +241,16 @@ const StaffCheckIn: React.FC<StaffCheckInProps> = ({
                   Audit
                 </SelectItem>
                 <SelectItem
-                  value="Safety"
+                  value="firewarden"
                   className="text-base sm:text-lg md:text-xl lg:text-4xl"
                 >
-                  Safety
+                  Fire warden
+                </SelectItem>
+                <SelectItem
+                  value="firstaider"
+                  className="text-base sm:text-lg md:text-xl lg:text-4xl"
+                >
+                  First aider
                 </SelectItem>
               </SelectContent>
             </Select>

@@ -12,7 +12,9 @@ const InDepotCard: React.FC<InDepotCardProps> = ({ checkedInStaff = [] }) => {
     name: staff.name,
     company: staff.company,
     reason: staff.reason,
-    isCheckedIn: true
+    isCheckedIn: true,
+    isFireWarden: staff.reason.toLowerCase() === 'firewarden',
+    isFirstAider: staff.reason.toLowerCase() === 'firstaider'
   }));
 
   return (
@@ -27,7 +29,10 @@ const InDepotCard: React.FC<InDepotCardProps> = ({ checkedInStaff = [] }) => {
               <p className="text-[10px] xl:text-[1.5vw] text-gray-400">No staff currently checked in</p>
             </div>
           ) : (
-            staffInDepot.map((staff, index) => (
+            staffInDepot.map((staff, index) => {
+              const isSpecialRole = staff.isFireWarden || staff.isFirstAider;
+
+              return (
               <div key={index} className="px-2 py-1 hover:bg-gray-800/50 transition-colors">
                 {/* Mobile: Stack vertically, Desktop: Grid */}
                 <div className="block sm:hidden space-y-0.5">
@@ -36,7 +41,7 @@ const InDepotCard: React.FC<InDepotCardProps> = ({ checkedInStaff = [] }) => {
                     <span className="sm:text-[22px] xl:text-[1.5vw] font-medium text-gray-200">{staff.name}</span>
                   </div>
                   <div className="sm:text-[22px] xl:text-[1.5vw] text-gray-400">{staff.company}</div>
-                  <div className="sm:text-[22px] xl:text-[1.5vw] text-gray-300">{staff.reason}</div>
+                  <div className={`sm:text-[22px] xl:text-[1.5vw] text-gray-300 inline-block ${isSpecialRole ? 'bg-green-600 px-2 py-0.5 rounded' : ''}`}>{staff.reason}</div>
                 </div>
 
                 {/* Desktop Layout - Grid */}
@@ -49,11 +54,14 @@ const InDepotCard: React.FC<InDepotCardProps> = ({ checkedInStaff = [] }) => {
                     <div className="text-gray-400">Company:</div>
                     <div className="text-gray-200 break-words">{staff.company}</div>
                     <div className="text-gray-400">Reason:</div>
-                    <div className="text-gray-200 break-words">{staff.reason}</div>
+                    <div className="text-gray-200 break-words">
+                      <span className={`${isSpecialRole ? 'bg-green-600 px-2 py-0.5 rounded' : ''}`}>{staff.reason}</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            ))
+              );
+            })
           )}
         </div>
       </CardContent>
