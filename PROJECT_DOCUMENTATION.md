@@ -77,17 +77,17 @@ The application follows a modern React-based Single Page Application (SPA) archi
 
 ### 2.2 Technology Stack
 
-| Layer | Technology | Purpose |
-|-------|-----------|---------|
-| **Framework** | React 18.3.1 | UI component framework |
-| **Language** | TypeScript 5.8.3 | Type-safe development |
-| **Build Tool** | Vite 5.4.19 | Fast development and optimized builds |
-| **Styling** | Tailwind CSS 3.4.17 | Utility-first CSS framework |
-| **UI Components** | Radix UI + shadcn/ui | Accessible component primitives |
-| **State Management** | TanStack Query 5.83.0 | Server state management |
-| **Routing** | React Router DOM 6.30.1 | Client-side routing |
-| **Forms** | React Hook Form 7.61.1 + Zod 3.25.76 | Form validation |
-| **Charts** | Recharts 2.15.4 | Data visualization |
+| Layer                | Technology                           | Purpose                               |
+| -------------------- | ------------------------------------ | ------------------------------------- |
+| **Framework**        | React 18.3.1                         | UI component framework                |
+| **Language**         | TypeScript 5.8.3                     | Type-safe development                 |
+| **Build Tool**       | Vite 5.4.19                          | Fast development and optimized builds |
+| **Styling**          | Tailwind CSS 3.4.17                  | Utility-first CSS framework           |
+| **UI Components**    | Radix UI + shadcn/ui                 | Accessible component primitives       |
+| **State Management** | TanStack Query 5.83.0                | Server state management               |
+| **Routing**          | React Router DOM 6.30.1              | Client-side routing                   |
+| **Forms**            | React Hook Form 7.61.1 + Zod 3.25.76 | Form validation                       |
+| **Charts**           | Recharts 2.15.4                      | Data visualization                    |
 
 ### 2.3 Design Patterns
 
@@ -151,17 +151,22 @@ warehouse-frontend/
 ### 3.2 Key Directories
 
 #### 3.2.1 `/src/api/`
+
 Contains all API integration code with type-safe interfaces and React Query hooks.
 
 #### 3.2.2 `/src/components/`
+
 Houses all React components, organized by functionality:
+
 - **`/admin/`** - Administrative interface components
 - **`/ui/`** - Base UI components from shadcn/ui library
 
 #### 3.2.3 `/src/pages/`
+
 Top-level page components that compose the application views.
 
 #### 3.2.4 `/src/lib/`
+
 Shared utilities, configurations, and helper functions.
 
 ---
@@ -171,6 +176,7 @@ Shared utilities, configurations, and helper functions.
 ### 4.1 Production Dependencies
 
 #### 4.1.1 Core Framework
+
 ```json
 {
   "react": "^18.3.1",
@@ -180,15 +186,18 @@ Shared utilities, configurations, and helper functions.
 ```
 
 #### 4.1.2 State Management & Data Fetching
+
 ```json
 {
   "@tanstack/react-query": "^5.83.0"
 }
 ```
+
 - **Purpose:** Server state management, caching, and synchronization
 - **Key Features:** Automatic background refetching, cache invalidation, optimistic updates
 
 #### 4.1.3 Form Management
+
 ```json
 {
   "react-hook-form": "^7.61.1",
@@ -196,20 +205,24 @@ Shared utilities, configurations, and helper functions.
   "zod": "^3.25.76"
 }
 ```
+
 - **Purpose:** Performant form handling with schema validation
 - **Benefits:** Type-safe validation, minimal re-renders
 
 #### 4.1.4 UI Component Library
+
 ```json
 {
   "@radix-ui/react-*": "Multiple packages",
   "lucide-react": "^0.462.0"
 }
 ```
+
 - **Purpose:** Accessible, unstyled component primitives
 - **Components:** Dialogs, dropdowns, tooltips, tabs, alerts, etc.
 
 #### 4.1.5 Styling
+
 ```json
 {
   "tailwindcss": "^3.4.17",
@@ -220,20 +233,23 @@ Shared utilities, configurations, and helper functions.
 ```
 
 #### 4.1.6 Data Visualization
+
 ```json
 {
   "recharts": "^2.15.4"
 }
 ```
+
 - **Purpose:** Pie charts for performance metrics visualization
 
 #### 4.1.7 Additional Features
+
 ```json
 {
-  "date-fns": "^3.6.0",          // Date formatting
-  "react-youtube": "^10.1.0",     // YouTube video embedding
-  "next-themes": "^0.3.0",        // Theme management
-  "sonner": "^1.7.4"              // Toast notifications
+  "date-fns": "^3.6.0", // Date formatting
+  "react-youtube": "^10.1.0", // YouTube video embedding
+  "next-themes": "^0.3.0", // Theme management
+  "sonner": "^1.7.4" // Toast notifications
 }
 ```
 
@@ -258,11 +274,7 @@ Shared utilities, configurations, and helper functions.
 
 The application uses environment variables for configuration:
 
-**File: `.env`**
-```env
-VITE_API_URL=https://warehouse-backend-ax8l.onrender.com
-VITE_YOUTUBE_API_KEY=AIzaSyCHvl-a7ARUJ-c2xvBqCwZ2vFnXTYd9xhQ
-```
+````
 
 | Variable | Description | Required |
 |----------|-------------|----------|
@@ -287,7 +299,7 @@ export default defineConfig({
     },
   },
 });
-```
+````
 
 ### 5.3 TypeScript Configuration
 
@@ -320,10 +332,12 @@ Custom theme configuration includes:
 The main dashboard displays a comprehensive view with three columns:
 
 #### 6.1.1 Left Column
+
 - **News Card** - Latest news and announcements
 - **In Depot Card** - Real-time staff check-in status
 
 #### 6.1.2 Right Column (2 columns wide)
+
 - **Performance Dashboard** - KPI metrics with charts
   - Spotlight reporting (YTD/MTD)
   - Safety tour statistics
@@ -337,6 +351,7 @@ The main dashboard displays a comprehensive view with three columns:
 **Component:** `StaffCheckIn.tsx`
 
 Features:
+
 - Staff check-in with name, company, and reason
 - Visual display of currently checked-in staff
 - Check-out functionality
@@ -346,11 +361,13 @@ Features:
 ### 6.3 Document Management
 
 #### 6.3.1 Document Viewer
+
 - Browse and view warehouse documents
 - PDF viewing capabilities
 - Document categorization
 
 #### 6.3.2 Document Control
+
 - Access to document control systems
 - Version tracking
 - Compliance documentation
@@ -358,17 +375,21 @@ Features:
 ### 6.4 Safety Features
 
 #### 6.4.1 Safety Alerts
+
 **Component:** `SafetyAlerts.tsx`
+
 - Display critical safety notifications
 - Color-coded alert levels
 - Dismissible notifications
 
 #### 6.4.2 Depot Induction
+
 - Video-based induction training
 - Progress tracking
 - Compliance verification
 
 #### 6.4.3 RED Safety Videos
+
 - Integration with YouTube channel
 - Curated safety training content
 - Video playback interface
@@ -378,6 +399,7 @@ Features:
 **Integration:** SharePoint-based document repository
 
 Access to:
+
 - Technical specifications
 - Operating procedures
 - Maintenance documentation
@@ -404,20 +426,23 @@ Access to:
 The main application page that orchestrates all dashboard components.
 
 **Key Features:**
+
 - Section-based routing (without URL changes)
 - State management for active section
 - Responsive layout with grid system
 - Component composition
 
 **Props & State:**
+
 ```typescript
 interface DashboardState {
-  activeSection: string;        // Current view
-  checkedInStaff: CheckInRecord[];  // Staff records
+  activeSection: string; // Current view
+  checkedInStaff: CheckInRecord[]; // Staff records
 }
 ```
 
 **Sections:**
+
 - `dashboard` - Main overview
 - `checkin` - Staff check-in interface
 - `documents` - Document viewer
@@ -436,12 +461,14 @@ interface DashboardState {
 **Purpose:** Application header with branding and user info
 
 **Features:**
+
 - RSRG logo display
 - Configurable title
 - User profile dropdown (optional)
 - Responsive sizing
 
 **Props:**
+
 ```typescript
 interface DepotHeaderProps {
   title?: string;
@@ -460,12 +487,14 @@ interface DepotHeaderProps {
 **Purpose:** Main navigation bar for section switching
 
 **Features:**
+
 - 7 navigation buttons
 - Active state indication
 - Responsive grid layout
 - Color-coded buttons
 
 **Navigation Items:**
+
 1. Dashboard (Accent)
 2. Staff Check In/Out (Default)
 3. Depot Induction (Default)
@@ -481,6 +510,7 @@ interface DepotHeaderProps {
 **Purpose:** Display KPI metrics and performance indicators
 
 **Features:**
+
 - Spotlight reporting statistics (YTD/MTD)
 - Safety tour metrics
 - Possession utilization data
@@ -498,6 +528,7 @@ interface DepotHeaderProps {
 **Purpose:** Display currently checked-in staff
 
 **Features:**
+
 - Real-time staff list
 - Check-out functionality
 - Time tracking
@@ -510,6 +541,7 @@ interface DepotHeaderProps {
 **Purpose:** Comprehensive staff check-in/out management
 
 **Features:**
+
 - Form-based check-in
 - Staff listing with filters
 - Check-out and re-check-in actions
@@ -517,6 +549,7 @@ interface DepotHeaderProps {
 - Integration with React Query mutations
 
 **Form Fields:**
+
 - Name (required, min 2 characters)
 - Company (required, min 2 characters)
 - Reason for visit (required, min 3 characters)
@@ -528,6 +561,7 @@ interface DepotHeaderProps {
 **Purpose:** Display news and announcements
 
 **Features:**
+
 - Scrolling news feed
 - Date/time stamps
 - Priority indicators
@@ -539,6 +573,7 @@ interface DepotHeaderProps {
 **Purpose:** Current weather information display
 
 **Features:**
+
 - Temperature display
 - Weather conditions
 - Location-based data
@@ -550,6 +585,7 @@ interface DepotHeaderProps {
 **Purpose:** Display and play safety training videos
 
 **Features:**
+
 - YouTube video integration
 - Video carousel
 - Loading states
@@ -557,6 +593,7 @@ interface DepotHeaderProps {
 - Video metadata display
 
 **Props:**
+
 ```typescript
 interface Props {
   videos: YouTubeVideo[];
@@ -572,12 +609,14 @@ interface Props {
 **Purpose:** Embed external web content
 
 **Features:**
+
 - Iframe-based content display
 - Back navigation
 - Full-screen support
 - Loading indicators
 
 **Use Cases:**
+
 - SharePoint Technical Library
 - Microsoft Forms (Spotlight Reports)
 
@@ -605,6 +644,7 @@ export const apiConfig = {
 #### 8.1.2 Request Handler
 
 The `apiRequest` function provides:
+
 - Type-safe API calls
 - Automatic token injection
 - Token refresh on 401 errors
@@ -612,6 +652,7 @@ The `apiRequest` function provides:
 - Session management
 
 **Authentication Flow:**
+
 1. Check for access token in localStorage
 2. Add Authorization header if token exists
 3. On 401 error, attempt token refresh
@@ -627,9 +668,11 @@ The `apiRequest` function provides:
 **Purpose:** YouTube video data fetching
 
 **Endpoints:**
+
 - `GET /api/youtube/list/` - Fetch safety videos
 
 **Types:**
+
 ```typescript
 interface YouTubeVideo {
   id: number;
@@ -660,9 +703,11 @@ interface YouTubeListResponse {
 ```
 
 **React Query Hook:**
+
 ```typescript
-useYouTubeVideos()
+useYouTubeVideos();
 ```
+
 - Cache time: 10 minutes
 - Stale time: 5 minutes
 - No refetch on window focus
@@ -674,12 +719,14 @@ useYouTubeVideos()
 **Purpose:** Staff check-in/out management
 
 **Endpoints:**
+
 - `GET /api/depot/checkin/` - List all check-in records
 - `POST /api/depot/checkin/` - Create new check-in
 - `POST /api/depot/checkin/{id}/checkout/` - Check out staff
 - `POST /api/depot/checkin/{id}/checkin/` - Re-check in staff
 
 **Types:**
+
 ```typescript
 interface CheckInRecord {
   id: number;
@@ -695,6 +742,7 @@ interface CheckInRecord {
 ```
 
 **React Query Hooks:**
+
 - `useCheckInRecords()` - Fetch records (2 min stale time)
 - `useCreateCheckIn()` - Create check-in with cache invalidation
 - `useCheckOutUser()` - Check out with cache invalidation
@@ -705,6 +753,7 @@ interface CheckInRecord {
 **File:** `src/lib/auth-api.ts`
 
 While authentication is implemented, it's currently not actively used in the main dashboard flow. The system includes:
+
 - Token storage (localStorage)
 - Automatic token refresh
 - Session management
@@ -728,8 +777,11 @@ The application uses React Router DOM with the following routes:
 ```
 
 **Note:** Admin panel route is commented out:
+
 ```typescript
-{/* <Route path="/admin" element={<AdminPanel />} /> */}
+{
+  /* <Route path="/admin" element={<AdminPanel />} /> */
+}
 ```
 
 ### 9.2 Navigation Flow
@@ -737,11 +789,14 @@ The application uses React Router DOM with the following routes:
 The application uses a hybrid navigation approach:
 
 #### 9.2.1 URL-Based Routing
+
 - `/` or `/dashboard` - Main dashboard
 - `*` - 404 Not Found page
 
 #### 9.2.2 Section-Based Navigation (No URL change)
+
 Within the dashboard, navigation occurs via state changes without URL updates:
+
 - Dashboard overview
 - Staff Check-In
 - Documents
@@ -752,6 +807,7 @@ Within the dashboard, navigation occurs via state changes without URL updates:
 - Spotlight Reports (iframe)
 
 **Implementation:**
+
 ```typescript
 const [activeSection, setActiveSection] = useState<string>("dashboard");
 ```
@@ -767,6 +823,7 @@ Navigation is triggered by the `DepotNavigation` component buttons.
 #### 10.1.1 Color Palette
 
 **Custom Depot Colors:**
+
 - **Header:** `hsl(var(--depot-header))` - Header background
 - **Primary:** `hsl(var(--depot-primary))` - Primary actions
 - **Accent:** `hsl(var(--depot-accent))` - Accent buttons, highlights
@@ -778,6 +835,7 @@ Navigation is triggered by the `DepotNavigation` component buttons.
 #### 10.1.2 Typography
 
 The application uses responsive typography with viewport-based units:
+
 - Headers: `text-[3vw]` to `text-[5vw]`
 - Navigation: `text-[1.5vw]`
 - Body text: Standard Tailwind scales
@@ -786,6 +844,7 @@ The application uses responsive typography with viewport-based units:
 #### 10.1.3 Spacing
 
 Consistent spacing scale:
+
 - Micro: `0.5` (2px)
 - Small: `1` (4px)
 - Medium: `2` (8px)
@@ -795,6 +854,7 @@ Consistent spacing scale:
 ### 10.2 Component Variants
 
 #### 10.2.1 Button Variants
+
 - **Default:** Standard depot button
 - **Secondary:** Secondary actions
 - **Accent:** Primary/highlighted actions
@@ -803,6 +863,7 @@ Consistent spacing scale:
 - **Surface:** Subtle actions
 
 #### 10.2.2 Card Variants
+
 - Standard card with shadow
 - Elevated card with higher shadow
 - Flat card without shadow
@@ -812,6 +873,7 @@ Consistent spacing scale:
 The application uses Tailwind's responsive utilities:
 
 **Breakpoints:**
+
 - `xs`: Extra small screens
 - `sm`: 640px and up
 - `md`: 768px and up
@@ -821,6 +883,7 @@ The application uses Tailwind's responsive utilities:
 - Custom: `min-[1920px]` for large displays
 
 **Layout Approach:**
+
 - Mobile-first responsive design
 - Grid-based layouts
 - Flexible spacing
@@ -829,6 +892,7 @@ The application uses Tailwind's responsive utilities:
 ### 10.4 Accessibility
 
 The application leverages Radix UI primitives which provide:
+
 - ARIA attributes
 - Keyboard navigation
 - Focus management
@@ -841,6 +905,7 @@ The application leverages Radix UI primitives which provide:
 ### 11.1 Getting Started
 
 #### 11.1.1 Prerequisites
+
 - Node.js 18+ or Bun
 - npm, yarn, or bun package manager
 
@@ -873,11 +938,11 @@ The application will be available at `http://localhost:8080`
 ```json
 {
   "scripts": {
-    "dev": "vite",                          // Start dev server
-    "build": "vite build",                  // Production build
-    "build:dev": "vite build --mode development",  // Dev build
-    "lint": "eslint .",                     // Run linter
-    "preview": "vite preview"               // Preview production build
+    "dev": "vite", // Start dev server
+    "build": "vite build", // Production build
+    "build:dev": "vite build --mode development", // Dev build
+    "lint": "eslint .", // Run linter
+    "preview": "vite preview" // Preview production build
   }
 }
 ```
@@ -885,23 +950,27 @@ The application will be available at `http://localhost:8080`
 ### 11.3 Development Guidelines
 
 #### 11.3.1 Code Organization
+
 - Keep components small and focused
 - Use TypeScript for type safety
 - Extract shared logic into custom hooks
 - Maintain consistent file naming (PascalCase for components)
 
 #### 11.3.2 Styling Conventions
+
 - Use Tailwind utility classes
 - Follow mobile-first approach
 - Use custom depot color tokens
 - Maintain consistent spacing
 
 #### 11.3.3 State Management
+
 - Use React Query for server state
 - Use local state (`useState`) for UI state
 - Avoid prop drilling with composition
 
 #### 11.3.4 API Integration
+
 - Define TypeScript interfaces for all API responses
 - Use React Query hooks for data fetching
 - Handle loading and error states
@@ -912,6 +981,7 @@ The application will be available at `http://localhost:8080`
 **Current Branch:** `main`
 
 **Recent Commits:**
+
 ```
 651974a Added new feature
 97e3ec5 updated navigation bar
@@ -921,6 +991,7 @@ b55b7aa update: some features
 ```
 
 **Recommended Workflow:**
+
 1. Create feature branches from `main`
 2. Make focused commits with clear messages
 3. Test thoroughly before merging
@@ -940,6 +1011,7 @@ npm run build
 ```
 
 **Build Process:**
+
 1. TypeScript compilation
 2. Asset optimization
 3. Code splitting
@@ -949,17 +1021,21 @@ npm run build
 ### 12.2 Build Modes
 
 #### 12.2.1 Production Build
+
 ```bash
 npm run build
 ```
+
 - Optimized and minified
 - Source maps disabled
 - Production environment variables
 
 #### 12.2.2 Development Build
+
 ```bash
 npm run build:dev
 ```
+
 - Includes source maps
 - Development environment variables
 - Faster build time
@@ -969,6 +1045,7 @@ npm run build:dev
 ```bash
 npm run preview
 ```
+
 Preview the production build locally before deployment.
 
 ### 12.4 Deployment Configuration
@@ -977,9 +1054,7 @@ Preview the production build locally before deployment.
 
 ```json
 {
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
-  ]
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
 ```
 
@@ -990,22 +1065,26 @@ This configuration ensures client-side routing works correctly by redirecting al
 Ensure environment variables are properly set for each environment:
 
 **Development:**
+
 - Local API URL (if applicable)
 - Development API keys
 
 **Production:**
+
 - Production API URL: `https://warehouse-backend-ax8l.onrender.com`
 - Production API keys
 
 ### 12.6 Hosting Recommendations
 
 The application is configured for static hosting platforms:
+
 - **Vercel** (configured with `vercel.json`)
 - **Netlify**
 - **AWS S3 + CloudFront**
 - **GitHub Pages**
 
 **Requirements:**
+
 - SPA routing support (URL rewrites)
 - HTTPS enabled
 - Environment variable configuration
@@ -1017,22 +1096,26 @@ The application is configured for static hosting platforms:
 ### 13.1 Performance Optimization
 
 #### 13.1.1 Code Splitting
+
 - Lazy load route components
 - Dynamic imports for large components
 - Split vendor bundles
 
 #### 13.1.2 React Query Configuration
+
 - Appropriate stale times (2-5 minutes)
 - Cache times (5-10 minutes)
 - Disable unnecessary refetching
 - Implement optimistic updates
 
 #### 13.1.3 Image Optimization
+
 - Use appropriate image formats (WebP, AVIF)
 - Lazy load images
 - Provide responsive images
 
 #### 13.1.4 Bundle Size
+
 - Tree shake unused dependencies
 - Monitor bundle size
 - Use production builds
@@ -1040,17 +1123,20 @@ The application is configured for static hosting platforms:
 ### 13.2 Security Best Practices
 
 #### 13.2.1 Environment Variables
+
 - Never commit `.env` files
 - Use different keys for dev/prod
 - Rotate API keys regularly
 
 #### 13.2.2 API Security
+
 - Always use HTTPS
 - Implement proper CORS policies
 - Validate all inputs
 - Sanitize user data
 
 #### 13.2.3 Authentication
+
 - Secure token storage
 - Implement token refresh
 - Handle session expiration
@@ -1059,20 +1145,24 @@ The application is configured for static hosting platforms:
 ### 13.3 Code Quality
 
 #### 13.3.1 TypeScript
+
 - Enable strict mode
 - Define interfaces for all data structures
 - Avoid `any` type
 - Use proper type guards
 
 #### 13.3.2 ESLint
+
 ```bash
 npm run lint
 ```
+
 - Fix linting errors before committing
 - Follow ESLint recommendations
 - Use TypeScript ESLint rules
 
 #### 13.3.3 Component Design
+
 - Single Responsibility Principle
 - Prop validation with TypeScript
 - Error boundaries for error handling
@@ -1081,6 +1171,7 @@ npm run lint
 ### 13.4 Testing Recommendations
 
 While tests are not currently implemented, consider:
+
 - **Unit Tests:** Component logic, utilities
 - **Integration Tests:** API interactions, form submissions
 - **E2E Tests:** Critical user flows
@@ -1097,6 +1188,7 @@ While tests are not currently implemented, consider:
 **Issue:** TypeScript errors during build
 
 **Solution:**
+
 ```bash
 # Check TypeScript errors
 npx tsc --noEmit
@@ -1110,6 +1202,7 @@ npx tsc --noEmit
 **Issue:** Cannot connect to backend API
 
 **Checklist:**
+
 - Verify `VITE_API_URL` in `.env`
 - Check API server status
 - Verify CORS configuration
@@ -1121,6 +1214,7 @@ npx tsc --noEmit
 **Issue:** Environment variables return `undefined`
 
 **Solution:**
+
 - Ensure variables are prefixed with `VITE_`
 - Restart development server after changing `.env`
 - Check `.env` file is in project root
@@ -1131,6 +1225,7 @@ npx tsc --noEmit
 **Issue:** Cannot resolve '@/...' imports
 
 **Solution:**
+
 - Verify `vite.config.ts` alias configuration
 - Check `tsconfig.json` paths configuration
 - Restart TypeScript server in IDE
@@ -1140,11 +1235,13 @@ npx tsc --noEmit
 #### 14.2.1 Slow Initial Load
 
 **Potential Causes:**
+
 - Large bundle size
 - Unoptimized images
 - Slow API responses
 
 **Solutions:**
+
 - Analyze bundle with `vite build --mode production`
 - Implement code splitting
 - Optimize images
@@ -1156,14 +1253,15 @@ npx tsc --noEmit
 **Issue:** Stale data or unnecessary refetches
 
 **Solution:**
+
 ```typescript
 // Adjust query configuration
 useQuery({
-  queryKey: ['key'],
+  queryKey: ["key"],
   queryFn: fetchFn,
-  staleTime: 5 * 60 * 1000,      // Data considered fresh for 5 minutes
-  gcTime: 10 * 60 * 1000,        // Cache kept for 10 minutes
-  refetchOnWindowFocus: false,   // Disable automatic refetch
+  staleTime: 5 * 60 * 1000, // Data considered fresh for 5 minutes
+  gcTime: 10 * 60 * 1000, // Cache kept for 10 minutes
+  refetchOnWindowFocus: false, // Disable automatic refetch
 });
 ```
 
@@ -1172,18 +1270,20 @@ useQuery({
 #### 14.3.1 React Query DevTools
 
 Enable during development:
+
 ```typescript
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 // In App.tsx
-<ReactQueryDevtools initialIsOpen={false} />
+<ReactQueryDevtools initialIsOpen={false} />;
 ```
 
 #### 14.3.2 Console Logging
 
 Use structured logging:
+
 ```typescript
-console.log('[ComponentName]', 'Message', data);
+console.log("[ComponentName]", "Message", data);
 ```
 
 #### 14.3.3 Browser DevTools
@@ -1196,6 +1296,7 @@ console.log('[ComponentName]', 'Message', data);
 ### 14.4 Getting Help
 
 #### 14.4.1 Documentation Resources
+
 - React: https://react.dev
 - Vite: https://vitejs.dev
 - TanStack Query: https://tanstack.com/query
@@ -1205,16 +1306,19 @@ console.log('[ComponentName]', 'Message', data);
 #### 14.4.2 Common Error Messages
 
 **"Failed to fetch"**
+
 - API server is down or unreachable
 - CORS issue
 - Network connectivity problem
 
 **"401 Unauthorized"**
+
 - Invalid or expired token
 - Token refresh failed
 - Authentication required
 
 **"Module not found"**
+
 - Incorrect import path
 - Missing dependency
 - Path alias misconfiguration
@@ -1224,19 +1328,20 @@ console.log('[ComponentName]', 'Message', data);
 ## Appendix A: API Endpoints Reference
 
 ### Base URL
+
 ```
 https://warehouse-backend-ax8l.onrender.com
 ```
 
 ### Endpoints
 
-| Method | Endpoint | Description | Response |
-|--------|----------|-------------|----------|
-| GET | `/api/youtube/list/` | Fetch YouTube videos | `YouTubeListResponse` |
-| GET | `/api/depot/checkin/` | List check-in records | `CheckInListResponse` |
-| POST | `/api/depot/checkin/` | Create check-in | `CheckInResponse` |
-| POST | `/api/depot/checkin/{id}/checkout/` | Check out staff | `CheckOutResponse` |
-| POST | `/api/depot/checkin/{id}/checkin/` | Re-check in staff | `CheckInResponse` |
+| Method | Endpoint                            | Description           | Response              |
+| ------ | ----------------------------------- | --------------------- | --------------------- |
+| GET    | `/api/youtube/list/`                | Fetch YouTube videos  | `YouTubeListResponse` |
+| GET    | `/api/depot/checkin/`               | List check-in records | `CheckInListResponse` |
+| POST   | `/api/depot/checkin/`               | Create check-in       | `CheckInResponse`     |
+| POST   | `/api/depot/checkin/{id}/checkout/` | Check out staff       | `CheckOutResponse`    |
+| POST   | `/api/depot/checkin/{id}/checkin/`  | Re-check in staff     | `CheckInResponse`     |
 
 ---
 
@@ -1324,6 +1429,7 @@ warehouse-frontend/
 ### Chart Colors
 
 **Performance Dashboard:**
+
 - Critical (Red): `#ef4444`
 - Warning (Yellow): `#facc15`
 - Active (Blue): `#3b82f6`
@@ -1336,40 +1442,44 @@ warehouse-frontend/
 ## Appendix D: Component Props Reference
 
 ### DepotHeader Props
+
 ```typescript
 interface DepotHeaderProps {
-  title?: string;              // Default: "Safety & Performance Station"
-  userName?: string;           // Optional user name
-  userEmail?: string;          // Optional user email
-  userAvatar?: string;         // Optional avatar URL
+  title?: string; // Default: "Safety & Performance Station"
+  userName?: string; // Optional user name
+  userEmail?: string; // Optional user email
+  userAvatar?: string; // Optional avatar URL
   onProfileClick?: () => void; // Profile click handler
-  onLogoutClick?: () => void;  // Logout click handler
+  onLogoutClick?: () => void; // Logout click handler
 }
 ```
 
 ### DepotNavigation Props
+
 ```typescript
 interface DepotNavigationProps {
-  onItemClick: (itemId: string) => void;  // Navigation handler
-  activeItem?: string;                     // Current active section
+  onItemClick: (itemId: string) => void; // Navigation handler
+  activeItem?: string; // Current active section
 }
 ```
 
 ### REDSafetyVideoCard Props
+
 ```typescript
 interface REDSafetyVideoCardProps {
-  videos: YouTubeVideo[];    // Array of video objects
-  loading: boolean;          // Loading state
-  error: string | null;      // Error message
+  videos: YouTubeVideo[]; // Array of video objects
+  loading: boolean; // Loading state
+  error: string | null; // Error message
 }
 ```
 
 ### WebViewer Props
+
 ```typescript
 interface WebViewerProps {
-  url: string;                        // URL to embed
-  title: string;                      // Viewer title
-  onBack: () => void;                // Back button handler
+  url: string; // URL to embed
+  title: string; // Viewer title
+  onBack: () => void; // Back button handler
 }
 ```
 
