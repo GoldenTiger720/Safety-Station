@@ -1,6 +1,4 @@
 import React, { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
 import DepotHeader from "@/components/DepotHeader";
 import DepotNavigation from "@/components/DepotNavigation";
 import StaffCheckIn from "@/components/StaffCheckIn";
@@ -20,8 +18,6 @@ import { CheckInRecord } from "@/api/checkin-api";
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState<string>("dashboard");
   const [checkedInStaff, setCheckedInStaff] = useState<CheckInRecord[]>([]);
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
 
   // Use ReactQuery hook for YouTube videos
   const { data: youtubeVideosData, isLoading: videosLoading, error: videosError } = useYouTubeVideos();
@@ -29,11 +25,6 @@ const Dashboard = () => {
 
   const handleBackToDashboard = () => {
     setActiveSection("dashboard");
-  };
-
-  const handleLogout = () => {
-    logout();
-    navigate("/login");
   };
 
   const renderActiveSection = () => {
@@ -78,9 +69,9 @@ const Dashboard = () => {
     <div className="min-h-screen bg-background">
       <div className="mx-auto flex flex-col p-2 sm:p-3 md:p-4 space-y-0 max-w-full h-full overflow-x-hidden min-h-screen">
         <DepotHeader
-          userName={user?.username}
-          userEmail={user?.email}
-          onLogoutClick={handleLogout}
+          userName="User"
+          userEmail=""
+          onLogoutClick={() => {}}
         />
 
         <DepotNavigation
