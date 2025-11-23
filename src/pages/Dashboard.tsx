@@ -68,11 +68,11 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="mx-auto flex flex-col p-2 sm:p-3 md:p-4 space-y-0 max-w-full h-full overflow-x-hidden min-h-screen">
-        <DepotHeader
+        {/* <DepotHeader
           userName="User"
           userEmail=""
           onLogoutClick={() => {}}
-        />
+        /> */}
 
         <DepotNavigation
           onItemClick={setActiveSection}
