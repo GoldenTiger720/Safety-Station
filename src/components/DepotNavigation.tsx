@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { DepotButton } from "@/components/ui/depot-button";
 
@@ -7,12 +9,12 @@ interface NavigationItem {
   label1: string;
   icon: React.ReactNode | null;
   variant:
-  | "default"
-  | "secondary"
-  | "accent"
-  | "warning"
-  | "success"
-  | "surface";
+    | "default"
+    | "secondary"
+    | "accent"
+    | "warning"
+    | "success"
+    | "surface";
   size: "default" | "lg" | "xl";
 }
 
@@ -71,14 +73,6 @@ const navigationItems: NavigationItem[] = [
     label1: "Report",
     icon: null,
     variant: "accent",
-    size: "default",
-  },
-  {
-    id: "admin",
-    label: "Admin",
-    label1: "Panel",
-    icon: null,
-    variant: "warning",
     size: "default",
   },
 ];

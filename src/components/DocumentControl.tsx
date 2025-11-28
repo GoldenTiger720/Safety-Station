@@ -1,13 +1,21 @@
+"use client";
+
 import React from "react";
 import { DepotButton } from "@/components/ui/depot-button";
 
 const DocumentControl: React.FC = () => {
   const handleBPMSClick = () => {
-    window.open("https://rsrg.processdesign.bicplatform.de/client/#/view", "_blank");
+    window.open(
+      "https://rsrg.processdesign.bicplatform.de/client/#/view",
+      "_blank"
+    );
   };
 
   const handleDMSClick = () => {
-    window.open("https://rsrg.sharepoint.com/sites/wg-dms/SitePages/DMS-DOKUMENTE.aspx", "_blank");
+    window.open(
+      "https://rsrg.sharepoint.com/sites/wg-dms/SitePages/DMS-DOKUMENTE.aspx",
+      "_blank"
+    );
   };
 
   return (

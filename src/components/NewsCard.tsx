@@ -1,6 +1,8 @@
+"use client";
+
 import React from "react";
+import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { User } from "lucide-react";
 
 const NewsCard = () => {
   const newsItems = [
@@ -40,12 +42,17 @@ const NewsCard = () => {
       </CardHeader>
       <CardContent className="space-y-1 p-2 flex-shrink-0">
         {newsItems.slice(0, 2).map((item) => (
-          <div key={item.id} className="bg-white rounded p-1 sm:p-1.5 flex gap-1 sm:gap-2 xl:gap-5">
-            <div className="flex-shrink-0">
-              <img
+          <div
+            key={item.id}
+            className="bg-white rounded p-1 sm:p-1.5 flex gap-1 sm:gap-2 xl:gap-5"
+          >
+            <div className="flex-shrink-0 relative h-[7vw] w-[7vw]">
+              <Image
                 src={item.image}
                 alt={item.title}
-                className="h-[7vw] w-[7vw] rounded object-cover bg-gray-200"
+                fill
+                className="rounded object-cover bg-gray-200"
+                sizes="7vw"
               />
             </div>
             <div className="flex-1 min-w-0 flex flex-col justify-center">
@@ -56,12 +63,18 @@ const NewsCard = () => {
                 {item.description}
               </p>
               <div className="flex items-center gap-0.5 sm:gap-1 mt-0.5 sm:mt-1">
-                <img
-                  src="/user.jpeg"
-                  alt="user"
-                  className="w-2 h-2 sm:w-3 sm:h-3 bg-gray-300 rounded-full"
-                />
-                <span className="text-[6px] sm:text-[8px] text-gray-500">{item.date}</span>
+                <div className="w-2 h-2 sm:w-3 sm:h-3 bg-gray-300 rounded-full relative overflow-hidden">
+                  <Image
+                    src="/user.jpeg"
+                    alt="user"
+                    fill
+                    className="object-cover"
+                    sizes="12px"
+                  />
+                </div>
+                <span className="text-[6px] sm:text-[8px] text-gray-500">
+                  {item.date}
+                </span>
               </div>
             </div>
           </div>

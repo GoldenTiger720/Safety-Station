@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+"use client";
+
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { DepotButton } from "@/components/ui/depot-button";
 import { ArrowLeft, Loader2, ExternalLink } from "lucide-react";
 
@@ -13,64 +15,63 @@ const WebViewer: React.FC<WebViewerProps> = ({ url, title, onBack }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout>();
 
-  const handleIframeLoad = () => {
+  const openInNewWindow = useCallback(() => {
+    window.open(url, "_blank", "noopener,noreferrer");
+  }, [url]);
+
+  const handleIframeLoad = useCallback(() => {
     setIsLoading(false);
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
 
-    // Check if iframe is actually accessible
     try {
       const iframe = iframeRef.current;
       if (iframe && iframe.contentWindow) {
-        // Try to access the iframe's location (will throw if blocked)
         const iframeLocation = iframe.contentWindow.location.href;
-        if (iframeLocation === 'about:blank') {
+        if (iframeLocation === "about:blank") {
           openInNewWindow();
           onBack();
         }
       }
-    } catch (error) {
-      // If we can't access the iframe content, it's likely blocked
+    } catch {
       openInNewWindow();
       onBack();
     }
-  };
+  }, [openInNewWindow, onBack]);
 
-  const handleIframeError = () => {
+  const handleIframeError = useCallback(() => {
     setIsLoading(false);
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
     openInNewWindow();
     onBack();
-  };
-
-  const openInNewWindow = () => {
-    window.open(url, '_blank', 'noopener,noreferrer');
-  };
+  }, [openInNewWindow, onBack]);
 
   useEffect(() => {
-    // Set a timeout to detect if iframe is blocked
     timeoutRef.current = setTimeout(() => {
       if (isLoading) {
         setIsLoading(false);
         openInNewWindow();
         onBack();
       }
-    }, 10000); // 10 second timeout
+    }, 10000);
 
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [isLoading]);
+  }, [isLoading, openInNewWindow, onBack]);
 
   return (
     <div className="fixed inset-0 z-50 bg-white flex flex-col">
       {/* Top navbar with back button */}
-      <div className="flex items-center justify-between bg-depot-surface-elevated border-b border-gray-200 px-4 py-1" style={{height: '30px'}}>
+      <div
+        className="flex items-center justify-between bg-depot-surface-elevated border-b border-gray-200 px-4 py-1"
+        style={{ height: "30px" }}
+      >
         <div className="flex items-center gap-2">
           <DepotButton
             variant="secondary"
@@ -109,20 +110,30 @@ const WebViewer: React.FC<WebViewerProps> = ({ url, title, onBack }) => {
               <div className="absolute inset-0 w-12 h-12 border-4 border-depot-accent/20 rounded-full mx-auto"></div>
             </div>
             <div className="space-y-2">
-              <h3 className="text-lg font-semibold text-foreground">Loading {title}</h3>
-              <p className="text-sm text-muted-foreground">Please wait while we prepare your content...</p>
+              <h3 className="text-lg font-semibold text-foreground">
+                Loading {title}
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                Please wait while we prepare your content...
+              </p>
             </div>
             <div className="flex justify-center space-x-1">
               <div className="w-2 h-2 bg-depot-primary rounded-full animate-bounce"></div>
-              <div className="w-2 h-2 bg-depot-primary rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-              <div className="w-2 h-2 bg-depot-primary rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+              <div
+                className="w-2 h-2 bg-depot-primary rounded-full animate-bounce"
+                style={{ animationDelay: "0.1s" }}
+              ></div>
+              <div
+                className="w-2 h-2 bg-depot-primary rounded-full animate-bounce"
+                style={{ animationDelay: "0.2s" }}
+              ></div>
             </div>
           </div>
         </div>
       )}
 
       {/* Website iframe below navbar */}
-      <div className="flex-1" style={{display: isLoading ? 'none' : 'block'}}>
+      <div className="flex-1" style={{ display: isLoading ? "none" : "block" }}>
         <iframe
           ref={iframeRef}
           src={url}

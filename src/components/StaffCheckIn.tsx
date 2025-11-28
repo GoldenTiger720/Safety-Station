@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -12,16 +14,20 @@ import { DepotButton } from "@/components/ui/depot-button";
 import { Badge } from "@/components/ui/badge";
 import { Clock, User, CheckCircle, XCircle, Download } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useCheckInRecords, useCreateCheckIn, useCheckOutUser, useReCheckInUser, CheckInRecord } from "@/api/checkin-api";
+import {
+  useCheckInRecords,
+  useCreateCheckIn,
+  useCheckOutUser,
+  useReCheckInUser,
+} from "@/hooks/use-checkin";
+import type { CheckInRecord } from "@/types";
 import { format } from "date-fns";
 
 interface StaffCheckInProps {
   onStaffUpdate?: (staff: CheckInRecord[]) => void;
 }
 
-const StaffCheckIn: React.FC<StaffCheckInProps> = ({
-  onStaffUpdate,
-}) => {
+const StaffCheckIn: React.FC<StaffCheckInProps> = ({ onStaffUpdate }) => {
   const [name, setName] = useState("");
   const [company, setCompany] = useState("");
   const [reason, setReason] = useState("");
@@ -31,7 +37,7 @@ const StaffCheckIn: React.FC<StaffCheckInProps> = ({
   const { toast } = useToast();
 
   // Use React Query hooks
-  const { data: checkInData, isLoading, error } = useCheckInRecords();
+  const { data: checkInData, isLoading } = useCheckInRecords();
   const createCheckInMutation = useCreateCheckIn();
   const checkOutMutation = useCheckOutUser();
   const reCheckInMutation = useReCheckInUser();
@@ -40,14 +46,19 @@ const StaffCheckIn: React.FC<StaffCheckInProps> = ({
   const allRecords = checkInData?.records || [];
 
   // Filter checked-in and checked-out users separately
-  const checkedInUsers = allRecords.filter(record => record.status === "checked-in");
-  const checkedOutUsers = allRecords.filter(record => record.status === "checked-out");
+  const checkedInUsers = allRecords.filter(
+    (record) => record.status === "checked-in"
+  );
+  const checkedOutUsers = allRecords.filter(
+    (record) => record.status === "checked-out"
+  );
 
   // Update parent component when checked-in users change
   useEffect(() => {
     if (onStaffUpdate) {
       onStaffUpdate(checkedInUsers);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkedInUsers.length, onStaffUpdate]);
 
   const handleCheckIn = async () => {
@@ -93,7 +104,10 @@ const StaffCheckIn: React.FC<StaffCheckInProps> = ({
     } catch (error) {
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to check in. Please try again.",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Failed to check in. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -113,7 +127,10 @@ const StaffCheckIn: React.FC<StaffCheckInProps> = ({
     } catch (error) {
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to check out. Please try again.",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Failed to check out. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -124,7 +141,6 @@ const StaffCheckIn: React.FC<StaffCheckInProps> = ({
   const handleReCheckIn = async (user: CheckInRecord) => {
     setReCheckInUserId(user.id);
     try {
-      // Send re-check-in request with user ID to backend
       const result = await reCheckInMutation.mutateAsync(user.id);
 
       toast({
@@ -134,7 +150,10 @@ const StaffCheckIn: React.FC<StaffCheckInProps> = ({
     } catch (error) {
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to check in. Please try again.",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Failed to check in. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -144,28 +163,43 @@ const StaffCheckIn: React.FC<StaffCheckInProps> = ({
 
   const handleExportExcel = () => {
     try {
-      // Create CSV content
-      const headers = ["ID", "Name", "Company", "Reason", "Check In Time", "Check Out Time", "Status"];
+      const headers = [
+        "ID",
+        "Name",
+        "Company",
+        "Reason",
+        "Check In Time",
+        "Check Out Time",
+        "Status",
+      ];
       const csvContent = [
         headers.join(","),
-        ...allRecords.map(record => [
-          record.id,
-          `"${record.name}"`,
-          `"${record.company}"`,
-          `"${record.reason}"`,
-          `"${format(new Date(record.check_in_time), "yyyy-MM-dd HH:mm:ss")}"`,
-          record.check_out_time ? `"${format(new Date(record.check_out_time), "yyyy-MM-dd HH:mm:ss")}"` : '""',
-          `"${record.status}"`
-        ].join(","))
+        ...allRecords.map((record) =>
+          [
+            record.id,
+            `"${record.name}"`,
+            `"${record.company}"`,
+            `"${record.reason}"`,
+            `"${format(new Date(record.check_in_time), "yyyy-MM-dd HH:mm:ss")}"`,
+            record.check_out_time
+              ? `"${format(new Date(record.check_out_time), "yyyy-MM-dd HH:mm:ss")}"`
+              : '""',
+            `"${record.status}"`,
+          ].join(",")
+        ),
       ].join("\n");
 
-      // Create blob and download
-      const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
+      const blob = new Blob(["\uFEFF" + csvContent], {
+        type: "text/csv;charset=utf-8;",
+      });
       const link = document.createElement("a");
       const url = URL.createObjectURL(blob);
 
       link.setAttribute("href", url);
-      link.setAttribute("download", `checkin_records_${format(new Date(), "yyyy-MM-dd_HHmmss")}.csv`);
+      link.setAttribute(
+        "download",
+        `checkin_records_${format(new Date(), "yyyy-MM-dd_HHmmss")}.csv`
+      );
       link.style.visibility = "hidden";
 
       document.body.appendChild(link);
@@ -176,7 +210,7 @@ const StaffCheckIn: React.FC<StaffCheckInProps> = ({
         title: "Export Successful",
         description: "Check-in records have been exported to Excel file.",
       });
-    } catch (error) {
+    } catch {
       toast({
         title: "Export Failed",
         description: "Failed to export records. Please try again.",
@@ -282,8 +316,12 @@ const StaffCheckIn: React.FC<StaffCheckInProps> = ({
               Currently Checked In
             </div>
             <div className="flex items-center gap-2">
-              <Badge variant="secondary" className="text-base sm:text-lg md:text-xl px-3 py-1">
-                {checkedInUsers.length} {checkedInUsers.length === 1 ? "Person" : "People"}
+              <Badge
+                variant="secondary"
+                className="text-base sm:text-lg md:text-xl px-3 py-1"
+              >
+                {checkedInUsers.length}{" "}
+                {checkedInUsers.length === 1 ? "Person" : "People"}
               </Badge>
               <DepotButton
                 variant="default"
@@ -320,11 +358,15 @@ const StaffCheckIn: React.FC<StaffCheckInProps> = ({
                           {user.name}
                         </h3>
                         <p className="text-sm sm:text-base text-muted-foreground">
-                          {user.company} • {user.reason}
+                          {user.company} - {user.reason}
                         </p>
                         <p className="text-xs sm:text-sm text-muted-foreground flex items-center gap-1 mt-1">
                           <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
-                          Checked in: {format(new Date(user.check_in_time), "yyyy-MM-dd HH:mm")}
+                          Checked in:{" "}
+                          {format(
+                            new Date(user.check_in_time),
+                            "yyyy-MM-dd HH:mm"
+                          )}
                         </p>
                       </div>
                     </div>
@@ -353,8 +395,12 @@ const StaffCheckIn: React.FC<StaffCheckInProps> = ({
               <XCircle className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-orange-500" />
               Checked Out History
             </div>
-            <Badge variant="outline" className="text-base sm:text-lg md:text-xl px-3 py-1">
-              {checkedOutUsers.length} {checkedOutUsers.length === 1 ? "Record" : "Records"}
+            <Badge
+              variant="outline"
+              className="text-base sm:text-lg md:text-xl px-3 py-1"
+            >
+              {checkedOutUsers.length}{" "}
+              {checkedOutUsers.length === 1 ? "Record" : "Records"}
             </Badge>
           </CardTitle>
         </CardHeader>
@@ -381,17 +427,25 @@ const StaffCheckIn: React.FC<StaffCheckInProps> = ({
                           {user.name}
                         </h3>
                         <p className="text-sm sm:text-base text-muted-foreground">
-                          {user.company} • {user.reason}
+                          {user.company} - {user.reason}
                         </p>
                         <div className="flex flex-col gap-1 mt-1">
                           <p className="text-xs sm:text-sm text-muted-foreground flex items-center gap-1">
                             <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
-                            In: {format(new Date(user.check_in_time), "yyyy-MM-dd HH:mm")}
+                            In:{" "}
+                            {format(
+                              new Date(user.check_in_time),
+                              "yyyy-MM-dd HH:mm"
+                            )}
                           </p>
                           {user.check_out_time && (
                             <p className="text-xs sm:text-sm text-muted-foreground flex items-center gap-1">
                               <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
-                              Out: {format(new Date(user.check_out_time), "yyyy-MM-dd HH:mm")}
+                              Out:{" "}
+                              {format(
+                                new Date(user.check_out_time),
+                                "yyyy-MM-dd HH:mm"
+                              )}
                             </p>
                           )}
                         </div>

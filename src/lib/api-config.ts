@@ -1,19 +1,17 @@
-const API_URL = import.meta.env.VITE_API_URL;
-
-if (!API_URL) {
-  throw new Error("VITE_API_URL environment variable is not set");
-}
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const apiConfig = {
-  baseURL: API_URL,
+  baseURL: API_URL || "http://localhost:9000",
   headers: {
     "Content-Type": "application/json",
   },
 };
 
-// Function to get auth token
 const getAuthToken = () => {
-  return localStorage.getItem('access_token');
+  if (typeof window !== "undefined") {
+    return localStorage.getItem("access_token");
+  }
+  return null;
 };
 
 export async function apiRequest<T>(
@@ -25,7 +23,7 @@ export async function apiRequest<T>(
 
   const headers: Record<string, string> = {
     ...apiConfig.headers,
-    ...options?.headers,
+    ...(options?.headers as Record<string, string>),
   };
 
   // Add Authorization header if token exists
@@ -40,50 +38,21 @@ export async function apiRequest<T>(
 
   if (!response.ok) {
     // Handle token expiration - try to refresh token
-    if (response.status === 401 && token) {
-      try {
-        // Import authStorage dynamically to avoid circular dependency
-        const { authStorage } = await import('./auth-api');
-        const refreshSuccess = await authStorage.refreshAccessToken();
-
-        if (refreshSuccess) {
-          // Retry the original request with new token
-          const newToken = authStorage.getAccessToken();
-          const retryHeaders = {
-            ...headers,
-            Authorization: `Bearer ${newToken}`,
-          };
-
-          const retryResponse = await fetch(url, {
-            ...options,
-            headers: retryHeaders,
-          });
-
-          if (retryResponse.ok) {
-            return retryResponse.json();
-          }
-        }
-      } catch (refreshError) {
-        // Refresh failed, clear auth and redirect
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
-        localStorage.removeItem('user_data');
-        window.location.href = '/signin';
-        return Promise.reject(new Error('Session expired. Please login again.'));
-      }
-
-      // If we get here, token refresh failed
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('refresh_token');
-      localStorage.removeItem('user_data');
-      window.location.href = '/signin';
-      return Promise.reject(new Error('Session expired. Please login again.'));
+    if (response.status === 401 && token && typeof window !== "undefined") {
+      // Clear auth and redirect
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+      localStorage.removeItem("user_data");
+      window.location.href = "/signin";
+      return Promise.reject(new Error("Session expired. Please login again."));
     }
 
     const error = await response.json().catch(() => ({
       message: `HTTP error! status: ${response.status}`,
     }));
-    throw new Error(error.message || `Request failed with status ${response.status}`);
+    throw new Error(
+      error.message || `Request failed with status ${response.status}`
+    );
   }
 
   return response.json();

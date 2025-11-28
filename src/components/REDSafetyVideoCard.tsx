@@ -1,8 +1,22 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import Image from "next/image";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { Play } from "lucide-react";
-import { YouTubeVideo } from "@/api/dashboard-api";
+import type { YouTubeVideo } from "@/types";
 import YouTube from "react-youtube";
 
 interface REDSafetyVideoCardProps {
@@ -11,7 +25,11 @@ interface REDSafetyVideoCardProps {
   error: string | null;
 }
 
-const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading, error }) => {
+const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({
+  videos,
+  loading,
+  error,
+}) => {
   const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -22,8 +40,8 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
 
   // YouTube player options
   const youtubeOptions = {
-    height: '100%',
-    width: '100%',
+    height: "100%",
+    width: "100%",
     playerVars: {
       autoplay: 0,
       controls: 1,
@@ -37,15 +55,13 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
   };
 
   // YouTube player event handlers
-  const onPlayerReady = (event: any) => {
-    // You can add custom logic when player is ready
-    console.log('YouTube player ready');
+  const onPlayerReady = () => {
+    console.log("YouTube player ready");
   };
 
-  const onPlayerError = (event: any) => {
-    console.error('YouTube player error:', event.data);
+  const onPlayerError = (event: { data: number }) => {
+    console.error("YouTube player error:", event.data);
   };
-
 
   const selectVideo = (videoId: string) => {
     setSelectedVideoId(videoId);
@@ -55,7 +71,9 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
     return (
       <Card className="bg-gray-800 border-gray-700 !h-full flex flex-col">
         <CardHeader className="pb-3 bg-gray-900 flex-shrink-0">
-          <CardTitle className="text-lg xl:text-[2.5vw] text-white text-right">RSRG Videos</CardTitle>
+          <CardTitle className="text-lg xl:text-[2.5vw] text-white text-right">
+            RSRG Videos
+          </CardTitle>
         </CardHeader>
         <CardContent className="p-3 flex-1 flex items-center justify-center">
           <p className="text-white">Loading videos...</p>
@@ -68,10 +86,12 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
     return (
       <Card className="bg-gray-800 border-gray-700 h-full flex flex-col">
         <CardHeader className="pb-3 bg-gray-900 flex-shrink-0">
-          <CardTitle className="text-lg xl:text-[2.5vw] text-white text-right">RSRG Videos</CardTitle>
+          <CardTitle className="text-lg xl:text-[2.5vw] text-white text-right">
+            RSRG Videos
+          </CardTitle>
         </CardHeader>
         <CardContent className="p-3 flex-1 flex items-center justify-center">
-          <p className="text-white">{error || 'No videos available'}</p>
+          <p className="text-white">{error || "No videos available"}</p>
         </CardContent>
       </Card>
     );
@@ -80,7 +100,9 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
   return (
     <Card className="bg-gray-800 border-gray-700 h-full flex flex-col">
       <CardHeader className="pb-0.5 py-[1vw] bg-gray-900 flex-shrink-0">
-        <CardTitle className="text-[2.5vw] text-white text-right">RSRG Videos</CardTitle>
+        <CardTitle className="text-[2.5vw] text-white text-right">
+          RSRG Videos
+        </CardTitle>
       </CardHeader>
       <CardContent className="p-1 flex-1 flex gap-1">
         {/* Main video player */}
@@ -118,22 +140,27 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
             >
               <CarouselContent className="h-full -mt-1 flex flex-col touch-pan-y overflow-y-auto">
                 {videos.map((video) => (
-                  <CarouselItem key={video.video_id} className="pt-1 basis-auto flex-shrink-0 min-h-0">
+                  <CarouselItem
+                    key={video.video_id}
+                    className="pt-1 basis-auto flex-shrink-0 min-h-0"
+                  >
                     <div
                       className={`flex-shrink-0 cursor-pointer rounded overflow-hidden transition-all duration-200 ${
                         selectedVideoId === video.video_id
-                          ? 'ring-1 ring-red-500'
-                          : 'hover:opacity-80'
+                          ? "ring-1 ring-red-500"
+                          : "hover:opacity-80"
                       }`}
                       onClick={() => selectVideo(video.video_id)}
                     >
                       <div className="relative bg-gray-900 w-12 sm:w-16 xl:w-[8vw] h-8 sm:h-10 xl:h-[6vw]">
-                        <img
+                        <Image
                           src={video.thumbnail_url}
                           alt={video.title}
-                          className="w-full h-full object-cover rounded"
+                          fill
+                          className="object-cover rounded"
+                          sizes="(max-width: 640px) 48px, (max-width: 1280px) 64px, 8vw"
                           onError={(e) => {
-                            e.currentTarget.style.display = 'none';
+                            e.currentTarget.style.display = "none";
                           }}
                         />
                         <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 rounded">
@@ -141,7 +168,10 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({ videos, loading
                         </div>
                       </div>
                       <div className="p-0.5 flex-shrink-0 w-full">
-                        <p className="text-[4px] sm:text-[5px] text-white truncate leading-tight" title={video.title}>
+                        <p
+                          className="text-[4px] sm:text-[5px] text-white truncate leading-tight"
+                          title={video.title}
+                        >
                           {video.title}
                         </p>
                       </div>

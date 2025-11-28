@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
@@ -18,7 +20,6 @@ const PerformanceDashboard: React.FC = () => {
     { name: "Preparation", value: 55, color: "#8b5cf6", label: "Purple" },
     { name: "Breakdown", value: 45, color: "#f97316", label: "Orange" },
   ];
-
 
   return (
     <Card className="bg-gray-800 border-gray-700 flex flex-col h-full relative overflow-hidden">
@@ -46,12 +47,20 @@ const PerformanceDashboard: React.FC = () => {
             </div>
             <div className="grid grid-cols-2 gap-0.5 sm:gap-1 flex-1">
               <div className="bg-white flex flex-col items-center justify-center bg-opacity-85 border border-gray-200 p-0.5 sm:p-1 rounded text-center">
-                <div className="text-[10px] sm:text-[1.5vw] font-bold text-gray-800">81</div>
-                <div className="text-[5px] sm:text-[1vw] text-gray-600">Spotlights YTD</div>
+                <div className="text-[10px] sm:text-[1.5vw] font-bold text-gray-800">
+                  81
+                </div>
+                <div className="text-[5px] sm:text-[1vw] text-gray-600">
+                  Spotlights YTD
+                </div>
               </div>
               <div className="bg-white flex flex-col items-center justify-center bg-opacity-85 border border-gray-200 p-0.5 sm:p-1 rounded text-center">
-                <div className="text-[10px] sm:text-[1.5vw] font-bold text-gray-800">2</div>
-                <div className="text-[5px] sm:text-[1vw] text-gray-600">Spotlights MTD</div>
+                <div className="text-[10px] sm:text-[1.5vw] font-bold text-gray-800">
+                  2
+                </div>
+                <div className="text-[5px] sm:text-[1vw] text-gray-600">
+                  Spotlights MTD
+                </div>
               </div>
             </div>
           </div>
@@ -59,16 +68,26 @@ const PerformanceDashboard: React.FC = () => {
           {/* Safety Tours */}
           <div className="space-y-1 flex flex-col">
             <div className="bg-white bg-opacity-70 rounded p-0.5 sm:p-1 xl:py-[4vw] text-center">
-              <h3 className="text-[6px] sm:text-[1.5vw] font-bold text-black">Safety Tours</h3>
+              <h3 className="text-[6px] sm:text-[1.5vw] font-bold text-black">
+                Safety Tours
+              </h3>
             </div>
             <div className="grid grid-cols-2 gap-0.5 sm:gap-1 flex-1">
               <div className="bg-white flex flex-col items-center justify-center bg-opacity-85 border border-gray-200 p-0.5 sm:p-1 rounded text-center">
-                <div className="text-[10px] sm:text-[1.5vw] font-bold text-gray-800">7.59</div>
-                <div className="text-[5px] sm:text-[1vw] text-gray-600">Safety Tour YTD</div>
+                <div className="text-[10px] sm:text-[1.5vw] font-bold text-gray-800">
+                  7.59
+                </div>
+                <div className="text-[5px] sm:text-[1vw] text-gray-600">
+                  Safety Tour YTD
+                </div>
               </div>
               <div className="bg-white flex flex-col items-center justify-center bg-opacity-85 border border-gray-200 p-0.5 sm:p-1 rounded text-center">
-                <div className="text-[10px] sm:text-[1.5vw] font-bold text-gray-800">7.33</div>
-                <div className="text-[5px] sm:text-[1vw] text-gray-600">Safety Tour MTD</div>
+                <div className="text-[10px] sm:text-[1.5vw] font-bold text-gray-800">
+                  7.33
+                </div>
+                <div className="text-[5px] sm:text-[1vw] text-gray-600">
+                  Safety Tour MTD
+                </div>
               </div>
             </div>
           </div>
@@ -82,12 +101,20 @@ const PerformanceDashboard: React.FC = () => {
             </div>
             <div className="grid grid-cols-2 gap-0.5 sm:gap-1 flex-1">
               <div className="bg-white flex flex-col items-center justify-center bg-opacity-85 border border-gray-200 p-0.5 sm:p-1 rounded text-center">
-                <div className="text-[10px] sm:text-[1.5vw] font-bold text-gray-800">63</div>
-                <div className="text-[5px] sm:text-[1vw] text-gray-600">Average</div>
+                <div className="text-[10px] sm:text-[1.5vw] font-bold text-gray-800">
+                  63
+                </div>
+                <div className="text-[5px] sm:text-[1vw] text-gray-600">
+                  Average
+                </div>
               </div>
               <div className="bg-white flex flex-col items-center justify-center bg-opacity-85 border border-gray-200 p-0.5 sm:p-1 rounded text-center">
-                <div className="text-[10px] sm:text-[1.5vw] font-bold text-gray-800">218.42</div>
-                <div className="text-[5px] sm:text-[1vw] text-gray-600">Ave Work p/h</div>
+                <div className="text-[10px] sm:text-[1.5vw] font-bold text-gray-800">
+                  218.42
+                </div>
+                <div className="text-[5px] sm:text-[1vw] text-gray-600">
+                  Ave Work p/h
+                </div>
               </div>
             </div>
           </div>
@@ -100,14 +127,14 @@ const PerformanceDashboard: React.FC = () => {
             <h4 className="text-[5px] sm:text-[1.5vw] font-semibold text-black text-center mb-0.5">
               In Process Status
             </h4>
-            <ResponsiveContainer width="100%" minHeight={30} height={`50%`}>
+            <ResponsiveContainer width="100%" minHeight={30} height="50%">
               <PieChart>
                 <Pie
                   data={inProcessData}
                   cx="50%"
                   cy="50%"
-                  innerRadius={`40%`}
-                  outerRadius={`70%`}
+                  innerRadius="40%"
+                  outerRadius="70%"
                   paddingAngle={5}
                   dataKey="value"
                 >
@@ -124,14 +151,14 @@ const PerformanceDashboard: React.FC = () => {
             <h4 className="text-[5px] sm:text-[1.5vw] font-semibold text-black text-center mb-0.5">
               Possession Status
             </h4>
-            <ResponsiveContainer width="100%" minHeight={30} height={`50%`}>
+            <ResponsiveContainer width="100%" minHeight={30} height="50%">
               <PieChart>
                 <Pie
                   data={possessionData}
                   cx="50%"
                   cy="50%"
-                  innerRadius={`40%`}
-                  outerRadius={`70%`}
+                  innerRadius="40%"
+                  outerRadius="70%"
                   paddingAngle={5}
                   dataKey="value"
                 >
@@ -148,14 +175,14 @@ const PerformanceDashboard: React.FC = () => {
             <h4 className="text-[5px] sm:text-[1.5vw] font-semibold text-black text-center mb-0.5">
               Preparation Status
             </h4>
-            <ResponsiveContainer width="100%" minHeight={30} height={`50%`}>
+            <ResponsiveContainer width="100%" minHeight={30} height="50%">
               <PieChart>
                 <Pie
                   data={preparationData}
                   cx="50%"
                   cy="50%"
-                  innerRadius={`40%`}
-                  outerRadius={`70%`}
+                  innerRadius="40%"
+                  outerRadius="70%"
                   paddingAngle={5}
                   dataKey="value"
                 >
