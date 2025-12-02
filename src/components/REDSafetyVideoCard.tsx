@@ -104,18 +104,22 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({
           RSRG Videos
         </CardTitle>
       </CardHeader>
-      <CardContent className="p-1 flex-1 flex gap-1">
-        {/* Main video player */}
-        <div className="flex-1 bg-black rounded overflow-hidden flex justify-center items-center">
+      <CardContent className="p-1 flex-1 flex gap-1 min-h-0 overflow-hidden">
+        {/* Main video player - letterboxed to maintain 16:9 aspect ratio */}
+        <div className="flex-1 bg-black rounded overflow-hidden flex justify-center items-center min-h-0">
           {selectedVideoId && (
-            <YouTube
-              videoId={selectedVideoId}
-              opts={youtubeOptions}
-              onReady={onPlayerReady}
-              onError={onPlayerError}
-              className="flex justify-center items-center w-full h-full"
-              iframeClassName="w-full h-full rounded"
-            />
+            <div className="relative w-full h-full flex items-center justify-center">
+              <div className="relative w-full" style={{ maxHeight: '100%', aspectRatio: '16/9' }}>
+                <YouTube
+                  videoId={selectedVideoId}
+                  opts={youtubeOptions}
+                  onReady={onPlayerReady}
+                  onError={onPlayerError}
+                  className="absolute inset-0 w-full h-full"
+                  iframeClassName="w-full h-full rounded"
+                />
+              </div>
+            </div>
           )}
         </div>
 
