@@ -30,35 +30,35 @@ const PerformanceDashboard: React.FC = () => {
             'url("https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2015&q=80")',
         }}
       ></div>
-      <CardHeader className="pb-0.5 py-1 xl:py-[1vw] bg-gray-900/80 relative z-10">
-        <CardTitle className="text-[3vw] text-white text-right">
+      <CardHeader className="pb-0.5 py-1 bg-gray-900/80 relative z-10 flex-shrink-0">
+        <CardTitle className="text-[1.2vw] text-white text-right">
           Performance Highlights
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-1 p-2 flex-1 relative z-10">
+      <CardContent className="p-1 flex-1 relative z-10 flex flex-col gap-1">
         {/* Top Section with Headers and Data */}
-        <div className="grid grid-cols-1 sm:h-1/2 sm:grid-cols-3 gap-1 sm:gap-2 mb-1 sm:mb-2">
+        <div className="grid grid-cols-3 gap-1 h-1/2">
           {/* Spotlight Reporting */}
-          <div className="space-y-1 flex flex-col">
-            <div className="bg-white bg-opacity-70 rounded p-0.5 sm:p-1 xl:py-[4vw] text-center">
-              <h3 className="text-[6px] sm:text-[1.5vw] font-bold text-black">
+          <div className="flex flex-col gap-0.5">
+            <div className="bg-white bg-opacity-70 rounded py-0.5 px-1 text-center">
+              <h3 className="text-[0.7vw] font-bold text-black">
                 Spotlight Reporting
               </h3>
             </div>
-            <div className="grid grid-cols-2 gap-0.5 sm:gap-1 flex-1">
-              <div className="bg-white flex flex-col items-center justify-center bg-opacity-85 border border-gray-200 p-0.5 sm:p-1 rounded text-center">
-                <div className="text-[10px] sm:text-[1.5vw] font-bold text-gray-800">
+            <div className="grid grid-cols-2 gap-0.5 flex-1">
+              <div className="bg-white flex flex-col items-center justify-center bg-opacity-85 border border-gray-200 p-0.5 rounded text-center">
+                <div className="text-[1vw] font-bold text-gray-800">
                   81
                 </div>
-                <div className="text-[5px] sm:text-[1vw] text-gray-600">
+                <div className="text-[0.5vw] text-gray-600">
                   Spotlights YTD
                 </div>
               </div>
-              <div className="bg-white flex flex-col items-center justify-center bg-opacity-85 border border-gray-200 p-0.5 sm:p-1 rounded text-center">
-                <div className="text-[10px] sm:text-[1.5vw] font-bold text-gray-800">
+              <div className="bg-white flex flex-col items-center justify-center bg-opacity-85 border border-gray-200 p-0.5 rounded text-center">
+                <div className="text-[1vw] font-bold text-gray-800">
                   2
                 </div>
-                <div className="text-[5px] sm:text-[1vw] text-gray-600">
+                <div className="text-[0.5vw] text-gray-600">
                   Spotlights MTD
                 </div>
               </div>
@@ -66,26 +66,26 @@ const PerformanceDashboard: React.FC = () => {
           </div>
 
           {/* Safety Tours */}
-          <div className="space-y-1 flex flex-col">
-            <div className="bg-white bg-opacity-70 rounded p-0.5 sm:p-1 xl:py-[4vw] text-center">
-              <h3 className="text-[6px] sm:text-[1.5vw] font-bold text-black">
+          <div className="flex flex-col gap-0.5">
+            <div className="bg-white bg-opacity-70 rounded py-0.5 px-1 text-center">
+              <h3 className="text-[0.7vw] font-bold text-black">
                 Safety Tours
               </h3>
             </div>
-            <div className="grid grid-cols-2 gap-0.5 sm:gap-1 flex-1">
-              <div className="bg-white flex flex-col items-center justify-center bg-opacity-85 border border-gray-200 p-0.5 sm:p-1 rounded text-center">
-                <div className="text-[10px] sm:text-[1.5vw] font-bold text-gray-800">
+            <div className="grid grid-cols-2 gap-0.5 flex-1">
+              <div className="bg-white flex flex-col items-center justify-center bg-opacity-85 border border-gray-200 p-0.5 rounded text-center">
+                <div className="text-[1vw] font-bold text-gray-800">
                   7.59
                 </div>
-                <div className="text-[5px] sm:text-[1vw] text-gray-600">
+                <div className="text-[0.5vw] text-gray-600">
                   Safety Tour YTD
                 </div>
               </div>
-              <div className="bg-white flex flex-col items-center justify-center bg-opacity-85 border border-gray-200 p-0.5 sm:p-1 rounded text-center">
-                <div className="text-[10px] sm:text-[1.5vw] font-bold text-gray-800">
+              <div className="bg-white flex flex-col items-center justify-center bg-opacity-85 border border-gray-200 p-0.5 rounded text-center">
+                <div className="text-[1vw] font-bold text-gray-800">
                   7.33
                 </div>
-                <div className="text-[5px] sm:text-[1vw] text-gray-600">
+                <div className="text-[0.5vw] text-gray-600">
                   Safety Tour MTD
                 </div>
               </div>
@@ -93,26 +93,26 @@ const PerformanceDashboard: React.FC = () => {
           </div>
 
           {/* Possession Utilisation */}
-          <div className="space-y-1 flex flex-col">
-            <div className="bg-white bg-opacity-70 rounded p-0.5 sm:p-1 xl:py-[4vw] text-center">
-              <h3 className="text-[6px] sm:text-[1.5vw] font-bold text-black">
+          <div className="flex flex-col gap-0.5">
+            <div className="bg-white bg-opacity-70 rounded py-0.5 px-1 text-center">
+              <h3 className="text-[0.7vw] font-bold text-black">
                 Possession Utilisation
               </h3>
             </div>
-            <div className="grid grid-cols-2 gap-0.5 sm:gap-1 flex-1">
-              <div className="bg-white flex flex-col items-center justify-center bg-opacity-85 border border-gray-200 p-0.5 sm:p-1 rounded text-center">
-                <div className="text-[10px] sm:text-[1.5vw] font-bold text-gray-800">
+            <div className="grid grid-cols-2 gap-0.5 flex-1">
+              <div className="bg-white flex flex-col items-center justify-center bg-opacity-85 border border-gray-200 p-0.5 rounded text-center">
+                <div className="text-[1vw] font-bold text-gray-800">
                   63
                 </div>
-                <div className="text-[5px] sm:text-[1vw] text-gray-600">
+                <div className="text-[0.5vw] text-gray-600">
                   Average
                 </div>
               </div>
-              <div className="bg-white flex flex-col items-center justify-center bg-opacity-85 border border-gray-200 p-0.5 sm:p-1 rounded text-center">
-                <div className="text-[10px] sm:text-[1.5vw] font-bold text-gray-800">
+              <div className="bg-white flex flex-col items-center justify-center bg-opacity-85 border border-gray-200 p-0.5 rounded text-center">
+                <div className="text-[1vw] font-bold text-gray-800">
                   218.42
                 </div>
-                <div className="text-[5px] sm:text-[1vw] text-gray-600">
+                <div className="text-[0.5vw] text-gray-600">
                   Ave Work p/h
                 </div>
               </div>
@@ -121,13 +121,13 @@ const PerformanceDashboard: React.FC = () => {
         </div>
 
         {/* Pie Charts Section */}
-        <div className="grid grid-cols-1 sm:h-1/2 sm:grid-cols-3 gap-1 sm:gap-2">
+        <div className="grid grid-cols-3 gap-1 h-1/2">
           {/* In Process Chart */}
-          <div className="bg-white bg-opacity-60 rounded p-1 sm:p-2 flex flex-col items-center justify-center">
-            <h4 className="text-[5px] sm:text-[1.5vw] font-semibold text-black text-center mb-0.5">
+          <div className="bg-white bg-opacity-60 rounded p-1 flex flex-col items-center justify-center">
+            <h4 className="text-[0.7vw] font-semibold text-black text-center mb-0.5">
               In Process Status
             </h4>
-            <ResponsiveContainer width="100%" minHeight={30} height="50%">
+            <ResponsiveContainer width="100%" height="80%">
               <PieChart>
                 <Pie
                   data={inProcessData}
@@ -147,11 +147,11 @@ const PerformanceDashboard: React.FC = () => {
           </div>
 
           {/* Possession Chart */}
-          <div className="bg-white bg-opacity-60 rounded p-1 sm:p-2 flex flex-col items-center justify-center">
-            <h4 className="text-[5px] sm:text-[1.5vw] font-semibold text-black text-center mb-0.5">
+          <div className="bg-white bg-opacity-60 rounded p-1 flex flex-col items-center justify-center">
+            <h4 className="text-[0.7vw] font-semibold text-black text-center mb-0.5">
               Possession Status
             </h4>
-            <ResponsiveContainer width="100%" minHeight={30} height="50%">
+            <ResponsiveContainer width="100%" height="80%">
               <PieChart>
                 <Pie
                   data={possessionData}
@@ -171,11 +171,11 @@ const PerformanceDashboard: React.FC = () => {
           </div>
 
           {/* Preparation Chart */}
-          <div className="bg-white bg-opacity-60 rounded p-1 sm:p-2 flex flex-col items-center justify-center">
-            <h4 className="text-[5px] sm:text-[1.5vw] font-semibold text-black text-center mb-0.5">
+          <div className="bg-white bg-opacity-60 rounded p-1 flex flex-col items-center justify-center">
+            <h4 className="text-[0.7vw] font-semibold text-black text-center mb-0.5">
               Preparation Status
             </h4>
-            <ResponsiveContainer width="100%" minHeight={30} height="50%">
+            <ResponsiveContainer width="100%" height="80%">
               <PieChart>
                 <Pie
                   data={preparationData}

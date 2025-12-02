@@ -69,14 +69,14 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({
 
   if (loading) {
     return (
-      <Card className="bg-gray-800 border-gray-700 !h-full flex flex-col">
-        <CardHeader className="pb-3 bg-gray-900 flex-shrink-0">
-          <CardTitle className="text-lg xl:text-[2.5vw] text-white text-right">
+      <Card className="bg-gray-800 border-gray-700 h-full flex flex-col">
+        <CardHeader className="pb-0.5 py-1 bg-gray-900 flex-shrink-0">
+          <CardTitle className="text-[1.2vw] text-white text-right">
             RSRG Videos
           </CardTitle>
         </CardHeader>
-        <CardContent className="p-3 flex-1 flex items-center justify-center">
-          <p className="text-white">Loading videos...</p>
+        <CardContent className="p-1 flex-1 flex items-center justify-center">
+          <p className="text-white text-[0.8vw]">Loading videos...</p>
         </CardContent>
       </Card>
     );
@@ -85,13 +85,13 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({
   if (error || videos.length === 0) {
     return (
       <Card className="bg-gray-800 border-gray-700 h-full flex flex-col">
-        <CardHeader className="pb-3 bg-gray-900 flex-shrink-0">
-          <CardTitle className="text-lg xl:text-[2.5vw] text-white text-right">
+        <CardHeader className="pb-0.5 py-1 bg-gray-900 flex-shrink-0">
+          <CardTitle className="text-[1.2vw] text-white text-right">
             RSRG Videos
           </CardTitle>
         </CardHeader>
-        <CardContent className="p-3 flex-1 flex items-center justify-center">
-          <p className="text-white">{error || "No videos available"}</p>
+        <CardContent className="p-1 flex-1 flex items-center justify-center">
+          <p className="text-white text-[0.8vw]">{error || "No videos available"}</p>
         </CardContent>
       </Card>
     );
@@ -99,29 +99,29 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({
 
   return (
     <Card className="bg-gray-800 border-gray-700 h-full flex flex-col">
-      <CardHeader className="pb-0.5 py-[1vw] bg-gray-900 flex-shrink-0">
-        <CardTitle className="text-[2.5vw] text-white text-right">
+      <CardHeader className="pb-0.5 py-1 bg-gray-900 flex-shrink-0">
+        <CardTitle className="text-[1.2vw] text-white text-right">
           RSRG Videos
         </CardTitle>
       </CardHeader>
       <CardContent className="p-1 flex-1 flex gap-1">
         {/* Main video player */}
-        <div className="bg-black rounded overflow-hidden flex justify-center">
+        <div className="flex-1 bg-black rounded overflow-hidden flex justify-center items-center">
           {selectedVideoId && (
             <YouTube
               videoId={selectedVideoId}
               opts={youtubeOptions}
               onReady={onPlayerReady}
               onError={onPlayerError}
-              className="flex justify-center items-center w-full h-full flex-1"
-              iframeClassName="w-[55vw] h-[30vw] rounded object-contain"
+              className="flex justify-center items-center w-full h-full"
+              iframeClassName="w-full h-full rounded"
             />
           )}
         </div>
 
-        <div className="relative w-16 sm:w-20 xl:w-[8vw]">
+        <div className="relative w-[5vw] flex-shrink-0">
           {videos.length === 0 && !loading && (
-            <div className="text-white text-[8px] p-1">No videos</div>
+            <div className="text-white text-[0.6vw] p-1">No videos</div>
           )}
 
           {videos.length > 0 && (
@@ -136,7 +136,7 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({
                 watchDrag: true,
                 axis: "y",
               }}
-              className="w-full max-h-96"
+              className="w-full h-full"
             >
               <CarouselContent className="h-full -mt-1 flex flex-col touch-pan-y overflow-y-auto">
                 {videos.map((video) => (
@@ -152,24 +152,24 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({
                       }`}
                       onClick={() => selectVideo(video.video_id)}
                     >
-                      <div className="relative bg-gray-900 w-12 sm:w-16 xl:w-[8vw] h-8 sm:h-10 xl:h-[6vw]">
+                      <div className="relative bg-gray-900 w-[5vw] h-[3vw]">
                         <Image
                           src={video.thumbnail_url}
                           alt={video.title}
                           fill
                           className="object-cover rounded"
-                          sizes="(max-width: 640px) 48px, (max-width: 1280px) 64px, 8vw"
+                          sizes="5vw"
                           onError={(e) => {
                             e.currentTarget.style.display = "none";
                           }}
                         />
                         <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 rounded">
-                          <Play className="w-1.5 h-1.5 sm:w-2 sm:h-2 text-white" />
+                          <Play className="w-[0.8vw] h-[0.8vw] text-white" />
                         </div>
                       </div>
                       <div className="p-0.5 flex-shrink-0 w-full">
                         <p
-                          className="text-[4px] sm:text-[5px] text-white truncate leading-tight"
+                          className="text-[0.5vw] text-white truncate leading-tight"
                           title={video.title}
                         >
                           {video.title}
@@ -181,8 +181,8 @@ const REDSafetyVideoCard: React.FC<REDSafetyVideoCardProps> = ({
               </CarouselContent>
               {videos.length > 3 && (
                 <>
-                  <CarouselPrevious className="static h-4 w-4 mt-1 mb-1 bg-gray-700 border-gray-600 text-white hover:bg-gray-600" />
-                  <CarouselNext className="static h-4 w-4 mt-1 mb-1 bg-gray-700 border-gray-600 text-white hover:bg-gray-600" />
+                  <CarouselPrevious className="static h-[1vw] w-[1vw] mt-1 mb-1 bg-gray-700 border-gray-600 text-white hover:bg-gray-600" />
+                  <CarouselNext className="static h-[1vw] w-[1vw] mt-1 mb-1 bg-gray-700 border-gray-600 text-white hover:bg-gray-600" />
                 </>
               )}
             </Carousel>

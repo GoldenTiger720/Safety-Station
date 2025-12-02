@@ -87,20 +87,20 @@ const DepotNavigation: React.FC<DepotNavigationProps> = ({
   activeItem,
 }) => {
   return (
-    <div className="p-0.5 xs:p-1 sm:p-2 md:p-3 xl:py-[1vw] bg-depot-surface-elevated">
-      <div className="grid grid-cols-7 gap-0.5 xs:gap-1 sm:gap-1.5 md:gap-2">
+    <div className="py-0.5 px-1 bg-depot-surface-elevated flex-shrink-0">
+      <div className="grid grid-cols-7 gap-1">
         {navigationItems.map((item) => (
           <DepotButton
             key={item.id}
             variant={activeItem === item.id ? "accent" : item.variant}
             onClick={() => onItemClick(item.id)}
-            className="flex flex-col items-center justify-center leading-0 py-3"
+            className="flex flex-col items-center justify-center leading-0 py-1"
           >
-            <span className="text-[6px] xs:text-[7px] sm:text-[8px] md:text-[9px] lg:text-[10px] xl:text-[1.5vw] font-medium text-center break-words">
+            <span className="text-[1vw] font-medium text-center break-words">
               {item.label}
             </span>
             {item.label1 && (
-              <span className="text-[6px] xs:text-[7px] sm:text-[8px] md:text-[9px] lg:text-[10px] xl:text-[1.5vw] font-medium text-center break-words">
+              <span className="text-[1vw] font-medium text-center break-words">
                 {item.label1}
               </span>
             )}

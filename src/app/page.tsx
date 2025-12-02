@@ -81,15 +81,17 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto flex flex-col p-2 sm:p-3 md:p-4 space-y-0 max-w-full h-full overflow-x-hidden min-h-screen">
+    <div className="h-screen w-screen bg-background overflow-hidden">
+      <div className="flex flex-col h-full w-full p-1 gap-0.5">
         <DepotHeader />
         <DepotNavigation
           onItemClick={setActiveSection}
           activeItem={activeSection}
         />
 
-        {renderActiveSection()}
+        <div className="flex-1 overflow-hidden">
+          {renderActiveSection()}
+        </div>
       </div>
     </div>
   );
@@ -112,33 +114,40 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({
   const performanceDashboardRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="flex flex-col w-full flex-1 h-full overflow-hidden">
-      <div className="grid grid-cols-3 gap-0.5 h-full flex-1 overflow-hidden">
-        {/* Left Column: NewsCard and InDepotCard stacked */}
-        <div className=" col-span-1 flex flex-col min-[1920px]:h-[90vh] gap-0.5 sm:gap-1">
-          <div className="h-1/3" ref={newsCardRef}>
+    <div className="w-full h-full overflow-hidden">
+      {/* 16:9 Landscape Layout (3840x2160) - 3 column grid for optimal space usage */}
+      <div className="grid grid-cols-12 gap-1 h-full">
+        {/* Left Column (3 cols): News (top) + In Depot (bottom) */}
+        <div className="col-span-3 flex flex-col gap-1 h-full overflow-hidden">
+          {/* News - 50% height */}
+          <div className="h-[50%] min-h-0 overflow-hidden" ref={newsCardRef}>
             <NewsCard />
           </div>
-          <div className="h-2/3">
+          {/* In Depot - 50% height */}
+          <div className="h-[50%] min-h-0 overflow-hidden">
             <InDepotCard checkedInStaff={checkedInStaff} />
           </div>
         </div>
 
-        {/* Right Column: PerformanceDashboard, WeatherCard, and REDSafetyVideoCard stacked */}
-        <div className="col-span-2 flex flex-col gap-0.5 min-[1920px]:h-[90vh] sm:gap-1">
-          <div className="h-1/3" ref={performanceDashboardRef}>
+        {/* Center Column (5 cols): Performance Highlights (top) + Weather (bottom) */}
+        <div className="col-span-5 flex flex-col gap-1 h-full overflow-hidden">
+          {/* Performance Highlights - 60% height */}
+          <div className="h-[60%] min-h-0 overflow-hidden" ref={performanceDashboardRef}>
             <PerformanceDashboard />
           </div>
-          <div className="h-1/3">
+          {/* Weather - 40% height */}
+          <div className="h-[40%] min-h-0 overflow-hidden">
             <WeatherCard />
           </div>
-          <div className="h-1/3">
-            <REDSafetyVideoCard
-              videos={youtubeVideos}
-              loading={videosLoading}
-              error={videosError}
-            />
-          </div>
+        </div>
+
+        {/* Right Column (4 cols): RSRG Videos - full height */}
+        <div className="col-span-4 h-full min-h-0 overflow-hidden">
+          <REDSafetyVideoCard
+            videos={youtubeVideos}
+            loading={videosLoading}
+            error={videosError}
+          />
         </div>
       </div>
     </div>

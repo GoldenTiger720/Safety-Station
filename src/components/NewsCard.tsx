@@ -34,8 +34,8 @@ const NewsCard = () => {
   if (isLoading) {
     return (
       <Card className="bg-gray-800 border-gray-700 h-full flex flex-col">
-        <CardHeader className="pb-0.5 py-[1vw] bg-gray-900 flex-shrink-0">
-          <CardTitle className="text-[2.5vw] text-white">News</CardTitle>
+        <CardHeader className="pb-0.5 py-1 bg-gray-900 flex-shrink-0">
+          <CardTitle className="text-[1.2vw] text-white">News</CardTitle>
         </CardHeader>
         <CardContent className="flex-1 flex items-center justify-center">
           <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
@@ -48,11 +48,11 @@ const NewsCard = () => {
   if (error) {
     return (
       <Card className="bg-gray-800 border-gray-700 h-full flex flex-col">
-        <CardHeader className="pb-0.5 py-[1vw] bg-gray-900 flex-shrink-0">
-          <CardTitle className="text-[2.5vw] text-white">News</CardTitle>
+        <CardHeader className="pb-0.5 py-1 bg-gray-900 flex-shrink-0">
+          <CardTitle className="text-[1.2vw] text-white">News</CardTitle>
         </CardHeader>
         <CardContent className="flex-1 flex items-center justify-center">
-          <p className="text-red-400 text-sm">Failed to load news</p>
+          <p className="text-red-400 text-[0.8vw]">Failed to load news</p>
         </CardContent>
       </Card>
     );
@@ -64,34 +64,34 @@ const NewsCard = () => {
   if (newsItems.length === 0) {
     return (
       <Card className="bg-gray-800 border-gray-700 h-full flex flex-col">
-        <CardHeader className="pb-0.5 py-[1vw] bg-gray-900 flex-shrink-0">
-          <CardTitle className="text-[2.5vw] text-white">News</CardTitle>
+        <CardHeader className="pb-0.5 py-1 bg-gray-900 flex-shrink-0">
+          <CardTitle className="text-[1.2vw] text-white">News</CardTitle>
         </CardHeader>
         <CardContent className="flex-1 flex items-center justify-center">
-          <p className="text-gray-400 text-sm">No news available</p>
+          <p className="text-gray-400 text-[0.8vw]">No news available</p>
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <>
+    <div className="h-full w-full">
       <Card className="bg-gray-800 border-gray-700 h-full flex flex-col">
-        <CardHeader className="pb-0.5 py-[1vw] bg-gray-900 flex-shrink-0">
-          <CardTitle className="text-[2.5vw] text-white">News</CardTitle>
+        <CardHeader className="pb-0.5 py-1 bg-gray-900 flex-shrink-0">
+          <CardTitle className="text-[1.2vw] text-white">News</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-1 p-2 flex-shrink-0">
-          {newsItems.slice(0, 2).map((item) => (
+        <CardContent className="flex-1 p-2 overflow-y-auto space-y-2">
+          {newsItems.slice(0, 4).map((item) => (
             <div
               key={item.id}
               onClick={() => handleNewsClick(item)}
-              className={`bg-white rounded p-1 sm:p-1.5 flex gap-1 sm:gap-2 xl:gap-5 ${
+              className={`bg-white rounded p-2 flex gap-3 ${
                 item.news_link
                   ? "cursor-pointer hover:bg-gray-50 transition-colors"
                   : ""
               }`}
             >
-              <div className="flex-shrink-0 relative h-[7vw] w-[7vw]">
+              <div className="flex-shrink-0 relative h-[5vw] w-[5vw]">
                 {item.image_data ? (
                   <img
                     src={item.image_data}
@@ -100,22 +100,22 @@ const NewsCard = () => {
                   />
                 ) : (
                   <div className="rounded bg-gray-200 w-full h-full flex items-center justify-center">
-                    <span className="text-gray-400 text-xs">No image</span>
+                    <span className="text-gray-400 text-[0.6vw]">No image</span>
                   </div>
                 )}
               </div>
               <div className="flex-1 min-w-0 flex flex-col justify-center">
-                <h3 className="text-[8px] sm:text-[10px] xl:text-[1.5vw] font-semibold text-gray-900 mb-0.5 leading-tight line-clamp-1">
+                <h3 className="text-[0.9vw] font-semibold text-gray-900 mb-0.5 leading-tight line-clamp-1">
                   {item.title}
                   {item.news_link && (
-                    <ExternalLink className="inline-block ml-1 h-2 w-2 sm:h-3 sm:w-3 text-blue-500" />
+                    <ExternalLink className="inline-block ml-1 h-[0.8vw] w-[0.8vw] text-blue-500" />
                   )}
                 </h3>
-                <p className="text-[6px] sm:text-[8px] xl:text-[1vw] text-gray-600 line-clamp-2 leading-tight">
+                <p className="text-[0.7vw] text-gray-600 line-clamp-2 leading-tight">
                   {item.description}
                 </p>
-                <div className="flex items-center gap-0.5 sm:gap-1 mt-0.5 sm:mt-1">
-                  <div className="w-2 h-2 sm:w-3 sm:h-3 bg-gray-300 rounded-full relative overflow-hidden">
+                <div className="flex items-center gap-1 mt-1">
+                  <div className="w-[1vw] h-[1vw] bg-gray-300 rounded-full relative overflow-hidden">
                     {item.avatar_data ? (
                       <img
                         src={item.avatar_data}
@@ -128,11 +128,11 @@ const NewsCard = () => {
                         alt="user"
                         fill
                         className="object-cover"
-                        sizes="12px"
+                        sizes="1vw"
                       />
                     )}
                   </div>
-                  <span className="text-[6px] sm:text-[8px] text-gray-500">
+                  <span className="text-[0.6vw] text-gray-500">
                     {item.poster_name || "Unknown"}
                     {item.poster_title && ` - ${item.poster_title}`}
                   </span>
@@ -219,7 +219,7 @@ const NewsCard = () => {
           </div>
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 };
 

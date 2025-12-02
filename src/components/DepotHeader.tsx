@@ -11,20 +11,20 @@ const DepotHeader: React.FC<DepotHeaderProps> = ({
   title = "Safety & Performance Station",
 }) => {
   return (
-    <div className="relative bg-gradient-to-r from-depot-header to-depot-header/80 p-4 sm:p-6 xl:py-[3vw] md:p-8 rounded-t-xl">
+    <div className="relative bg-gradient-to-r from-depot-header to-depot-header/80 py-1 px-4 rounded-t-xl flex-shrink-0">
       {/* RSRG Logo - positioned absolutely to match full header height */}
-      <div className="absolute top-0 right-0 h-full flex items-center pr-4 sm:pr-6 md:pr-8">
+      <div className="absolute top-0 right-0 h-full flex items-center pr-4">
         <Image
           src="/RSRG.png"
           alt="Rhomberg Sersa Rail Group"
           width={200}
           height={100}
-          className="h-full w-auto object-contain"
+          className="h-[90%] w-auto object-contain"
         />
       </div>
 
       <div className="relative z-10 flex items-center">
-        <h1 className="hidden sm:block text-sm sm:text-lg md:text-xl lg:text-[4vw] font-bold text-foreground tracking-wide flex-1">
+        <h1 className="text-[2vw] font-bold text-foreground tracking-wide flex-1">
           {title}
         </h1>
       </div>
