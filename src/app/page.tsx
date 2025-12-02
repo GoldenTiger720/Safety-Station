@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import DepotHeader from "@/components/DepotHeader";
 import DepotNavigation from "@/components/DepotNavigation";
@@ -16,12 +16,26 @@ import SafetyAlerts from "@/components/SafetyAlerts";
 import DocumentControl from "@/components/DocumentControl";
 import PerformanceDashboard from "@/components/PerformanceDashboard";
 import { useYouTubeVideos } from "@/hooks/use-youtube";
+import { useCheckInRecords } from "@/hooks/use-checkin";
 import type { CheckInRecord, YouTubeVideo } from "@/types";
 
 export default function Dashboard() {
   const router = useRouter();
   const [activeSection, setActiveSection] = useState<string>("dashboard");
   const [checkedInStaff, setCheckedInStaff] = useState<CheckInRecord[]>([]);
+
+  // Fetch check-in records from database
+  const { data: checkInData } = useCheckInRecords();
+
+  // Update checkedInStaff when data is fetched from database
+  useEffect(() => {
+    if (checkInData?.records) {
+      const checkedIn = checkInData.records.filter(
+        (record) => record.status === "checked-in"
+      );
+      setCheckedInStaff(checkedIn);
+    }
+  }, [checkInData]);
 
   // Use ReactQuery hook for YouTube videos
   const {

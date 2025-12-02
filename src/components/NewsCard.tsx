@@ -80,8 +80,8 @@ const NewsCard = () => {
         <CardHeader className="pb-0.5 py-1 bg-gray-900 flex-shrink-0">
           <CardTitle className="text-[1.2vw] text-white">News</CardTitle>
         </CardHeader>
-        <CardContent className="flex-1 p-2 overflow-y-auto space-y-2">
-          {newsItems.slice(0, 4).map((item) => (
+        <CardContent className="flex-1 min-h-0 p-2 overflow-y-auto space-y-2">
+          {newsItems.map((item) => (
             <div
               key={item.id}
               onClick={() => handleNewsClick(item)}

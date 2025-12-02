@@ -24,7 +24,7 @@ const InDepotCard: React.FC<InDepotCardProps> = ({ checkedInStaff = [] }) => {
       <CardHeader className="pb-0.5 py-1 bg-gray-800 flex-shrink-0">
         <CardTitle className="text-[1.2vw] text-white">In Depot</CardTitle>
       </CardHeader>
-      <CardContent className="p-0 flex-1 overflow-y-auto">
+      <CardContent className="p-0 flex-1 min-h-0 overflow-y-auto">
         <div className="divide-y divide-gray-700">
           {staffInDepot.length === 0 ? (
             <div className="px-2 py-4 text-center">
