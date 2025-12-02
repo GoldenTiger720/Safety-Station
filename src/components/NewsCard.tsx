@@ -143,29 +143,78 @@ const NewsCard = () => {
         </CardContent>
       </Card>
 
-      {/* Modal for displaying news link in iframe */}
+      {/* Modal for displaying news details */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-[90vw] max-h-[90vh] w-[90vw] h-[90vh] p-0 overflow-hidden">
-          <DialogHeader className="px-4 py-3 border-b bg-gray-100 flex flex-row items-center justify-between">
-            <DialogTitle className="text-lg font-semibold truncate pr-8 text-black">
+        <DialogContent className="max-w-2xl p-0 overflow-hidden bg-white">
+          <DialogHeader className="px-6 py-4 border-b bg-gray-50 flex flex-row items-center justify-between">
+            <DialogTitle className="text-xl font-semibold text-black pr-8">
               {selectedNews?.title}
             </DialogTitle>
             <button
               onClick={closeModal}
-              className="absolute right-4 top-3 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+              className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
             >
               <X className="h-5 w-5 text-black" />
               <span className="sr-only">Close</span>
             </button>
           </DialogHeader>
-          <div className="flex-1 w-full h-[calc(90vh-60px)]">
+          <div className="p-6">
+            {/* News Image */}
+            {selectedNews?.image_data && (
+              <div className="mb-4 rounded-lg overflow-hidden">
+                <img
+                  src={selectedNews.image_data}
+                  alt={selectedNews.title}
+                  className="w-full h-48 object-cover"
+                />
+              </div>
+            )}
+
+            {/* Description */}
+            <p className="text-gray-700 text-base mb-6 leading-relaxed">
+              {selectedNews?.description}
+            </p>
+
+            {/* Poster Info */}
+            <div className="flex items-center gap-3 mb-6 pb-4 border-b">
+              <div className="w-10 h-10 bg-gray-200 rounded-full overflow-hidden">
+                {selectedNews?.avatar_data ? (
+                  <img
+                    src={selectedNews.avatar_data}
+                    alt={selectedNews.poster_name || "user"}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <Image
+                    src="/user.jpeg"
+                    alt="user"
+                    width={40}
+                    height={40}
+                    className="object-cover"
+                  />
+                )}
+              </div>
+              <div>
+                <p className="font-medium text-gray-900">
+                  {selectedNews?.poster_name || "Unknown"}
+                </p>
+                {selectedNews?.poster_title && (
+                  <p className="text-sm text-gray-500">{selectedNews.poster_title}</p>
+                )}
+              </div>
+            </div>
+
+            {/* Open Link Button */}
             {selectedNews?.news_link && (
-              <iframe
-                src={selectedNews.news_link}
-                title={selectedNews.title}
-                className="w-full h-full border-0"
-                sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-              />
+              <a
+                href={selectedNews.news_link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+              >
+                <ExternalLink className="h-5 w-5" />
+                Open Full Article
+              </a>
             )}
           </div>
         </DialogContent>
