@@ -66,3 +66,25 @@ export interface YouTubeListResponse {
   total_videos: number;
   videos_updated?: number;
 }
+
+// News types
+export interface NewsItem {
+  id: number;
+  title: string;
+  description: string;
+  image_data: string | null;
+  avatar_data: string | null;
+  news_link: string | null;
+  poster_name: string | null;
+  poster_title: string | null;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface NewsListResponse {
+  success: boolean;
+  message: string;
+  news: NewsItem[];
+  total_news: number;
+}
