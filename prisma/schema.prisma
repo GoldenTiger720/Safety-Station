@@ -168,6 +168,24 @@ model News {
   @@map("news")
 }
 
+model SafetyAlert {
+  id            BigInt   @id @default(autoincrement())
+  weekNumber    Int      @map("week_number")
+  year          Int
+  category      String   @db.VarChar(100)
+  title         String   @db.VarChar(200)
+  content       String   @db.Text
+  thumbnailData String?  @map("thumbnail_data") @db.Text
+  pdfData       String?  @map("pdf_data") @db.Text
+  pdfFilename   String?  @map("pdf_filename") @db.VarChar(255)
+  isActive      Boolean  @default(true) @map("is_active")
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt     DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  @@unique([weekNumber, year])
+  @@map("safety_alerts")
+}
+
 model auth_group {
   id                               Int                                @id @default(autoincrement())
   name                             String                             @unique @db.VarChar(150)
