@@ -12,7 +12,7 @@ export async function GET() {
     });
 
     // Get unique categories
-    const categories = [...new Set(safetyAlerts.map((alert) => alert.category))];
+    const categories = Array.from(new Set(safetyAlerts.map((alert) => alert.category)));
 
     const transformedAlerts = safetyAlerts.map((item) => ({
       id: Number(item.id),
