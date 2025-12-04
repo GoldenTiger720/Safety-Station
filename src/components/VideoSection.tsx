@@ -62,18 +62,16 @@ const VideoSection: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="space-y-6">
-        <Card className="bg-card border-border">
-          <CardHeader>
+      <div className="h-full w-full overflow-hidden">
+        <Card className="bg-card border-border h-full flex flex-col">
+          <CardHeader className="flex-shrink-0 py-2">
             <CardTitle className="flex items-center gap-2 text-xl">
               <PlayCircle className="w-6 h-6" />
               Depot Induction Videos
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-center py-12">
-              <RefreshCw className="h-8 w-8 animate-spin text-muted-foreground" />
-            </div>
+          <CardContent className="flex-1 flex items-center justify-center">
+            <RefreshCw className="h-8 w-8 animate-spin text-muted-foreground" />
           </CardContent>
         </Card>
       </div>
@@ -82,18 +80,18 @@ const VideoSection: React.FC = () => {
 
   if (error || videos.length === 0) {
     return (
-      <div className="space-y-6">
-        <Card className="bg-card border-border">
-          <CardHeader>
+      <div className="h-full w-full overflow-hidden">
+        <Card className="bg-card border-border h-full flex flex-col">
+          <CardHeader className="flex-shrink-0 py-2">
             <CardTitle className="flex items-center gap-2 text-xl">
               <PlayCircle className="w-6 h-6" />
               Depot Induction Videos
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-center py-12 text-muted-foreground">
+          <CardContent className="flex-1 flex items-center justify-center">
+            <p className="text-muted-foreground">
               {error || "No depot induction videos available at this time."}
-            </div>
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -101,22 +99,21 @@ const VideoSection: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
-      <Card className="bg-card border-border">
-        <CardHeader>
+    <div className="h-full w-full overflow-hidden">
+      <Card className="bg-card border-border h-full flex flex-col">
+        <CardHeader className="flex-shrink-0 py-2">
           <CardTitle className="flex items-center gap-2 text-xl">
             <PlayCircle className="w-6 h-6" />
             Depot Induction Videos
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="flex-1 flex flex-col min-h-0 overflow-hidden p-3 gap-3">
           {/* Main Video Player */}
           {selectedVideo && (
-            <div className="space-y-2">
-              <div className="aspect-video w-full rounded-lg overflow-hidden">
+            <div className="flex-1 flex flex-col min-h-0">
+              <div className="flex-1 min-h-0 rounded-lg overflow-hidden">
                 <iframe
-                  width="100%"
-                  height="100%"
+                  className="w-full h-full"
                   src={`https://www.youtube.com/embed/${selectedVideo.youtubeId}`}
                   title={selectedVideo.title}
                   frameBorder="0"
@@ -124,13 +121,13 @@ const VideoSection: React.FC = () => {
                   allowFullScreen
                 />
               </div>
-              <h3 className="font-semibold text-lg">{selectedVideo.title}</h3>
+              <h3 className="font-semibold text-lg mt-2 flex-shrink-0">{selectedVideo.title}</h3>
             </div>
           )}
 
           {/* Navigation and Video List */}
           {videos.length > 1 && (
-            <div className="space-y-4">
+            <div className="flex-shrink-0 space-y-3">
               {/* Navigation Buttons */}
               <div className="flex items-center justify-between">
                 <Button
@@ -157,7 +154,7 @@ const VideoSection: React.FC = () => {
               </div>
 
               {/* Video Thumbnails List */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+              <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-2">
                 {videos.map((video) => (
                   <button
                     key={video.id}
@@ -178,10 +175,7 @@ const VideoSection: React.FC = () => {
                       />
                     </div>
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                      <PlayCircle className="h-8 w-8 text-white" />
-                    </div>
-                    <div className="p-2 bg-card">
-                      <p className="text-xs font-medium line-clamp-2">{video.title}</p>
+                      <PlayCircle className="h-6 w-6 text-white" />
                     </div>
                   </button>
                 ))}
