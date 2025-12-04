@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle, FileText, Loader2, X } from "lucide-react";
@@ -169,12 +170,14 @@ const SafetyAlerts: React.FC = () => {
                   >
                     <div className="flex gap-3">
                       {/* Thumbnail */}
-                      <div className="flex-shrink-0 w-16 h-16 rounded overflow-hidden bg-gray-600">
+                      <div className="flex-shrink-0 w-16 h-16 rounded overflow-hidden bg-gray-600 relative">
                         {alert.thumbnail_data ? (
-                          <img
+                          <Image
                             src={alert.thumbnail_data}
                             alt={alert.title}
-                            className="w-full h-full object-cover"
+                            fill
+                            className="object-cover"
+                            unoptimized
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">

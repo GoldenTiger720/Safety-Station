@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PlayCircle, RefreshCw, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -167,11 +168,13 @@ const VideoSection: React.FC = () => {
                         : "border-transparent hover:border-muted-foreground/30"
                     }`}
                   >
-                    <div className="aspect-video">
-                      <img
+                    <div className="aspect-video relative">
+                      <Image
                         src={`https://img.youtube.com/vi/${video.youtubeId}/mqdefault.jpg`}
                         alt={video.title}
-                        className="w-full h-full object-cover"
+                        fill
+                        className="object-cover"
+                        unoptimized
                       />
                     </div>
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">

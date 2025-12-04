@@ -93,10 +93,12 @@ const NewsCard = () => {
             >
               <div className="flex-shrink-0 relative h-[5vw] w-[5vw]">
                 {item.image_data ? (
-                  <img
+                  <Image
                     src={item.image_data}
                     alt={item.title}
-                    className="rounded object-cover bg-gray-200 w-full h-full"
+                    fill
+                    className="rounded object-cover bg-gray-200"
+                    unoptimized
                   />
                 ) : (
                   <div className="rounded bg-gray-200 w-full h-full flex items-center justify-center">
@@ -117,10 +119,12 @@ const NewsCard = () => {
                 <div className="flex items-center gap-1 mt-1">
                   <div className="w-[1vw] h-[1vw] bg-gray-300 rounded-full relative overflow-hidden">
                     {item.avatar_data ? (
-                      <img
+                      <Image
                         src={item.avatar_data}
                         alt={item.poster_name || "user"}
-                        className="object-cover w-full h-full"
+                        fill
+                        className="object-cover"
+                        unoptimized
                       />
                     ) : (
                       <Image
@@ -161,11 +165,13 @@ const NewsCard = () => {
           <div className="p-6">
             {/* News Image */}
             {selectedNews?.image_data && (
-              <div className="mb-4 rounded-lg overflow-hidden">
-                <img
+              <div className="mb-4 rounded-lg overflow-hidden relative h-48">
+                <Image
                   src={selectedNews.image_data}
                   alt={selectedNews.title}
-                  className="w-full h-48 object-cover"
+                  fill
+                  className="object-cover"
+                  unoptimized
                 />
               </div>
             )}
@@ -177,12 +183,14 @@ const NewsCard = () => {
 
             {/* Poster Info */}
             <div className="flex items-center gap-3 mb-6 pb-4 border-b">
-              <div className="w-10 h-10 bg-gray-200 rounded-full overflow-hidden">
+              <div className="w-10 h-10 bg-gray-200 rounded-full overflow-hidden relative">
                 {selectedNews?.avatar_data ? (
-                  <img
+                  <Image
                     src={selectedNews.avatar_data}
                     alt={selectedNews.poster_name || "user"}
-                    className="w-full h-full object-cover"
+                    fill
+                    className="object-cover"
+                    unoptimized
                   />
                 ) : (
                   <Image
