@@ -182,7 +182,6 @@ model SafetyAlert {
   createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt     DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
 
-  @@unique([weekNumber, year])
   @@map("safety_alerts")
 }
 
