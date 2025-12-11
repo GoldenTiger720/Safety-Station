@@ -6,6 +6,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle, FileText, Loader2, X } from "lucide-react";
 
+interface PdfFile {
+  filename: string;
+  data: string;
+}
+
 interface SafetyAlert {
   id: number;
   week_number: number;
@@ -16,6 +21,7 @@ interface SafetyAlert {
   thumbnail_data: string | null;
   pdf_data: string | null;
   pdf_filename: string | null;
+  pdf_files: PdfFile[] | null;
   is_active: boolean;
   created_at: string;
   updated_at: string;
@@ -33,6 +39,7 @@ const SafetyAlerts: React.FC = () => {
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedAlert, setSelectedAlert] = useState<SafetyAlert | null>(null);
+  const [selectedPdfIndex, setSelectedPdfIndex] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -73,6 +80,7 @@ const SafetyAlerts: React.FC = () => {
 
   const handleAlertClick = (alert: SafetyAlert) => {
     setSelectedAlert(alert);
+    setSelectedPdfIndex(0); // Reset to first PDF when selecting a new alert
   };
 
   const handleCloseAlert = () => {
@@ -231,9 +239,41 @@ const SafetyAlerts: React.FC = () => {
                 )}
               </CardTitle>
             </CardHeader>
+            {/* PDF File Selector - show when multiple PDFs exist */}
+            {selectedAlert && selectedAlert.pdf_files && selectedAlert.pdf_files.length > 1 && (
+              <div className="px-4 py-2 bg-gray-850 border-b border-gray-700 flex-shrink-0">
+                <div className="flex items-center gap-2 overflow-x-auto">
+                  <span className="text-gray-400 text-sm whitespace-nowrap">PDFs:</span>
+                  {selectedAlert.pdf_files.map((pdf, index) => (
+                    <Button
+                      key={index}
+                      variant={selectedPdfIndex === index ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setSelectedPdfIndex(index)}
+                      className={`text-xs whitespace-nowrap ${
+                        selectedPdfIndex === index
+                          ? "bg-yellow-600 hover:bg-yellow-700 text-white"
+                          : "bg-gray-700 hover:bg-gray-600 text-gray-200 border-gray-600"
+                      }`}
+                    >
+                      <FileText className="w-3 h-3 mr-1" />
+                      {pdf.filename.length > 20 ? pdf.filename.substring(0, 20) + "..." : pdf.filename}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            )}
             <CardContent className="flex-1 min-h-0 p-0 overflow-hidden">
               {selectedAlert ? (
-                selectedAlert.pdf_data ? (
+                // Check for multiple PDFs first (new format)
+                selectedAlert.pdf_files && selectedAlert.pdf_files.length > 0 ? (
+                  <iframe
+                    src={selectedAlert.pdf_files[selectedPdfIndex]?.data || selectedAlert.pdf_files[0].data}
+                    className="w-full h-full border-0"
+                    title={selectedAlert.pdf_files[selectedPdfIndex]?.filename || selectedAlert.title}
+                  />
+                ) : selectedAlert.pdf_data ? (
+                  // Fallback to legacy single PDF format
                   <iframe
                     src={selectedAlert.pdf_data}
                     className="w-full h-full border-0"

@@ -24,6 +24,7 @@ export async function GET() {
       thumbnail_data: item.thumbnailData,
       pdf_data: item.pdfData,
       pdf_filename: item.pdfFilename,
+      pdf_files: item.pdfFiles,
       is_active: item.isActive,
       created_at: item.createdAt.toISOString(),
       updated_at: item.updatedAt.toISOString(),
