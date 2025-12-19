@@ -9,12 +9,12 @@ interface NavigationItem {
   label1: string;
   icon: React.ReactNode | null;
   variant:
-    | "default"
-    | "secondary"
-    | "accent"
-    | "warning"
-    | "success"
-    | "surface";
+  | "default"
+  | "secondary"
+  | "accent"
+  | "warning"
+  | "success"
+  | "surface";
   size: "default" | "lg" | "xl";
 }
 
@@ -61,7 +61,7 @@ const navigationItems: NavigationItem[] = [
   },
   {
     id: "operation",
-    label: "Operation",
+    label: "Operations",
     label1: "",
     icon: null,
     variant: "default",
