@@ -60,9 +60,9 @@ const navigationItems: NavigationItem[] = [
     size: "default",
   },
   {
-    id: "technical",
-    label: "Technical",
-    label1: "Library",
+    id: "operation",
+    label: "Operation",
+    label1: "",
     icon: null,
     variant: "default",
     size: "default",

@@ -198,6 +198,23 @@ model DepotInductionVideo {
   @@map("depot_induction_videos")
 }
 
+model Operation {
+  id            BigInt   @id @default(autoincrement())
+  weekNumber    Int      @map("week_number")
+  year          Int
+  title         String   @db.VarChar(200)
+  description   String?  @db.Text
+  excelData     String?  @map("excel_data") @db.Text
+  excelFilename String?  @map("excel_filename") @db.VarChar(255)
+  scheduleType  String   @map("schedule_type") @db.VarChar(20) @default("this_week")
+  isActive      Boolean  @default(true) @map("is_active")
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt     DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  @@unique([scheduleType], map: "operations_schedule_type_key")
+  @@map("operations")
+}
+
 model auth_group {
   id                               Int                                @id @default(autoincrement())
   name                             String                             @unique @db.VarChar(150)

@@ -14,6 +14,7 @@ import WeatherCard from "@/components/WeatherCard";
 import WebViewer from "@/components/WebViewer";
 import SafetyAlerts from "@/components/SafetyAlerts";
 import DocumentControl from "@/components/DocumentControl";
+import Operation from "@/components/Operation";
 import PerformanceDashboard from "@/components/PerformanceDashboard";
 import { useYouTubeVideos } from "@/hooks/use-youtube";
 import { useCheckInRecords } from "@/hooks/use-checkin";
@@ -62,14 +63,8 @@ export default function Dashboard() {
         return <SafetyAlerts />;
       case "document-control":
         return <DocumentControl />;
-      case "technical":
-        return (
-          <WebViewer
-            url="https://rsrg.sharepoint.com/sites/re-rse/documents/Forms/Recent.aspx?id=%2Fsites%2Fre%2Drse%2Fdocuments%2FOperations%20Technical%20Library&newTargetListUrl=%2Fsites%2Fre%2Drse%2Fdocuments&viewpath=%2Fsites%2Fre%2Drse%2Fdocuments%2FForms%2FRecent%2Easpx"
-            title="Technical Library"
-            onBack={handleBackToDashboard}
-          />
-        );
+      case "operation":
+        return <Operation />;
       case "spotlight":
         return (
           <WebViewer
