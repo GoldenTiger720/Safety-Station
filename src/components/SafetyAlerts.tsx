@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle, FileText, Loader2, X } from "lucide-react";
-import PdfJsViewer from "./PdfJsViewer";
+import PdfViewer from "./PdfViewer";
 
 interface PdfFile {
   filename: string;
@@ -285,7 +285,7 @@ const SafetyAlerts: React.FC = () => {
               {selectedAlert ? (
                 currentPdfUrl ? (
                   // Display PDF using PDF.js for Smart Screen compatibility
-                  <PdfJsViewer
+                  <PdfViewer
                     pdfUrl={currentPdfUrl}
                     title={
                       selectedAlert.pdf_files && selectedAlert.pdf_files.length > 0

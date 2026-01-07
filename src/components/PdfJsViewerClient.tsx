@@ -4,18 +4,96 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-import type { PDFDocumentProxy } from "pdfjs-dist";
-import type { RenderTask } from "pdfjs-dist/types/src/display/api";
+// PDF.js version to use from CDN
+const PDFJS_VERSION = "4.0.379";
+
+// Declare global pdfjsLib type
+declare global {
+  interface Window {
+    pdfjsLib: {
+      GlobalWorkerOptions: { workerSrc: string };
+      getDocument: (src: { data: Uint8Array } | string) => {
+        promise: Promise<PDFDocument>;
+      };
+    };
+  }
+}
+
+interface PDFDocument {
+  numPages: number;
+  getPage: (pageNum: number) => Promise<PDFPage>;
+}
+
+interface PDFPage {
+  getViewport: (params: { scale: number }) => PDFViewport;
+  render: (params: {
+    canvasContext: CanvasRenderingContext2D;
+    viewport: PDFViewport;
+  }) => { promise: Promise<void>; cancel: () => void };
+}
+
+interface PDFViewport {
+  width: number;
+  height: number;
+}
+
+interface RenderTask {
+  promise: Promise<void>;
+  cancel: () => void;
+}
 
 interface PdfJsViewerProps {
   pdfUrl: string;
   title?: string;
 }
 
+// Load PDF.js script from CDN
+const loadPdfJsScript = (): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    // Check if already loaded
+    if (window.pdfjsLib) {
+      resolve();
+      return;
+    }
+
+    // Check if script is already being loaded
+    const existingScript = document.querySelector(
+      'script[src*="pdf.min.mjs"]'
+    );
+    if (existingScript) {
+      existingScript.addEventListener("load", () => resolve());
+      existingScript.addEventListener("error", () =>
+        reject(new Error("Failed to load PDF.js"))
+      );
+      return;
+    }
+
+    // Create and load the script
+    const script = document.createElement("script");
+    script.src = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.min.mjs`;
+    script.type = "module";
+    script.async = true;
+
+    script.onload = () => {
+      // Set worker source
+      if (window.pdfjsLib) {
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.worker.min.mjs`;
+        resolve();
+      } else {
+        reject(new Error("PDF.js loaded but pdfjsLib not found"));
+      }
+    };
+
+    script.onerror = () => reject(new Error("Failed to load PDF.js script"));
+
+    document.head.appendChild(script);
+  });
+};
+
 const PdfJsViewer: React.FC<PdfJsViewerProps> = ({ pdfUrl }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [pdfDoc, setPdfDoc] = useState<PDFDocumentProxy | null>(null);
+  const [pdfDoc, setPdfDoc] = useState<PDFDocument | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [scale, setScale] = useState(1.0);
@@ -32,14 +110,16 @@ const PdfJsViewer: React.FC<PdfJsViewerProps> = ({ pdfUrl }) => {
       setError(null);
 
       try {
-        // Dynamically import pdfjs-dist
-        const pdfjsLib = await import("pdfjs-dist");
+        // Load PDF.js from CDN
+        await loadPdfJsScript();
 
-        // Set worker source - use CDN for compatibility
-        pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+        const pdfjsLib = window.pdfjsLib;
+        if (!pdfjsLib) {
+          throw new Error("PDF.js library not available");
+        }
 
-        // Load the PDF document
-        let loadingTask;
+        // Prepare PDF data
+        let pdfData: Uint8Array;
 
         if (pdfUrl.startsWith("data:")) {
           // For data URLs, extract base64 and convert directly
@@ -51,7 +131,7 @@ const PdfJsViewer: React.FC<PdfJsViewerProps> = ({ pdfUrl }) => {
             for (let i = 0; i < binaryString.length; i++) {
               bytes[i] = binaryString.charCodeAt(i);
             }
-            loadingTask = pdfjsLib.getDocument({ data: bytes });
+            pdfData = bytes;
           } else {
             throw new Error("Invalid data URL format");
           }
@@ -59,11 +139,21 @@ const PdfJsViewer: React.FC<PdfJsViewerProps> = ({ pdfUrl }) => {
           // For blob URLs, fetch the data first
           const response = await fetch(pdfUrl);
           const arrayBuffer = await response.arrayBuffer();
-          loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+          pdfData = new Uint8Array(arrayBuffer);
         } else {
-          loadingTask = pdfjsLib.getDocument(pdfUrl);
+          // For regular URLs, let PDF.js handle it
+          const loadingTask = pdfjsLib.getDocument(pdfUrl);
+          const pdf = await loadingTask.promise;
+          if (isMounted) {
+            setPdfDoc(pdf);
+            setTotalPages(pdf.numPages);
+            setCurrentPage(1);
+          }
+          return;
         }
 
+        // Load PDF from data
+        const loadingTask = pdfjsLib.getDocument({ data: pdfData });
         const pdf = await loadingTask.promise;
 
         if (isMounted) {
@@ -74,7 +164,9 @@ const PdfJsViewer: React.FC<PdfJsViewerProps> = ({ pdfUrl }) => {
       } catch (err) {
         console.error("Error loading PDF:", err);
         if (isMounted) {
-          setError("Failed to load PDF document");
+          const errorMessage =
+            err instanceof Error ? err.message : "Unknown error";
+          setError(`Failed to load PDF: ${errorMessage}`);
         }
       } finally {
         if (isMounted) {
@@ -97,7 +189,11 @@ const PdfJsViewer: React.FC<PdfJsViewerProps> = ({ pdfUrl }) => {
     try {
       // Cancel any ongoing render task
       if (renderTaskRef.current) {
-        renderTaskRef.current.cancel();
+        try {
+          renderTaskRef.current.cancel();
+        } catch {
+          // Ignore cancel errors
+        }
       }
 
       const page = await pdfDoc.getPage(currentPage);
@@ -127,7 +223,6 @@ const PdfJsViewer: React.FC<PdfJsViewerProps> = ({ pdfUrl }) => {
       // Render the page
       renderTaskRef.current = page.render({
         canvasContext: context,
-        canvas: canvas,
         viewport: scaledViewport,
       });
       await renderTaskRef.current.promise;
