@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle, FileText, Loader2, X } from "lucide-react";
+import PdfJsViewer from "./PdfJsViewer";
 
 interface PdfFile {
   filename: string;
@@ -87,58 +88,22 @@ const SafetyAlerts: React.FC = () => {
     setSelectedAlert(null);
   };
 
-  // Convert base64 data URL to Blob URL for better performance with large PDFs
-  const convertDataUrlToBlobUrl = useCallback((dataUrl: string): string => {
-    try {
-      // Extract the base64 content and mime type
-      const matches = dataUrl.match(/^data:([^;]+);base64,(.+)$/);
-      if (!matches) return dataUrl; // Return original if not a valid data URL
-
-      const mimeType = matches[1];
-      const base64Data = matches[2];
-
-      // Convert base64 to binary
-      const binaryString = atob(base64Data);
-      const bytes = new Uint8Array(binaryString.length);
-      for (let i = 0; i < binaryString.length; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-      }
-
-      // Create Blob and return URL
-      const blob = new Blob([bytes], { type: mimeType });
-      return URL.createObjectURL(blob);
-    } catch (error) {
-      console.error("Error converting data URL to Blob URL:", error);
-      return dataUrl; // Fallback to original data URL
-    }
-  }, []);
-
-  // Get current PDF URL (converted to Blob URL for better performance)
+  // Get current PDF data URL (pass directly to PdfJsViewer which handles conversion)
   const currentPdfUrl = useMemo(() => {
     if (!selectedAlert) return null;
 
     // Check for multiple PDFs first
     if (selectedAlert.pdf_files && selectedAlert.pdf_files.length > 0) {
-      const pdfData = selectedAlert.pdf_files[selectedPdfIndex]?.data || selectedAlert.pdf_files[0].data;
-      return convertDataUrlToBlobUrl(pdfData);
+      return selectedAlert.pdf_files[selectedPdfIndex]?.data || selectedAlert.pdf_files[0].data;
     }
 
     // Fallback to legacy single PDF
     if (selectedAlert.pdf_data) {
-      return convertDataUrlToBlobUrl(selectedAlert.pdf_data);
+      return selectedAlert.pdf_data;
     }
 
     return null;
-  }, [selectedAlert, selectedPdfIndex, convertDataUrlToBlobUrl]);
-
-  // Cleanup Blob URLs when component unmounts or PDF changes
-  useEffect(() => {
-    return () => {
-      if (currentPdfUrl && currentPdfUrl.startsWith("blob:")) {
-        URL.revokeObjectURL(currentPdfUrl);
-      }
-    };
-  }, [currentPdfUrl]);
+  }, [selectedAlert, selectedPdfIndex]);
 
   // Loading state
   if (isLoading) {
@@ -319,10 +284,9 @@ const SafetyAlerts: React.FC = () => {
             <CardContent className="flex-1 min-h-0 p-0 overflow-hidden">
               {selectedAlert ? (
                 currentPdfUrl ? (
-                  // Display PDF using Blob URL for better performance
-                  <iframe
-                    src={currentPdfUrl}
-                    className="w-full h-full border-0"
+                  // Display PDF using PDF.js for Smart Screen compatibility
+                  <PdfJsViewer
+                    pdfUrl={currentPdfUrl}
                     title={
                       selectedAlert.pdf_files && selectedAlert.pdf_files.length > 0
                         ? selectedAlert.pdf_files[selectedPdfIndex]?.filename || selectedAlert.title
