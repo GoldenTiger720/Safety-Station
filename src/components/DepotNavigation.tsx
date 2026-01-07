@@ -61,7 +61,7 @@ const navigationItems: NavigationItem[] = [
   },
   {
     id: "operation",
-    label: "Operations",
+    label: "Planning",
     label1: "",
     icon: null,
     variant: "default",
