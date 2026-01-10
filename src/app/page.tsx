@@ -123,11 +123,11 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({
   const performanceDashboardRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="w-full h-full overflow-hidden">
+    <div className="w-full h-full overflow-hidden p-1">
       {/* 16:9 Landscape Layout (3840x2160) - 3 column grid for optimal space usage */}
-      <div className="grid grid-cols-12 gap-1 h-full">
+      <div className="grid grid-cols-12 gap-2 h-full">
         {/* Left Column (3 cols): News (top) + In Depot (bottom) */}
-        <div className="col-span-3 flex flex-col gap-1 h-full overflow-hidden">
+        <div className="col-span-3 flex flex-col gap-2 h-full overflow-hidden">
           {/* News - 50% height */}
           <div className="h-[50%] min-h-0 overflow-hidden" ref={newsCardRef}>
             <NewsCard />
@@ -138,15 +138,15 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           </div>
         </div>
 
-        {/* Center Column (5 cols): Performance Highlights (top) + Weather (bottom) */}
-        <div className="col-span-5 flex flex-col gap-1 h-full overflow-hidden">
-          {/* Performance Highlights - 60% height */}
-          <div className="h-[60%] min-h-0 overflow-hidden" ref={performanceDashboardRef}>
-            <PerformanceDashboard />
-          </div>
-          {/* Weather - 40% height */}
-          <div className="h-[40%] min-h-0 overflow-hidden">
+        {/* Center Column (5 cols): Stepped layout - Weather (top) + Performance (bottom) */}
+        <div className="col-span-5 flex flex-col gap-2 h-full overflow-hidden">
+          {/* Weather - 55% height (raised up) */}
+          <div className="h-[55%] min-h-0 overflow-hidden">
             <WeatherCard />
+          </div>
+          {/* Performance Highlights - 45% height (stepped down) */}
+          <div className="h-[45%] min-h-0 overflow-hidden" ref={performanceDashboardRef}>
+            <PerformanceDashboard />
           </div>
         </div>
 

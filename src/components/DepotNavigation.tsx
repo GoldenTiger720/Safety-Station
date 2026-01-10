@@ -87,26 +87,30 @@ const DepotNavigation: React.FC<DepotNavigationProps> = ({
   activeItem,
 }) => {
   return (
-    <div className="py-0.5 px-1 bg-depot-surface-elevated flex-shrink-0">
-      <div className="grid grid-cols-7 gap-1">
-        {navigationItems.map((item) => (
-          <DepotButton
-            key={item.id}
-            variant={activeItem === item.id ? "accent" : item.variant}
-            onClick={() => onItemClick(item.id)}
-            className="flex flex-col items-center justify-center leading-0 py-1"
-          >
-            <span className="text-[1vw] font-medium text-center break-words">
-              {item.label}
-            </span>
-            {item.label1 && (
-              <span className="text-[1vw] font-medium text-center break-words">
-                {item.label1}
+    <div className="flex-shrink-0">
+      <div className="py-2 px-2 bg-depot-surface-elevated">
+        <div className="grid grid-cols-7 gap-2">
+          {navigationItems.map((item) => (
+            <DepotButton
+              key={item.id}
+              variant={activeItem === item.id ? "accent" : item.variant}
+              onClick={() => onItemClick(item.id)}
+              className="flex flex-col items-center justify-center leading-tight py-3"
+            >
+              <span className="text-[1.4vw] font-semibold text-center break-words">
+                {item.label}
               </span>
-            )}
-          </DepotButton>
-        ))}
+              {item.label1 && (
+                <span className="text-[1.4vw] font-semibold text-center break-words">
+                  {item.label1}
+                </span>
+              )}
+            </DepotButton>
+          ))}
+        </div>
       </div>
+      {/* White separator line */}
+      <div className="h-[2px] bg-white w-full"></div>
     </div>
   );
 };
