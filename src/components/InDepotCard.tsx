@@ -36,11 +36,8 @@ const InDepotCard: React.FC<InDepotCardProps> = ({ checkedInStaff = [] }) => {
           </div>
         ) : (
           <div className="divide-y divide-gray-700/50">
-            {staffInDepot.map((staff, index) => {
-              const isSpecialRole = staff.isFireWarden || staff.isFirstAider;
-
-              return (
-                <div
+            {staffInDepot.map((staff, index) => (
+              <div
                   key={index}
                   className="px-2 py-[0.5vw] hover:bg-gray-800/50 transition-colors"
                 >
@@ -54,17 +51,19 @@ const InDepotCard: React.FC<InDepotCardProps> = ({ checkedInStaff = [] }) => {
                     </span>
                     <span className="text-gray-500">|</span>
                     <span
-                      className={`truncate ${isSpecialRole
-                        ? "bg-green-600 px-2 py-1 rounded text-white font-medium"
-                        : "text-gray-400"
-                        }`}
+                      className={`truncate ${
+                        staff.isFireWarden
+                          ? "bg-orange-600 px-2 py-1 rounded text-white font-medium"
+                          : staff.isFirstAider
+                          ? "bg-green-600 px-2 py-1 rounded text-white font-medium"
+                          : "text-gray-400"
+                      }`}
                     >
                       {staff.reason}
                     </span>
                   </div>
                 </div>
-              );
-            })}
+              ))}
           </div>
         )}
       </CardContent>

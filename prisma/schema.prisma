@@ -204,8 +204,8 @@ model Operation {
   year          Int
   title         String   @db.VarChar(200)
   description   String?  @db.Text
-  excelData     String?  @map("excel_data") @db.Text
-  excelFilename String?  @map("excel_filename") @db.VarChar(255)
+  pdfData       String?  @map("pdf_data") @db.Text
+  pdfFilename   String?  @map("pdf_filename") @db.VarChar(255)
   scheduleType  String   @map("schedule_type") @db.VarChar(20) @default("this_week")
   isActive      Boolean  @default(true) @map("is_active")
   createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)

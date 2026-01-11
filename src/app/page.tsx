@@ -138,15 +138,15 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           </div>
         </div>
 
-        {/* Center Column (5 cols): Stepped layout - Weather (top) + Performance (bottom) */}
+        {/* Center Column (5 cols): Performance (top) + Weather (bottom) */}
         <div className="col-span-5 flex flex-col gap-2 h-full overflow-hidden">
-          {/* Weather - 55% height (raised up) */}
-          <div className="h-[55%] min-h-0 overflow-hidden">
-            <WeatherCard />
-          </div>
-          {/* Performance Highlights - 45% height (stepped down) */}
-          <div className="h-[45%] min-h-0 overflow-hidden" ref={performanceDashboardRef}>
+          {/* Performance Highlights - 55% height */}
+          <div className="h-[55%] min-h-0 overflow-hidden" ref={performanceDashboardRef}>
             <PerformanceDashboard />
+          </div>
+          {/* Weather - 45% height */}
+          <div className="h-[45%] min-h-0 overflow-hidden">
+            <WeatherCard />
           </div>
         </div>
 
