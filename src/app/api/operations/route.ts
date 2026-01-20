@@ -6,23 +6,24 @@ export const dynamic = "force-dynamic";
 // GET - Fetch all active operations
 export async function GET() {
   try {
-    const operations = await prisma.operation.findMany({
-      where: { isActive: true },
-      orderBy: [{ year: "desc" }, { weekNumber: "desc" }],
+    const operations = await prisma.operations.findMany({
+      where: { is_active: true },
+      orderBy: [{ year: "desc" }, { week_number: "desc" }],
     });
 
     const transformedOperations = operations.map((item) => ({
       id: Number(item.id),
-      week_number: item.weekNumber,
+      week_number: item.week_number,
       year: item.year,
       title: item.title,
       description: item.description,
-      pdf_data: item.pdfData,
-      pdf_filename: item.pdfFilename,
-      schedule_type: item.scheduleType,
-      is_active: item.isActive,
-      created_at: item.createdAt.toISOString(),
-      updated_at: item.updatedAt.toISOString(),
+      pdf_data: item.pdf_data,
+      pdf_filename: item.pdf_filename,
+      schedule_type: item.schedule_type,
+      team_type: item.team_type,
+      is_active: item.is_active,
+      created_at: item.created_at.toISOString(),
+      updated_at: item.updated_at.toISOString(),
     }));
 
     return NextResponse.json({

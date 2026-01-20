@@ -6,9 +6,9 @@ export const dynamic = "force-dynamic";
 // GET - Fetch all check-in records
 export async function GET() {
   try {
-    const records = await prisma.checkInRecord.findMany({
+    const records = await prisma.staff_checkinrecord.findMany({
       orderBy: {
-        createdAt: "desc",
+        created_at: "desc",
       },
     });
 
@@ -18,11 +18,11 @@ export async function GET() {
       company: record.company,
       name: record.name,
       reason: record.reason,
-      check_in_time: record.checkInTime?.toISOString() || null,
-      check_out_time: record.checkOutTime?.toISOString() || null,
+      check_in_time: record.check_in_time?.toISOString() || null,
+      check_out_time: record.check_out_time?.toISOString() || null,
       status: record.status as "checked-in" | "checked-out",
-      created_at: record.createdAt.toISOString(),
-      updated_at: record.updatedAt.toISOString(),
+      created_at: record.created_at.toISOString(),
+      updated_at: record.updated_at.toISOString(),
     }));
 
     return NextResponse.json({
@@ -60,15 +60,15 @@ export async function POST(request: NextRequest) {
     }
 
     const now = new Date();
-    const record = await prisma.checkInRecord.create({
+    const record = await prisma.staff_checkinrecord.create({
       data: {
         name,
         company,
         reason,
-        checkInTime: now,
+        check_in_time: now,
         status: "checked-in",
-        createdAt: now,
-        updatedAt: now,
+        created_at: now,
+        updated_at: now,
       },
     });
 
@@ -80,11 +80,11 @@ export async function POST(request: NextRequest) {
         company: record.company,
         name: record.name,
         reason: record.reason,
-        check_in_time: record.checkInTime?.toISOString() || null,
-        check_out_time: record.checkOutTime?.toISOString() || null,
+        check_in_time: record.check_in_time?.toISOString() || null,
+        check_out_time: record.check_out_time?.toISOString() || null,
         status: record.status,
-        created_at: record.createdAt.toISOString(),
-        updated_at: record.updatedAt.toISOString(),
+        created_at: record.created_at.toISOString(),
+        updated_at: record.updated_at.toISOString(),
       },
     });
   } catch (error) {

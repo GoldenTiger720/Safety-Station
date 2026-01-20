@@ -7,368 +7,176 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model CheckInRecord {
+model admin_users {
+  id         BigInt   @id @default(autoincrement())
+  email      String   @unique @db.VarChar(255)
+  password   String   @db.VarChar(255)
+  is_active  Boolean  @default(true)
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+}
+
+model api_keys {
+  id         BigInt   @id @default(autoincrement())
+  key_name   String   @unique @db.VarChar(50)
+  key_value  String   @db.VarChar(255)
+  channel_id String?  @db.VarChar(50)
+  is_active  Boolean  @default(true)
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+}
+
+model depot_induction_videos {
+  id          BigInt   @id @default(autoincrement())
+  title       String   @db.VarChar(200)
+  youtube_url String   @db.VarChar(500)
+  youtube_id  String   @db.VarChar(50)
+  is_active   Boolean  @default(true)
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime @default(now()) @db.Timestamptz(6)
+}
+
+model news {
+  id           BigInt   @id @default(autoincrement())
+  title        String   @db.VarChar(200)
+  description  String
+  image_data   String?
+  avatar_data  String?
+  news_link    String?  @db.VarChar(500)
+  poster_name  String?  @db.VarChar(100)
+  poster_title String?  @db.VarChar(100)
+  is_active    Boolean  @default(true)
+  created_at   DateTime @default(now()) @db.Timestamptz(6)
+  updated_at   DateTime @default(now()) @db.Timestamptz(6)
+}
+
+model news_newsitem {
   id           BigInt    @id @default(autoincrement())
-  name         String    @db.VarChar(100)
-  checkInTime  DateTime? @map("check_in_time") @db.Timestamptz(6)
-  checkOutTime DateTime? @map("check_out_time") @db.Timestamptz(6)
-  status       String    @db.VarChar(20)
-  createdAt    DateTime  @map("created_at") @db.Timestamptz(6)
-  updatedAt    DateTime  @updatedAt @map("updated_at") @db.Timestamptz(6)
-  company      String    @db.VarChar(100)
-  reason       String    @db.VarChar(100)
-
-  @@map("staff_checkinrecord")
+  title        String    @db.VarChar(200)
+  summary      String
+  content      String
+  category     String    @db.VarChar(20)
+  priority     String    @db.VarChar(10)
+  is_published Boolean
+  published_at DateTime? @db.Timestamptz(6)
+  created_at   DateTime  @db.Timestamptz(6)
+  updated_at   DateTime  @db.Timestamptz(6)
+  author       String    @db.VarChar(100)
 }
 
-model Document {
-  id            BigInt   @id @default(autoincrement())
-  title         String   @db.VarChar(200)
-  description   String
-  category      String   @db.VarChar(20)
-  documentType  String   @map("document_type") @db.VarChar(10)
-  file          String   @db.VarChar(100)
-  fileSize      Int      @map("file_size")
-  createdAt     DateTime @map("created_at") @db.Timestamptz(6)
-  updatedAt     DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
-  isActive      Boolean  @map("is_active")
-  downloadCount Int      @map("download_count")
-  uploadedBy    String   @map("uploaded_by") @db.VarChar(100)
-
-  @@map("documents_document")
-}
-
-model NewsItem {
-  id          BigInt    @id @default(autoincrement())
-  title       String    @db.VarChar(200)
-  summary     String
-  content     String
-  category    String    @db.VarChar(20)
-  priority    String    @db.VarChar(10)
-  isPublished Boolean   @map("is_published")
-  publishedAt DateTime? @map("published_at") @db.Timestamptz(6)
-  createdAt   DateTime  @map("created_at") @db.Timestamptz(6)
-  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz(6)
-  author      String    @db.VarChar(100)
-
-  @@map("news_newsitem")
-}
-
-model Video {
+model news_video {
   id          BigInt                   @id @default(autoincrement())
   title       String                   @db.VarChar(200)
   description String
-  videoType   String                   @map("video_type") @db.VarChar(20)
+  video_type  String                   @db.VarChar(20)
   thumbnail   String?                  @db.VarChar(100)
-  videoUrl    String                   @map("video_url") @db.VarChar(200)
-  videoFile   String?                  @map("video_file") @db.VarChar(100)
+  video_url   String                   @db.VarChar(200)
+  video_file  String?                  @db.VarChar(100)
   duration    Unsupported("interval")?
-  isFeatured  Boolean                  @map("is_featured")
-  viewCount   Int                      @map("view_count")
-  createdAt   DateTime                 @map("created_at") @db.Timestamptz(6)
-  updatedAt   DateTime                 @updatedAt @map("updated_at") @db.Timestamptz(6)
-  isActive    Boolean                  @map("is_active")
-  uploadedBy  String                   @map("uploaded_by") @db.VarChar(100)
-
-  @@map("news_video")
+  is_featured Boolean
+  view_count  Int
+  created_at  DateTime                 @db.Timestamptz(6)
+  updated_at  DateTime                 @db.Timestamptz(6)
+  is_active   Boolean
+  uploaded_by String                   @db.VarChar(100)
 }
 
-model PerformanceMetric {
-  id          BigInt   @id @default(autoincrement())
-  metricType  String   @map("metric_type") @db.VarChar(30)
-  name        String   @db.VarChar(100)
-  value       Decimal  @db.Decimal(10, 2)
-  targetValue Decimal? @map("target_value") @db.Decimal(10, 2)
-  unit        String   @db.VarChar(20)
-  period      String   @db.VarChar(10)
-  date        DateTime @db.Date
-  createdAt   DateTime @map("created_at") @db.Timestamptz(6)
-  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
-  isActive    Boolean  @map("is_active")
-  createdBy   String   @map("created_by") @db.VarChar(100)
+model operations {
+  id            BigInt   @id @default(autoincrement())
+  week_number   Int
+  year          Int
+  title         String   @db.VarChar(200)
+  description   String?
+  pdf_data      String?
+  pdf_filename  String?  @db.VarChar(255)
+  is_active     Boolean  @default(true)
+  created_at    DateTime @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime @default(now()) @db.Timestamptz(6)
+  schedule_type String   @default("this_week") @db.VarChar(20)
+  team_type     String   @default("operations") @db.VarChar(20)
 
-  @@unique([metricType, name, date], map: "performance_performancem_metric_type_name_date_94b308a4_uniq")
-  @@map("performance_performancemetric")
+  @@unique([schedule_type, team_type])
 }
 
-model DashboardData {
-  id                 BigInt   @id @default(autoincrement())
-  date               DateTime @unique @db.Date
-  spotlightsYtd      Int      @map("spotlights_ytd")
-  spotlightsMtd      Int      @map("spotlights_mtd")
-  safetyTourYtd      Decimal  @map("safety_tour_ytd") @db.Decimal(5, 2)
-  safetyTourMtd      Decimal  @map("safety_tour_mtd") @db.Decimal(5, 2)
-  possessionAverage  Int      @map("possession_average")
-  averageWorkPerHour Decimal  @map("average_work_per_hour") @db.Decimal(8, 2)
-  inProcessCritical  Int      @map("in_process_critical")
-  inProcessWarning   Int      @map("in_process_warning")
-  possessionActive   Int      @map("possession_active")
-  possessionInactive Int      @map("possession_inactive")
-  preparationStatus  Int      @map("preparation_status")
-  breakdownStatus    Int      @map("breakdown_status")
-  createdAt          DateTime @map("created_at") @db.Timestamptz(6)
-  updatedAt          DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  @@map("performance_dashboarddata")
+model performance_dashboarddata {
+  id                    BigInt   @id @default(autoincrement())
+  date                  DateTime @unique @db.Date
+  spotlights_ytd        Int
+  spotlights_mtd        Int
+  safety_tour_ytd       Decimal  @db.Decimal(5, 2)
+  safety_tour_mtd       Decimal  @db.Decimal(5, 2)
+  possession_average    Int
+  average_work_per_hour Decimal  @db.Decimal(8, 2)
+  in_process_critical   Int
+  in_process_warning    Int
+  possession_active     Int
+  possession_inactive   Int
+  preparation_status    Int
+  breakdown_status      Int
+  created_at            DateTime @db.Timestamptz(6)
+  updated_at            DateTime @db.Timestamptz(6)
 }
 
-model StaffLocation {
-  id        BigInt   @id @default(autoincrement())
-  location  String   @db.VarChar(100)
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
-  isInDepot Boolean  @map("is_in_depot")
-  userName  String   @map("user_name") @db.VarChar(100)
-
-  @@map("performance_stafflocation")
-}
-
-model RhombergVideo {
+model performance_performancemetric {
   id           BigInt   @id @default(autoincrement())
-  videoId      String   @unique @map("video_id") @db.VarChar(50)
-  title        String   @db.VarChar(200)
-  description  String
-  thumbnailUrl String   @map("thumbnail_url") @db.VarChar(200)
-  videoUrl     String   @map("video_url") @db.VarChar(200)
-  duration     String   @db.VarChar(20)
-  publishedAt  DateTime @map("published_at") @db.Timestamptz(6)
-  viewCount    Int      @map("view_count")
-  likeCount    Int      @map("like_count")
-  channelTitle String   @map("channel_title") @db.VarChar(100)
-  fetchedAt    DateTime @map("fetched_at") @db.Timestamptz(6)
-  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
-  isActive     Boolean  @map("is_active")
+  metric_type  String   @db.VarChar(30)
+  name         String   @db.VarChar(100)
+  value        Decimal  @db.Decimal(10, 2)
+  target_value Decimal? @db.Decimal(10, 2)
+  unit         String   @db.VarChar(20)
+  period       String   @db.VarChar(10)
+  date         DateTime @db.Date
+  created_at   DateTime @db.Timestamptz(6)
+  updated_at   DateTime @db.Timestamptz(6)
+  is_active    Boolean
+  created_by   String   @db.VarChar(100)
 
-  @@index([videoId], map: "rhomberg_videos_video_id_f52befc1_like")
-  @@map("rhomberg_videos")
+  @@unique([metric_type, name, date], map: "performance_performancem_metric_type_name_date_94b308a4_uniq")
 }
 
-model VideoFetchLog {
+model rhomberg_videos {
   id            BigInt   @id @default(autoincrement())
-  fetchDate     DateTime @map("fetch_date") @db.Timestamptz(6)
-  videosFetched Int      @map("videos_fetched")
-  success       Boolean
-  errorMessage  String   @map("error_message")
-
-  @@map("videos_videofetchlog")
-}
-
-model News {
-  id          BigInt   @id @default(autoincrement())
-  title       String   @db.VarChar(200)
-  description String
-  imageData   String?  @map("image_data") @db.Text
-  avatarData  String?  @map("avatar_data") @db.Text
-  newsLink    String?  @map("news_link") @db.VarChar(500)
-  posterName  String?  @map("poster_name") @db.VarChar(100)
-  posterTitle String?  @map("poster_title") @db.VarChar(100)
-  isActive    Boolean  @default(true) @map("is_active")
-  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt   DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
-
-  @@map("news")
-}
-
-model SafetyAlert {
-  id            BigInt   @id @default(autoincrement())
-  weekNumber    Int      @map("week_number")
-  year          Int
-  category      String   @db.VarChar(100)
+  video_id      String   @unique @db.VarChar(50)
   title         String   @db.VarChar(200)
-  content       String   @db.Text
-  thumbnailData String?  @map("thumbnail_data") @db.Text
-  pdfData       String?  @map("pdf_data") @db.Text
-  pdfFilename   String?  @map("pdf_filename") @db.VarChar(255)
-  pdfFiles      Json?    @map("pdf_files") @db.Json
-  isActive      Boolean  @default(true) @map("is_active")
-  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt     DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
+  description   String
+  thumbnail_url String   @db.VarChar(200)
+  video_url     String   @db.VarChar(200)
+  duration      String   @db.VarChar(20)
+  published_at  DateTime @db.Timestamptz(6)
+  view_count    Int
+  like_count    Int
+  channel_title String   @db.VarChar(100)
+  fetched_at    DateTime @db.Timestamptz(6)
+  updated_at    DateTime @db.Timestamptz(6)
+  is_active     Boolean
 
-  @@map("safety_alerts")
+  @@index([video_id], map: "rhomberg_videos_video_id_f52befc1_like")
 }
 
-model DepotInductionVideo {
-  id         BigInt   @id @default(autoincrement())
-  title      String   @db.VarChar(200)
-  youtubeUrl String   @map("youtube_url") @db.VarChar(500)
-  youtubeId  String   @map("youtube_id") @db.VarChar(50)
-  isActive   Boolean  @default(true) @map("is_active")
-  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt  DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
-
-  @@map("depot_induction_videos")
+model safety_alerts {
+  id             BigInt   @id @default(autoincrement())
+  week_number    Int
+  year           Int
+  category       String   @db.VarChar(100)
+  title          String   @db.VarChar(200)
+  content        String
+  thumbnail_data String?
+  pdf_data       String?
+  pdf_filename   String?  @db.VarChar(255)
+  is_active      Boolean  @default(true)
+  created_at     DateTime @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime @default(now()) @db.Timestamptz(6)
+  pdf_files      Json?    @db.Json
 }
 
-model Operation {
-  id            BigInt   @id @default(autoincrement())
-  weekNumber    Int      @map("week_number")
-  year          Int
-  title         String   @db.VarChar(200)
-  description   String?  @db.Text
-  pdfData       String?  @map("pdf_data") @db.Text
-  pdfFilename   String?  @map("pdf_filename") @db.VarChar(255)
-  scheduleType  String   @map("schedule_type") @db.VarChar(20) @default("this_week")
-  isActive      Boolean  @default(true) @map("is_active")
-  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt     DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
-
-  @@unique([scheduleType], map: "operations_schedule_type_key")
-  @@map("operations")
-}
-
-model auth_group {
-  id                               Int                                @id @default(autoincrement())
-  name                             String                             @unique @db.VarChar(150)
-  auth_group_permissions           auth_group_permissions[]
-  authentication_customuser_groups authentication_customuser_groups[]
-
-  @@index([name], map: "auth_group_name_a6ea08ec_like")
-}
-
-/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
-model auth_group_permissions {
-  id              BigInt          @id @default(autoincrement())
-  group_id        Int
-  permission_id   Int
-  auth_permission auth_permission @relation(fields: [permission_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "auth_group_permissio_permission_id_84c5c92e_fk_auth_perm")
-  auth_group      auth_group      @relation(fields: [group_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "auth_group_permissions_group_id_b120cbf9_fk_auth_group_id")
-
-  @@unique([group_id, permission_id], map: "auth_group_permissions_group_id_permission_id_0cd325b0_uniq")
-  @@index([group_id], map: "auth_group_permissions_group_id_b120cbf9")
-  @@index([permission_id], map: "auth_group_permissions_permission_id_84c5c92e")
-}
-
-/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
-model auth_permission {
-  id                                         Int                                          @id @default(autoincrement())
-  name                                       String                                       @db.VarChar(255)
-  content_type_id                            Int
-  codename                                   String                                       @db.VarChar(100)
-  auth_group_permissions                     auth_group_permissions[]
-  django_content_type                        django_content_type                          @relation(fields: [content_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "auth_permission_content_type_id_2f476e4b_fk_django_co")
-  authentication_customuser_user_permissions authentication_customuser_user_permissions[]
-
-  @@unique([content_type_id, codename], map: "auth_permission_content_type_id_codename_01ab375a_uniq")
-  @@index([content_type_id], map: "auth_permission_content_type_id_2f476e4b")
-}
-
-model authentication_customuser {
-  id                                         BigInt                                       @id @default(autoincrement())
-  password                                   String                                       @db.VarChar(128)
-  last_login                                 DateTime?                                    @db.Timestamptz(6)
-  is_superuser                               Boolean
-  username                                   String                                       @unique @db.VarChar(150)
-  first_name                                 String                                       @db.VarChar(150)
-  last_name                                  String                                       @db.VarChar(150)
-  email                                      String                                       @db.VarChar(254)
-  is_staff                                   Boolean
-  date_joined                                DateTime                                     @db.Timestamptz(6)
-  employee_id                                String?                                      @unique @db.VarChar(20)
-  phone                                      String                                       @db.VarChar(15)
-  department                                 String                                       @db.VarChar(100)
-  role                                       String                                       @db.VarChar(50)
-  created_at                                 DateTime                                     @db.Timestamptz(6)
-  updated_at                                 DateTime                                     @db.Timestamptz(6)
-  is_active                                  Boolean
-  visit_date                                 DateTime?                                    @db.Timestamptz(6)
-  visit_reason                               String                                       @db.VarChar(20)
-  authentication_customuser_groups           authentication_customuser_groups[]
-  authentication_customuser_user_permissions authentication_customuser_user_permissions[]
-  django_admin_log                           django_admin_log[]
-  token_blacklist_outstandingtoken           token_blacklist_outstandingtoken[]
-
-  @@index([employee_id], map: "authentication_customuser_employee_id_7107fa0f_like")
-  @@index([username], map: "authentication_customuser_username_3dffdf84_like")
-}
-
-/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
-model authentication_customuser_groups {
-  id                        BigInt                    @id @default(autoincrement())
-  customuser_id             BigInt
-  group_id                  Int
-  authentication_customuser authentication_customuser @relation(fields: [customuser_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "authentication_custo_customuser_id_a7d1343c_fk_authentic")
-  auth_group                auth_group                @relation(fields: [group_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "authentication_custo_group_id_c5ef1d10_fk_auth_grou")
-
-  @@unique([customuser_id, group_id], map: "authentication_customuse_customuser_id_group_id_8a637646_uniq")
-  @@index([customuser_id], map: "authentication_customuser_groups_customuser_id_a7d1343c")
-  @@index([group_id], map: "authentication_customuser_groups_group_id_c5ef1d10")
-}
-
-/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
-model authentication_customuser_user_permissions {
-  id                        BigInt                    @id @default(autoincrement())
-  customuser_id             BigInt
-  permission_id             Int
-  authentication_customuser authentication_customuser @relation(fields: [customuser_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "authentication_custo_customuser_id_33d2a5f7_fk_authentic")
-  auth_permission           auth_permission           @relation(fields: [permission_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "authentication_custo_permission_id_e47332af_fk_auth_perm")
-
-  @@unique([customuser_id, permission_id], map: "authentication_customuse_customuser_id_permission_923704b1_uniq")
-  @@index([customuser_id], map: "authentication_customuser__customuser_id_33d2a5f7")
-  @@index([permission_id], map: "authentication_customuser__permission_id_e47332af")
-}
-
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
-model django_admin_log {
-  id                        Int                       @id @default(autoincrement())
-  action_time               DateTime                  @db.Timestamptz(6)
-  object_id                 String?
-  object_repr               String                    @db.VarChar(200)
-  action_flag               Int                       @db.SmallInt
-  change_message            String
-  content_type_id           Int?
-  user_id                   BigInt
-  django_content_type       django_content_type?      @relation(fields: [content_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "django_admin_log_content_type_id_c4bce8eb_fk_django_co")
-  authentication_customuser authentication_customuser @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "django_admin_log_user_id_c564eba6_fk_authentic")
-
-  @@index([content_type_id], map: "django_admin_log_content_type_id_c4bce8eb")
-  @@index([user_id], map: "django_admin_log_user_id_c564eba6")
-}
-
-model django_content_type {
-  id               Int                @id @default(autoincrement())
-  app_label        String             @db.VarChar(100)
-  model            String             @db.VarChar(100)
-  auth_permission  auth_permission[]
-  django_admin_log django_admin_log[]
-
-  @@unique([app_label, model], map: "django_content_type_app_label_model_76bd3d3b_uniq")
-}
-
-model django_migrations {
-  id      BigInt   @id @default(autoincrement())
-  app     String   @db.VarChar(255)
-  name    String   @db.VarChar(255)
-  applied DateTime @db.Timestamptz(6)
-}
-
-model django_session {
-  session_key  String   @id @db.VarChar(40)
-  session_data String
-  expire_date  DateTime @db.Timestamptz(6)
-
-  @@index([expire_date], map: "django_session_expire_date_a5c62663")
-  @@index([session_key], map: "django_session_session_key_c0390e0f_like")
-}
-
-/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
-model token_blacklist_blacklistedtoken {
-  id                               BigInt                           @id @default(autoincrement())
-  blacklisted_at                   DateTime                         @db.Timestamptz(6)
-  token_id                         BigInt                           @unique
-  token_blacklist_outstandingtoken token_blacklist_outstandingtoken @relation(fields: [token_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "token_blacklist_blacklistedtoken_token_id_3cc7fe56_fk")
-}
-
-/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
-model token_blacklist_outstandingtoken {
-  id                               BigInt                            @id @default(autoincrement())
-  token                            String
-  created_at                       DateTime?                         @db.Timestamptz(6)
-  expires_at                       DateTime                          @db.Timestamptz(6)
-  user_id                          BigInt?
-  jti                              String                            @unique(map: "token_blacklist_outstandingtoken_jti_hex_d9bdf6f7_uniq") @db.VarChar(255)
-  token_blacklist_blacklistedtoken token_blacklist_blacklistedtoken?
-  authentication_customuser        authentication_customuser?        @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "token_blacklist_outs_user_id_83bc629a_fk_authentic")
-
-  @@index([jti], map: "token_blacklist_outstandingtoken_jti_hex_d9bdf6f7_like")
-  @@index([user_id], map: "token_blacklist_outstandingtoken_user_id_83bc629a")
+model staff_checkinrecord {
+  id             BigInt    @id @default(autoincrement())
+  name           String    @db.VarChar(100)
+  check_in_time  DateTime? @db.Timestamptz(6)
+  check_out_time DateTime? @db.Timestamptz(6)
+  status         String    @db.VarChar(20)
+  created_at     DateTime  @db.Timestamptz(6)
+  updated_at     DateTime  @db.Timestamptz(6)
+  company        String    @db.VarChar(100)
+  reason         String    @db.VarChar(100)
 }

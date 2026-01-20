@@ -68,9 +68,9 @@ const navigationItems: NavigationItem[] = [
     size: "default",
   },
   {
-    id: "spotlight",
-    label: "Spotlight",
-    label1: "Report",
+    id: "training",
+    label: "Training &",
+    label1: "Development",
     icon: null,
     variant: "accent",
     size: "default",

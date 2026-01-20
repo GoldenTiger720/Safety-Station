@@ -6,9 +6,9 @@ export const dynamic = "force-dynamic";
 // GET - Fetch all active safety alerts
 export async function GET() {
   try {
-    const safetyAlerts = await prisma.safetyAlert.findMany({
-      where: { isActive: true },
-      orderBy: [{ year: "desc" }, { weekNumber: "desc" }],
+    const safetyAlerts = await prisma.safety_alerts.findMany({
+      where: { is_active: true },
+      orderBy: [{ year: "desc" }, { week_number: "desc" }],
     });
 
     // Get unique categories
@@ -16,18 +16,18 @@ export async function GET() {
 
     const transformedAlerts = safetyAlerts.map((item) => ({
       id: Number(item.id),
-      week_number: item.weekNumber,
+      week_number: item.week_number,
       year: item.year,
       category: item.category,
       title: item.title,
       content: item.content,
-      thumbnail_data: item.thumbnailData,
-      pdf_data: item.pdfData,
-      pdf_filename: item.pdfFilename,
-      pdf_files: item.pdfFiles,
-      is_active: item.isActive,
-      created_at: item.createdAt.toISOString(),
-      updated_at: item.updatedAt.toISOString(),
+      thumbnail_data: item.thumbnail_data,
+      pdf_data: item.pdf_data,
+      pdf_filename: item.pdf_filename,
+      pdf_files: item.pdf_files,
+      is_active: item.is_active,
+      created_at: item.created_at.toISOString(),
+      updated_at: item.updated_at.toISOString(),
     }));
 
     return NextResponse.json({

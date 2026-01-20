@@ -5,31 +5,31 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const videos = await prisma.rhombergVideo.findMany({
+    const videos = await prisma.rhomberg_videos.findMany({
       where: {
-        isActive: true,
+        is_active: true,
       },
       orderBy: {
-        publishedAt: "desc",
+        published_at: "desc",
       },
     });
 
     // Transform to match the expected API response format
     const transformedVideos = videos.map((video) => ({
       id: Number(video.id),
-      video_id: video.videoId,
+      video_id: video.video_id,
       title: video.title,
       description: video.description,
-      thumbnail_url: video.thumbnailUrl,
-      video_url: video.videoUrl,
+      thumbnail_url: video.thumbnail_url,
+      video_url: video.video_url,
       duration: video.duration,
-      published_at: video.publishedAt.toISOString(),
-      view_count: video.viewCount,
-      like_count: video.likeCount,
-      channel_title: video.channelTitle,
-      fetched_at: video.fetchedAt.toISOString(),
-      updated_at: video.updatedAt.toISOString(),
-      is_active: video.isActive,
+      published_at: video.published_at.toISOString(),
+      view_count: video.view_count,
+      like_count: video.like_count,
+      channel_title: video.channel_title,
+      fetched_at: video.fetched_at.toISOString(),
+      updated_at: video.updated_at.toISOString(),
+      is_active: video.is_active,
     }));
 
     return NextResponse.json({

@@ -12,12 +12,12 @@ export async function POST(
     const id = BigInt(params.id);
     const now = new Date();
 
-    const record = await prisma.checkInRecord.update({
+    const record = await prisma.staff_checkinrecord.update({
       where: { id },
       data: {
-        checkOutTime: now,
+        check_out_time: now,
         status: "checked-out",
-        updatedAt: now,
+        updated_at: now,
       },
     });
 
@@ -29,11 +29,11 @@ export async function POST(
         company: record.company,
         name: record.name,
         reason: record.reason,
-        check_in_time: record.checkInTime?.toISOString() || null,
-        check_out_time: record.checkOutTime?.toISOString() || null,
+        check_in_time: record.check_in_time?.toISOString() || null,
+        check_out_time: record.check_out_time?.toISOString() || null,
         status: record.status,
-        created_at: record.createdAt.toISOString(),
-        updated_at: record.updatedAt.toISOString(),
+        created_at: record.created_at.toISOString(),
+        updated_at: record.updated_at.toISOString(),
       },
     });
   } catch (error) {

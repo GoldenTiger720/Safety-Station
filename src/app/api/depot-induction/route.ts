@@ -4,17 +4,17 @@ import prisma from "@/lib/prisma";
 // GET - Fetch all active depot induction videos for the main website
 export async function GET() {
   try {
-    const videos = await prisma.depotInductionVideo.findMany({
-      where: { isActive: true },
-      orderBy: { createdAt: "desc" },
+    const videos = await prisma.depot_induction_videos.findMany({
+      where: { is_active: true },
+      orderBy: { created_at: "desc" },
     });
 
     const formattedVideos = videos.map((video) => ({
       id: video.id.toString(),
       title: video.title,
-      youtubeUrl: video.youtubeUrl,
-      youtubeId: video.youtubeId,
-      createdAt: video.createdAt.toISOString(),
+      youtubeUrl: video.youtube_url,
+      youtubeId: video.youtube_id,
+      createdAt: video.created_at.toISOString(),
     }));
 
     return NextResponse.json({

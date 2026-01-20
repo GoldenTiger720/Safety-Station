@@ -11,11 +11,12 @@ import NewsCard from "@/components/NewsCard";
 import REDSafetyVideoCard from "@/components/REDSafetyVideoCard";
 import InDepotCard from "@/components/InDepotCard";
 import WeatherCard from "@/components/WeatherCard";
-import WebViewer from "@/components/WebViewer";
 import SafetyAlerts from "@/components/SafetyAlerts";
 import DocumentControl from "@/components/DocumentControl";
 import Operation from "@/components/Operation";
 import PerformanceDashboard from "@/components/PerformanceDashboard";
+import TrainingDevelopment from "@/components/TrainingDevelopment";
+import RSRGLinks from "@/components/RSRGLinks";
 import { useYouTubeVideos } from "@/hooks/use-youtube";
 import { useCheckInRecords } from "@/hooks/use-checkin";
 import type { CheckInRecord, YouTubeVideo } from "@/types";
@@ -65,13 +66,9 @@ export default function Dashboard() {
         return <DocumentControl />;
       case "operation":
         return <Operation />;
-      case "spotlight":
+      case "training":
         return (
-          <WebViewer
-            url=" https://forms.office.com/Pages/ResponsePage.aspx?id=P6uWrWQ9VUSKyypPe63Cfyd-GXc638xPnbpuq9F_PqBUNTdZUDNRVTdHWFdXWkxETERROFJKV0RPMy4u"
-            title="Spotlight Reports"
-            onBack={handleBackToDashboard}
-          />
+          <TrainingDevelopment onBack={handleBackToDashboard} />
         );
       case "admin":
         // Navigate to admin panel
@@ -150,13 +147,20 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           </div>
         </div>
 
-        {/* Right Column (4 cols): RSRG Videos - full height */}
-        <div className="col-span-4 h-full min-h-0 overflow-hidden">
-          <REDSafetyVideoCard
-            videos={youtubeVideos}
-            loading={videosLoading}
-            error={videosError}
-          />
+        {/* Right Column (4 cols): RSRG Videos (top) + RSRG Links (bottom) */}
+        <div className="col-span-4 flex flex-col h-full overflow-hidden">
+          {/* RSRG Videos - 78% height */}
+          <div className="h-[78%] min-h-0 overflow-hidden pb-2 border-b-2 border-white">
+            <REDSafetyVideoCard
+              videos={youtubeVideos}
+              loading={videosLoading}
+              error={videosError}
+            />
+          </div>
+          {/* RSRG Links - 22% height */}
+          <div className="h-[22%] min-h-0 overflow-hidden pt-2">
+            <RSRGLinks className="border-green-500 border-2" />
+          </div>
         </div>
       </div>
     </div>

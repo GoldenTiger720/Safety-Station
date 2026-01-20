@@ -7,22 +7,22 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     const newsItems = await prisma.news.findMany({
-      where: { isActive: true },
-      orderBy: { createdAt: "desc" },
+      where: { is_active: true },
+      orderBy: { created_at: "desc" },
     });
 
     const transformedNews = newsItems.map((item) => ({
       id: Number(item.id),
       title: item.title,
       description: item.description,
-      image_data: item.imageData,
-      avatar_data: item.avatarData,
-      news_link: item.newsLink,
-      poster_name: item.posterName,
-      poster_title: item.posterTitle,
-      is_active: item.isActive,
-      created_at: item.createdAt.toISOString(),
-      updated_at: item.updatedAt.toISOString(),
+      image_data: item.image_data,
+      avatar_data: item.avatar_data,
+      news_link: item.news_link,
+      poster_name: item.poster_name,
+      poster_title: item.poster_title,
+      is_active: item.is_active,
+      created_at: item.created_at.toISOString(),
+      updated_at: item.updated_at.toISOString(),
     }));
 
     return NextResponse.json({
