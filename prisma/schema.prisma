@@ -180,3 +180,28 @@ model staff_checkinrecord {
   company        String    @db.VarChar(100)
   reason         String    @db.VarChar(100)
 }
+
+model training_content {
+  id            BigInt   @id @default(autoincrement())
+  content_type  String   @db.VarChar(30)
+  title         String   @db.VarChar(200)
+  description   String?  @db.Text
+  link_url      String?  @db.VarChar(500)
+  pdf_data      String?  @db.Text
+  pdf_filename  String?  @db.VarChar(255)
+  display_order Int      @default(0)
+  is_active     Boolean  @default(true)
+  created_at    DateTime @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime @default(now()) @db.Timestamptz(6)
+}
+
+model realtime_schedule_links {
+  id          BigInt   @id @default(autoincrement())
+  team_type   String   @unique @db.VarChar(20)
+  title       String   @db.VarChar(200)
+  link_url    String   @db.VarChar(500)
+  description String?  @db.Text
+  is_active   Boolean  @default(true)
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime @default(now()) @db.Timestamptz(6)
+}

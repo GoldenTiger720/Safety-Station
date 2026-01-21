@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, Calendar, Loader2, X, Users, Wrench } from "lucide-react";
+import { FileText, Calendar, Loader2, X, Users, Wrench, ExternalLink } from "lucide-react";
 import PdfViewer from "./PdfViewer";
 
 interface OperationSchedule {
@@ -25,6 +25,17 @@ interface OperationsResponse {
   success: boolean;
   operations: OperationSchedule[];
   total_operations: number;
+}
+
+interface RealtimeScheduleLink {
+  id: number;
+  teamType: string;
+  title: string;
+  linkUrl: string;
+  description: string | null;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // Calculate ISO week number
@@ -61,6 +72,8 @@ const Operation: React.FC = () => {
   const [selectedOperation, setSelectedOperation] = useState<OperationSchedule | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [opsRealtimeLink, setOpsRealtimeLink] = useState<RealtimeScheduleLink | null>(null);
+  const [maintRealtimeLink, setMaintRealtimeLink] = useState<RealtimeScheduleLink | null>(null);
 
   const currentYear = new Date().getFullYear();
   const currentWeek = getWeekNumber(new Date());
@@ -70,10 +83,22 @@ const Operation: React.FC = () => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch("/api/operations");
-      if (!response.ok) throw new Error("Failed to fetch operations");
-      const data: OperationsResponse = await response.json();
-      setOperations(data.operations);
+      const [operationsRes, linksRes] = await Promise.all([
+        fetch("/api/operations"),
+        fetch("/api/realtime-schedule-links"),
+      ]);
+
+      if (!operationsRes.ok) throw new Error("Failed to fetch operations");
+      const operationsData: OperationsResponse = await operationsRes.json();
+      setOperations(operationsData.operations);
+
+      if (linksRes.ok) {
+        const linksData = await linksRes.json();
+        if (linksData.success) {
+          setOpsRealtimeLink(linksData.operationsLink || null);
+          setMaintRealtimeLink(linksData.maintenanceLink || null);
+        }
+      }
     } catch (err) {
       console.error("Error fetching operations:", err);
       setError(err instanceof Error ? err.message : "Failed to load operations");
@@ -211,9 +236,28 @@ const Operation: React.FC = () => {
 
         {/* Operations Team Section */}
         <div className="flex-1 flex flex-col gap-2">
-          <div className="flex items-center gap-2 px-1">
-            <Users className="w-4 h-4 text-blue-400" />
-            <span className="text-[1vw] font-semibold text-blue-400">Operations Team</span>
+          <div className="flex items-center justify-between px-1">
+            <div className="flex items-center gap-2">
+              <Users className="w-4 h-4 text-blue-400" />
+              <span className="text-[1vw] font-semibold text-blue-400">Operations Team</span>
+            </div>
+            {opsRealtimeLink && (
+              <a
+                href={opsRealtimeLink.linkUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-7 px-2 text-[0.75vw] border-green-500 text-green-400 hover:bg-green-900/30 hover:text-green-300"
+                >
+                  <ExternalLink className="w-3 h-3 mr-1" />
+                  Real-time
+                </Button>
+              </a>
+            )}
           </div>
           <div className="flex-1 flex flex-col gap-2">
             <div className="flex-1">
@@ -227,9 +271,28 @@ const Operation: React.FC = () => {
 
         {/* Maintenance Team Section */}
         <div className="flex-1 flex flex-col gap-2">
-          <div className="flex items-center gap-2 px-1">
-            <Wrench className="w-4 h-4 text-orange-400" />
-            <span className="text-[1vw] font-semibold text-orange-400">Maintenance Team</span>
+          <div className="flex items-center justify-between px-1">
+            <div className="flex items-center gap-2">
+              <Wrench className="w-4 h-4 text-orange-400" />
+              <span className="text-[1vw] font-semibold text-orange-400">Maintenance Team</span>
+            </div>
+            {maintRealtimeLink && (
+              <a
+                href={maintRealtimeLink.linkUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-7 px-2 text-[0.75vw] border-green-500 text-green-400 hover:bg-green-900/30 hover:text-green-300"
+                >
+                  <ExternalLink className="w-3 h-3 mr-1" />
+                  Real-time
+                </Button>
+              </a>
+            )}
           </div>
           <div className="flex-1 flex flex-col gap-2">
             <div className="flex-1">
